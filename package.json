@@ -1,0 +1,23 @@
+{
+  "name": "collect-jade-comments",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodeunit test/test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "glob": "^5.0.5",
+    "html-comments": "0.1.0",
+    "jade": "^1.9.2",
+    "js-yaml": "^3.3.0",
+    "mkdirp": "^0.5.0",
+    "touch": "0.0.3",
+    "object-assign": "^2.0.0"
+  },
+  "devDependencies": {
+    "nodeunit": "^0.9.1"
+  }
+}
