@@ -16,7 +16,8 @@ var glob = require('glob');
 // default options
 var defaults = {
   outputFile: 'docs.json',
-  directory: '.'
+  directory: '.',
+  keyword: ''
 };
 
 
@@ -38,9 +39,9 @@ function compileJade(filePath){
  * Collect html comments in HTML source
  */
 
-function collectComments(source){
+function collectComments(source, keyword){
   return htmlComments.load(source, { 
-    keyword: '@jadedoc', 
+    keyword: keyword,
     removeKeyword: true
   });
 }
@@ -97,7 +98,7 @@ function generate(options){
       var html = compileJade(filePath);
 
       // collect comments from HTML
-      var comments = collectComments(html);
+      var comments = collectComments(html, options.keyword);
 
       // parse YAML from comments
       var yamls = parseYAML(comments);

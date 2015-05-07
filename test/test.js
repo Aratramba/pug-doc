@@ -20,7 +20,8 @@ exports.docs = {
 
     var options = {
       inputDirectory: './test/fixtures/',
-      outputFile: './test/tmp/docs.json'
+      outputFile: './test/tmp/docs.json',
+      keyword: '@jadedoc'
     };
     docs.generate(options);
 
