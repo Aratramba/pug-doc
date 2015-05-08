@@ -71,7 +71,7 @@ function pathToKey(filePath){
   key = key.replace('./', '');
 
   // slashes to dots
-  key = key.replace(/\//g, '.');
+  key = key.replace(/\//g, '-');
 
   return key;
 }
@@ -104,16 +104,16 @@ function generate(options){
       var yamls = parseYAML(comments);
 
       // insert YAML data into store obj
-      yamls.forEach(function(yaml){
-        store[pathToKey(filePath)] = yaml;
+      yamls.forEach(function(yaml, index){
+        store[pathToKey(filePath) +'-'+ index] = yaml;
       });
     });
 
     // create output dir if it doesn't exist
-    mkdirp(path.dirname(options.outputFile));
+    mkdirp.sync(path.dirname(options.outputFile));
 
     // create docs JSON if it doesn't exist
-    touch(options.outputFile);
+    touch.sync(options.outputFile);
 
     // write file
     fs.writeFile(options.outputFile, JSON.stringify(store, null, 2));
