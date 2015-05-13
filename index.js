@@ -25,11 +25,18 @@ var store = {};
 var num_files;
 var counter = 0;
 
-
+var TYPE_STRING = 'string';
+var TYPE_MIXIN = 'mixin';
+var TYPE_INCLUDE = 'include';
 
 
 /**
  * Collect comments in Jade source
+ *
+ * walks through lines
+ * if finds `//- @jadedoc` it starts a comment
+ * adds lines after this indented more than the starting line
+ * stops when indentation is less or equal
  */
 
 function collectComments(source, keyword){
@@ -37,10 +44,18 @@ function collectComments(source, keyword){
   var comments = [];
   var comment = null;
   var indent;
-  var lines = source.split('\n');
+  var next;
+  var type;
 
-  lines.forEach(function(line){
+  // split by line and remove empty string values
+  var lines = source.split('\n').filter(function(item){
+    return item.trim() !== '';
+  });
 
+  // walk through lines
+  lines.forEach(function(line, index){
+
+    // ---
     // comment start found
     if(line.indexOf('//- '+ keyword) > -1){
       comment = [];
@@ -48,25 +63,41 @@ function collectComments(source, keyword){
       return;
     }
 
+    // ---
     // if comment has started
     if(comment !== null){
+
+      next = lines[index];
 
       // and line matches indentation
       if(line.match(/^\s*/g)[0].length > indent){
 
         // add comment line
-        comment.push(line);
-
-      // if indentation doesn't match
-      }else{
-
-        // push comment
-        comments.push(comment.join('\n'));
-
-        // reset
-        indent = null;
-        comment = null;
+        return comment.push(line);
       }
+
+
+      // ---
+      // if indentation doesn't match
+
+      type = TYPE_STRING;
+      if(next.indexOf(TYPE_MIXIN) > -1){
+        type = TYPE_MIXIN;
+      }
+
+      if(next.indexOf(TYPE_INCLUDE) > -1){
+        type = TYPE_INCLUDE;
+      }
+
+      // push comment
+      comments.push({
+        yaml: comment.join('\n'),
+        type: type
+      });
+
+      // reset
+      indent = null;
+      comment = null;
     }
   });
 
@@ -80,27 +111,9 @@ function collectComments(source, keyword){
 
 function parseYAML(comments){
   return comments.map(function(item){
-    return YAML.safeLoad(item);
+    item.json = YAML.safeLoad(item.yaml);
+    return item;
   });
-}
-
-
-/**
- * Convert filepath to dot path
- */
-
-function pathToKey(filePath){
-
-  // remove jade
-  var key = filePath.replace('.jade', '');
-
-  // remove first ./
-  key = key.replace('./', '');
-
-  // slashes to dots
-  key = key.replace(/\//g, '-');
-
-  return key;
 }
 
 
@@ -108,20 +121,13 @@ function pathToKey(filePath){
  * Generate example
  */
 
-function generateExample(fileSource, example, comments){
+function generateExample(fileSource, example){
 
   // add example mixin call to source
   var source = fileSource +'\n'+ example;
 
   // generate html from jade with example call
-  var html = jade.render(source);
-
-  // remove comments (with comment tags, keyword and breaks)
-  comments.forEach(function(comment){
-    html = html.replace('<!-- '+ settings.keyword + comment.trim() +'\n-->', '');
-  });
-
-  return html;
+  return jade.render(source);
 }
 
 
@@ -139,28 +145,31 @@ function parseFile(fileSource, filePath){
   var comments = collectComments(fileSource, settings.keyword);
 
   // parse YAML from comments
-  var yamls = parseYAML(comments);
+  comments = parseYAML(comments);
 
   // insert YAML data into store obj
-  yamls.forEach(function(yaml, index){
+  comments.forEach(function(comment, index){
 
-    var doc = {};
+    var doc = {
+      file: filePath,
+      type: comment.type
+    };
 
-    // mix doc with yaml doc
-    doc = objectAssign(doc, yaml);
+    // mix doc with json doc
+    doc = objectAssign(doc, comment.json);
 
-    // check if example is available
-    if(typeof yaml.usage !== 'undefined'){
+    // check if usage example is available
+    if(typeof comment.json.usage !== 'undefined'){
 
-      doc.examples = []
+      doc.examples = [];
 
       // generate source and for each jade example push to doc
-      if(Array.isArray(yaml.usage)){
-        yaml.usage.forEach(function(example){
-          doc.examples.push(generateExample(fileSource, example, comments));
+      if(Array.isArray(comment.json.usage)){
+        comment.json.usage.forEach(function(example){
+          doc.examples.push(generateExample(fileSource, example));
         });
       }else{
-        doc.examples.push(generateExample(fileSource, yaml.usage, comments));
+        doc.examples.push(generateExample(fileSource, comment.json.usage));
       }
     }
 
