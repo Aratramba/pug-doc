@@ -20,15 +20,20 @@ var defaults = {
   keyword: ''
 };
 
+var settings = {};
+var store = {};
+var num_files;
+var counter = 0;
+
 
 
 /**
  * Compile a jade file to HTML
  */
 
-function compileJade(filePath){
+function compileJade(source){
   // compile jade
-  var fn = jade.compileFile(filePath, {});
+  var fn = jade.compile(source, {});
 
   // wrap div around jade so the DOM always has a parentNode to look for
   return '<div>' + fn() +'</div>';
@@ -78,45 +83,114 @@ function pathToKey(filePath){
 
 
 /**
+ * Generate example
+ */
+
+function generateExample(fileSource, example, comments){
+
+  // add example mixin call to source
+  var source = fileSource +'\n'+ example;
+
+  // generate html from jade with example call
+  var html = jade.render(source);
+
+  // remove comments (with comment tags, keyword and breaks)
+  comments.forEach(function(comment){
+    html = html.replace('<!-- '+ settings.keyword + comment.trim() +'\n-->', '');
+  });
+
+  return html;
+}
+
+
+/**
+ * Parse file
+ */
+
+function parseFile(fileSource, filePath){
+
+  // compile jade to HTML
+  var html = compileJade(fileSource);
+
+  // collect comments from HTML
+  var comments = collectComments(html, settings.keyword);
+
+  // parse YAML from comments
+  var yamls = parseYAML(comments);
+
+  var doc = {
+    examples: []
+  };
+
+  // insert YAML data into store obj
+  yamls.forEach(function(yaml, index){
+
+    // mix doc with yaml doc
+    doc = objectAssign(doc, yaml);
+
+    // check if example is available
+    if(typeof yaml.usage !== 'undefined'){
+
+      // generate source and for each jade example push to doc
+      if(Array.isArray(yaml.usage)){
+        yaml.usage.forEach(function(example){
+          doc.examples.push(generateExample(fileSource, example, comments));
+        });
+      }else{
+        doc.examples.push(generateExample(fileSource, yaml.usage, comments));
+      }
+    }
+
+    // save document to store
+    store[pathToKey(filePath) +'-'+ index] = doc;
+  });
+
+  complete();
+}
+
+
+
+/**
+ * Complete or next
+ */
+
+function complete(){
+
+  if(counter < num_files - 1){
+    return counter++;
+  }
+
+  // create output dir if it doesn't exist
+  mkdirp.sync(path.dirname(settings.outputFile));
+
+  // create docs JSON if it doesn't exist
+  touch.sync(settings.outputFile);
+
+  // write file
+  fs.writeFile(settings.outputFile, JSON.stringify(store, null, 2));
+}
+
+
+/**
  * Generate docs
  */
 
 function generate(options){
 
-  options = objectAssign(defaults, options);
+  settings = objectAssign(defaults, options);
 
   // find all jade files
   glob(options.inputDirectory + '**/*.jade', function(err, files){
 
-    // store docs
-    var store = {};
+    num_files = files.length;
 
     // loop through jade files
     files.forEach(function(filePath){
-
-      // compile jade to HTML
-      var html = compileJade(filePath);
-
-      // collect comments from HTML
-      var comments = collectComments(html, options.keyword);
-
-      // parse YAML from comments
-      var yamls = parseYAML(comments);
-
-      // insert YAML data into store obj
-      yamls.forEach(function(yaml, index){
-        store[pathToKey(filePath) +'-'+ index] = yaml;
+      fs.readFile(filePath, { encoding: 'utf-8' }, function(err, data){
+        parseFile(data, filePath);
       });
     });
 
-    // create output dir if it doesn't exist
-    mkdirp.sync(path.dirname(options.outputFile));
-
-    // create docs JSON if it doesn't exist
-    touch.sync(options.outputFile);
-
-    // write file
-    fs.writeFile(options.outputFile, JSON.stringify(store, null, 2));
   });
 
 }

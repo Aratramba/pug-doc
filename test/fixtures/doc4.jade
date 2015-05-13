@@ -1,5 +1,9 @@
-//
-  this won't be collected
-
-mixin random
-  | this is a mixin
+// @jadedoc
+  title: Jade mixin 5
+  description: this is jade mixin 5 documentation
+  usage: 
+    - +doc5('foo', 'faa')
+    - +doc5('faa', 'foo')
+  
+mixin doc5(arg1, arg2)
+  div this is a mixin #{arg1} #{arg2}
