@@ -118,18 +118,19 @@ function parseFile(fileSource, filePath){
   // parse YAML from comments
   var yamls = parseYAML(comments);
 
-  var doc = {
-    examples: []
-  };
 
   // insert YAML data into store obj
   yamls.forEach(function(yaml, index){
+
+    var doc = {};
 
     // mix doc with yaml doc
     doc = objectAssign(doc, yaml);
 
     // check if example is available
     if(typeof yaml.usage !== 'undefined'){
+
+      doc.examples = []
 
       // generate source and for each jade example push to doc
       if(Array.isArray(yaml.usage)){
@@ -141,8 +142,24 @@ function parseFile(fileSource, filePath){
       }
     }
 
+    // ---
+    // store data
+    var key = doc.name;
+
+    // no value for required name
+    if(typeof key === 'undefined'){
+
+      // TODO: Add file here
+      throw new Error('Jade doc error: Required key `name` not found ('+ filePath +')');
+    }
+
+    // duplicate key
+    if(typeof store[key] !== 'undefined'){
+      throw new Error('Jade doc error: Duplicate doc name `'+ doc.name +'` ('+ filePath +')');
+    }
+
     // save document to store
-    store[pathToKey(filePath) +'-'+ index] = doc;
+    store[key] = doc;
   });
 
   complete();
@@ -190,9 +207,7 @@ function generate(options){
         parseFile(data, filePath);
       });
     });
-
   });
-
 }
 
 
