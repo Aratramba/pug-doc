@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 
 var jade = require('jade');
-var htmlComments = require('html-comments');
+// var htmlComments = require('html-comments');
 var YAML = require('js-yaml');
 var touch = require('touch');
 var objectAssign = require('object-assign');
@@ -27,28 +27,50 @@ var counter = 0;
 
 
 
-/**
- * Compile a jade file to HTML
- */
-
-function compileJade(source){
-  // compile jade
-  var fn = jade.compile(source, {});
-
-  // wrap div around jade so the DOM always has a parentNode to look for
-  return '<div>' + fn() +'</div>';
-}
-
 
 /**
- * Collect html comments in HTML source
+ * Collect comments in Jade source
  */
 
 function collectComments(source, keyword){
-  return htmlComments.load(source, { 
-    keyword: keyword,
-    removeKeyword: true
+
+  var comments = [];
+  var comment = null;
+  var indent;
+  var lines = source.split('\n');
+
+  lines.forEach(function(line){
+
+    // comment start found
+    if(line.indexOf('//- '+ keyword) > -1){
+      comment = [];
+      indent = line.indexOf('//- '+ keyword);
+      return;
+    }
+
+    // if comment has started
+    if(comment !== null){
+
+      // and line matches indentation
+      if(line.match(/^\s*/g)[0].length > indent){
+
+        // add comment line
+        comment.push(line);
+
+      // if indentation doesn't match
+      }else{
+
+        // push comment
+        comments.push(comment.join('\n'));
+
+        // reset
+        indent = null;
+        comment = null;
+      }
+    }
   });
+
+  return comments;
 }
 
 
@@ -109,15 +131,15 @@ function generateExample(fileSource, example, comments){
 
 function parseFile(fileSource, filePath){
 
-  // compile jade to HTML
-  var html = compileJade(fileSource);
+  // test if doc is present at all
+  if(fileSource.indexOf('//- '+ settings.keyword) === -1){
+    return done();
+  }
 
-  // collect comments from HTML
-  var comments = collectComments(html, settings.keyword);
+  var comments = collectComments(fileSource, settings.keyword);
 
   // parse YAML from comments
   var yamls = parseYAML(comments);
-
 
   // insert YAML data into store obj
   yamls.forEach(function(yaml, index){
@@ -162,16 +184,16 @@ function parseFile(fileSource, filePath){
     store[key] = doc;
   });
 
-  complete();
+  done();
 }
 
 
 
 /**
- * Complete or next
+ * done or next
  */
 
-function complete(){
+function done(){
 
   if(counter < num_files - 1){
     return counter++;
