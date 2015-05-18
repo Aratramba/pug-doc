@@ -65,4 +65,6 @@ var options = {
 };
 
 new JadeDoc(options, function(){
+  console.log('optional callback');
+});
 ```
