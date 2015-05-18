@@ -46,6 +46,6 @@
       "type": "mixin"
     },
     "name": "doc1",
-    "output": ""
+    "output": "this is a mixin"
   }
 }

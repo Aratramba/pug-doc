@@ -1,5 +1,5 @@
 'use strict';
-/* globals require, module */
+/* globals require, module, console */
 
 var fs = require('fs');
 var path = require('path');
@@ -53,7 +53,7 @@ function JadeDoc(options, cb){
     var lines = source.split('\n').filter(function(item){
       return item.trim() !== '';
     });
-    console.log('---');
+
 
     // walk through lines
     lines.forEach(function(line, index){
@@ -91,19 +91,18 @@ function JadeDoc(options, cb){
           type = TYPE_NONE;
         }
 
+        var block = [];
         if(next){
 
           // collect code block next to comment
           var i = index;
-          var block = [lines[i]];
+          block = [lines[i]];
           while(lines[i++] && typeof lines[i] !== 'undefined'){
             if(lines[i].match(/^\s*/g)[0].length <= indent){
               break;
             }
             block.push(lines[i]);
           }
-        }else{
-          block = [];
         }
 
 
