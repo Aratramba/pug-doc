@@ -34,6 +34,25 @@ div.this-isnt
 ```
 
 
+```json
+{
+  "some-node": {
+    "meta": {
+      "file": "./test/fixtures/node.jade"
+    },
+    "jade": {
+      "root": "div.this-is-output-for-jade-doc",
+      "comment": "  name: some-node",
+      "block": "div.this-is-output-for-jade-doc",
+      "type": "node"
+    },
+    "name": "some-node",
+    "output": "<div class=\"this-is-output-for-jade-doc\"></div>"
+  }
+}
+```
+
+
 #### Mixins
 Optionally provide mixins arguments. If no arguments are given, mixin will be executed without any arguments.
 
