@@ -50,7 +50,7 @@ mixin doc3(arg1, arg2)
 ```
 
 #### Includes
-Includes not be parsed as HTML.
+Includes are not supported (for now).
 
 
 
