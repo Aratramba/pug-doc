@@ -19,7 +19,7 @@ exports.docs = {
     test.expect(1);
 
     var options = {
-      inputDirectory: './test/fixtures/',
+      input: './test/fixtures/arguments.jade',
       outputFile: './test/tmp/docs.json',
       keyword: '@jadedoc'
     };

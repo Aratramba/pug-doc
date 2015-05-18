@@ -25,7 +25,7 @@ var store = {};
 var num_files;
 var counter = 0;
 
-var TYPE_STRING = 'string';
+var TYPE_NODE = 'node';
 var TYPE_MIXIN = 'mixin';
 var TYPE_INCLUDE = 'include';
 
@@ -39,13 +39,13 @@ var TYPE_INCLUDE = 'include';
  * stops when indentation is less or equal
  */
 
-function collectComments(source, keyword){
+function collectComments(source, keyword, filePath){
 
   var comments = [];
   var comment = null;
   var indent;
   var next;
-  var type;
+
 
   // split by line and remove empty string values
   var lines = source.split('\n').filter(function(item){
@@ -80,18 +80,38 @@ function collectComments(source, keyword){
       // ---
       // if indentation doesn't match
 
-      type = TYPE_STRING;
+      var type = null;
+
       if(next.indexOf(TYPE_MIXIN) > -1){
         type = TYPE_MIXIN;
       }
 
-      if(next.indexOf(TYPE_INCLUDE) > -1){
+      else if(next.indexOf(TYPE_INCLUDE) > -1){
         type = TYPE_INCLUDE;
+      }
+
+      else if(next.indexOf(TYPE_NODE) > -1){
+        type = TYPE_NODE;
+      }
+
+
+      // ---
+      // collect code block
+      
+      var i = index;
+      var block = [lines[i]];
+      while(lines[i++] && typeof lines[i] !== 'undefined'){
+        if(lines[i].match(/^\s*/g)[0].length <= indent){
+          break;
+        }
+        block.push(lines[i]);
       }
 
       // push comment
       comments.push({
-        yaml: comment.join('\n'),
+        root: line,
+        comment: comment.join('\n'),
+        block: block.join('\n'),
         type: type
       });
 
@@ -106,25 +126,45 @@ function collectComments(source, keyword){
 
 
 /**
- * Parse YAML comments
+ * Generate output HTML
  */
 
-function parseYAML(comments){
-  return comments.map(function(item){
-    item.json = YAML.safeLoad(item.yaml);
-    return item;
-  });
-}
+function output(doc){
+  var extraJade = '';
+
+  // ---
+  // Mixin
+  if(doc.jade.type === TYPE_MIXIN){
+
+    // check if sample arguments are available
+    if(typeof doc.arguments !== 'undefined'){
+      extraJade = '+'+ doc.jade.root.replace('mixin ', '');
+
+      // replace arguments with sample values
+      for(var key in doc.arguments){
+        extraJade = extraJade.replace(key, "'"+ doc.arguments[key]+ "'");
+      }
+    }
+  }
 
 
-/**
- * Generate example
- */
+  // ---
+  // Include 
+  // simply returns the jade block
+  else if(doc.jade.type === TYPE_INCLUDE){
+    return doc.jade.block;
+  }
 
-function generateExample(fileSource, example){
+
+  // ---
+  // Node
+  else if(doc.jade.type === TYPE_NODE){
+
+  }
+
 
   // add example mixin call to source
-  var source = fileSource +'\n'+ example;
+  var source = doc.jade.block +'\n'+ extraJade;
 
   // generate html from jade with example call
   return jade.render(source);
@@ -142,36 +182,26 @@ function parseFile(fileSource, filePath){
     return done();
   }
 
-  var comments = collectComments(fileSource, settings.keyword);
-
-  // parse YAML from comments
-  comments = parseYAML(comments);
+  var comments = collectComments(fileSource, settings.keyword, filePath);
 
   // insert YAML data into store obj
-  comments.forEach(function(comment, index){
+  comments.forEach(function(comment){
 
     var doc = {
-      file: filePath,
-      type: comment.type
+      meta: {
+        file: filePath
+      },
+      jade: comment
     };
 
-    // mix doc with json doc
-    doc = objectAssign(doc, comment.json);
+    var json = YAML.safeLoad(comment.comment);
+    doc = objectAssign(doc, json);
 
-    // check if usage example is available
-    if(typeof comment.json.usage !== 'undefined'){
 
-      doc.examples = [];
+    // ---
+    // generate example
+    doc.output = output(doc);
 
-      // generate source and for each jade example push to doc
-      if(Array.isArray(comment.json.usage)){
-        comment.json.usage.forEach(function(example){
-          doc.examples.push(generateExample(fileSource, example));
-        });
-      }else{
-        doc.examples.push(generateExample(fileSource, comment.json.usage));
-      }
-    }
 
     // ---
     // store data
@@ -179,8 +209,6 @@ function parseFile(fileSource, filePath){
 
     // no value for required name
     if(typeof key === 'undefined'){
-
-      // TODO: Add file here
       throw new Error('Jade doc error: Required key `name` not found ('+ filePath +')');
     }
 
@@ -228,7 +256,7 @@ function generate(options){
   settings = objectAssign(defaults, options);
 
   // find all jade files
-  glob(options.inputDirectory + '**/*.jade', function(err, files){
+  glob(options.input, function(err, files){
 
     num_files = files.length;
 

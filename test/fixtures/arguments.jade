@@ -1,7 +1,9 @@
 //- @jadedoc
   name: doc3
   description: this is jade mixin 3 documentation
-  usage: +doc3('foo', 'faa')
+  arguments: 
+    arg1: foo
+    arg2: faa
 
 mixin doc3(arg1, arg2)
   div(class="foo") this is a mixin
@@ -9,10 +11,10 @@ mixin doc3(arg1, arg2)
 
 //- @jadedoc
   name: doc4
-  description: this is jade mixin 5 documentation
-  usage: 
-    - +doc4('foo', 'faa')
-    - +doc4('faa', 'foo')
+  description: this is jade mixin 4 documentation
+  arguments: 
+    arg1: faa
+    arg2: foo
   
 mixin doc4(arg1, arg2)
   div this is a mixin #{arg1} #{arg2}
