@@ -1,6 +1,6 @@
 {
   "name": "jade-doc",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Takes jade files, looks for @jadedoc comments and puts those in an output JSON file",
   "main": "index.js",
   "scripts": {
