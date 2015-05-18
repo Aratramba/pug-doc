@@ -34,7 +34,7 @@ div.this-isnt
 ```
 
 
-__Mixins__
+#### Mixins
 Optionally provide mixins arguments. If no arguments are given, mixin will be executed without any arguments.
 
 ```jade
@@ -49,8 +49,8 @@ mixin doc3(arg1, arg2)
   div(class="foo") this is a mixin
 ```
 
-__Includes__
-Includes will not be parsed as HTML.
+#### Includes
+Includes not be parsed as HTML.
 
 
 
