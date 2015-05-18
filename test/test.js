@@ -20,7 +20,7 @@ exports.docs = {
 
     var options = {
       input: './test/fixtures/'+ fileName +'.jade',
-      outputFile: './test/tmp/'+ fileName +'.json',
+      output: './test/tmp/'+ fileName +'.json',
       keyword: '@jadedoc'
     };
 
@@ -45,7 +45,7 @@ exports.docs = {
 
     var options = {
       input: './test/fixtures/'+ fileName +'.jade',
-      outputFile: './test/tmp/'+ fileName +'.json',
+      output: './test/tmp/'+ fileName +'.json',
       keyword: '@jadedoc'
     };
 
@@ -69,7 +69,7 @@ exports.docs = {
 
     var options = {
       input: './test/fixtures/'+ fileName +'.jade',
-      outputFile: './test/tmp/'+ fileName +'.json',
+      output: './test/tmp/'+ fileName +'.json',
       keyword: '@jadedoc'
     };
 
@@ -93,7 +93,7 @@ exports.docs = {
 
     var options = {
       input: './test/fixtures/'+ fileName +'.jade',
-      outputFile: './test/tmp/'+ fileName +'.json',
+      output: './test/tmp/'+ fileName +'.json',
       keyword: '@jadedoc'
     };
 

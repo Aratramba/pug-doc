@@ -14,13 +14,6 @@ var glob = require('glob');
 
 function JadeDoc(options, cb){
 
-  // default options
-  var defaults = {
-    outputFile: 'docs.json',
-    directory: '.',
-    keyword: ''
-  };
-
   var store = {};
   var num_files;
   var counter = 0;
@@ -30,7 +23,11 @@ function JadeDoc(options, cb){
   var TYPE_INCLUDE = 'include';
   var TYPE_NONE = 'standalone-comment';
 
-  var settings = objectAssign(defaults, options);
+  var settings = objectAssign({
+    output: 'jade-doc.json',
+    directory: '.',
+    keyword: ''
+  }, options);
 
 
   /**
@@ -243,13 +240,13 @@ function JadeDoc(options, cb){
     }
 
     // create output dir if it doesn't exist
-    mkdirp.sync(path.dirname(settings.outputFile));
+    mkdirp.sync(path.dirname(settings.output));
 
     // create docs JSON if it doesn't exist
-    touch.sync(settings.outputFile);
+    touch.sync(settings.output);
 
     // write file
-    fs.writeFile(settings.outputFile, JSON.stringify(store, null, 2), complete);
+    fs.writeFile(settings.output, JSON.stringify(store, null, 2), complete);
   }
 
 
@@ -272,7 +269,7 @@ function JadeDoc(options, cb){
    * Go
    */
   
-  glob(options.input, function(err, files){
+  glob(settings.input, function(err, files){
 
     num_files = files.length;
 
