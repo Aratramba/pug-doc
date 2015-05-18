@@ -6,7 +6,7 @@
   "scripts": {
     "test": "nodeunit test/test.js"
   },
-  "author": "",
+  "author": "Arjen Scherff-de Water",
   "license": "ISC",
   "dependencies": {
     "glob": "^5.0.5",
@@ -17,6 +17,7 @@
     "object-assign": "^2.0.0"
   },
   "devDependencies": {
-    "nodeunit": "^0.9.1"
+    "nodeunit": "^0.9.1",
+    "rimraf": "^2.3.3"
   }
 }

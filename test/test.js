@@ -1,31 +1,107 @@
 'use strict';
 /* globals exports, require */
 
-var docs;
+var rimraf = require('rimraf');
+
+// clean tmp
+rimraf.sync('./test/tmp');
 
 exports.docs = {
 
-  setUp: function(done) {
-    docs = require('../index');
-    done();
+
+  /**
+   * Simple jade node
+   */
+
+  node: function(test) {
+    var JadeDoc = require('../index');
+    var fileName = 'node';
+    test.expect(1);
+
+    var options = {
+      input: './test/fixtures/'+ fileName +'.jade',
+      outputFile: './test/tmp/'+ fileName +'.json',
+      keyword: '@jadedoc'
+    };
+
+    new JadeDoc(options, function(){
+      var tmp = require('./tmp/'+ fileName +'.json');
+      var expected = require('./expected/'+ fileName +'.json');      
+      test.deepEqual(tmp, expected);
+      test.done();
+    });
   },
 
 
   /**
-   * Generate docs JSON
-   */
+  * Include
+  */
+   
 
-  generate_docs: function(test) {
+  include: function(test) {
+    var JadeDoc = require('../index');
+    var fileName = 'include';
     test.expect(1);
 
     var options = {
-      input: './test/fixtures/arguments.jade',
-      outputFile: './test/tmp/docs.json',
+      input: './test/fixtures/'+ fileName +'.jade',
+      outputFile: './test/tmp/'+ fileName +'.json',
       keyword: '@jadedoc'
     };
-    docs.generate(options);
 
-    test.ok(1);
-    test.done();
+    new JadeDoc(options, function(){
+      var tmp = require('./tmp/'+ fileName +'.json');
+      var expected = require('./expected/'+ fileName +'.json');      
+      test.deepEqual(tmp, expected);
+      test.done();
+    });
+  },
+
+
+  /**
+   * Only comment doc
+   */
+
+  only_doc: function(test) {
+    var JadeDoc = require('../index');
+    var fileName = 'only-doc';
+    test.expect(1);
+
+    var options = {
+      input: './test/fixtures/'+ fileName +'.jade',
+      outputFile: './test/tmp/'+ fileName +'.json',
+      keyword: '@jadedoc'
+    };
+
+    new JadeDoc(options, function(){
+      var tmp = require('./tmp/'+ fileName +'.json');
+      var expected = require('./expected/'+ fileName +'.json');      
+      test.deepEqual(tmp, expected);
+      test.done();
+    });
+  },
+
+
+  /**
+   * Mixins
+   */
+
+  mixins: function(test) {
+    var JadeDoc = require('../index');
+    var fileName = 'mixins';
+    test.expect(1);
+
+    var options = {
+      input: './test/fixtures/'+ fileName +'.jade',
+      outputFile: './test/tmp/'+ fileName +'.json',
+      keyword: '@jadedoc'
+    };
+
+    new JadeDoc(options, function(){
+      var tmp = require('./tmp/'+ fileName +'.json');
+      var expected = require('./expected/'+ fileName +'.json');      
+      test.deepEqual(tmp, expected);
+      test.done();
+    });
   }
 };

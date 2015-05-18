@@ -5,7 +5,6 @@ var fs = require('fs');
 var path = require('path');
 
 var jade = require('jade');
-// var htmlComments = require('html-comments');
 var YAML = require('js-yaml');
 var touch = require('touch');
 var objectAssign = require('object-assign');
@@ -13,249 +12,267 @@ var mkdirp = require('mkdirp');
 var glob = require('glob');
 
 
-// default options
-var defaults = {
-  outputFile: 'docs.json',
-  directory: '.',
-  keyword: ''
-};
+function JadeDoc(options, cb){
 
-var settings = {};
-var store = {};
-var num_files;
-var counter = 0;
+  // default options
+  var defaults = {
+    outputFile: 'docs.json',
+    directory: '.',
+    keyword: ''
+  };
 
-var TYPE_NODE = 'node';
-var TYPE_MIXIN = 'mixin';
-var TYPE_INCLUDE = 'include';
+  var store = {};
+  var num_files;
+  var counter = 0;
 
+  var TYPE_NODE = 'node';
+  var TYPE_MIXIN = 'mixin';
+  var TYPE_INCLUDE = 'include';
+  var TYPE_NONE = 'standalone-comment';
 
-/**
- * Collect comments in Jade source
- *
- * walks through lines
- * if finds `//- @jadedoc` it starts a comment
- * adds lines after this indented more than the starting line
- * stops when indentation is less or equal
- */
-
-function collectComments(source, keyword, filePath){
-
-  var comments = [];
-  var comment = null;
-  var indent;
-  var next;
+  var settings = objectAssign(defaults, options);
 
 
-  // split by line and remove empty string values
-  var lines = source.split('\n').filter(function(item){
-    return item.trim() !== '';
-  });
+  /**
+   * Collect comments in Jade source
+   *
+   * walks through lines
+   * if finds `//- @jadedoc` it starts a comment
+   * adds lines after this indented more than the starting line
+   * stops when indentation is less or equal
+   */
 
-  // walk through lines
-  lines.forEach(function(line, index){
+  function collectComments(source, keyword){
 
-    // ---
-    // comment start found
-    if(line.indexOf('//- '+ keyword) > -1){
-      comment = [];
-      indent = line.indexOf('//- '+ keyword);
-      return;
-    }
+    var comments = [];
+    var comment = null;
+    var indent;
 
-    // ---
-    // if comment has started
-    if(comment !== null){
 
-      next = lines[index];
+    // split by line and remove empty string values
+    var lines = source.split('\n').filter(function(item){
+      return item.trim() !== '';
+    });
+    console.log('---');
 
-      // and line matches indentation
-      if(line.match(/^\s*/g)[0].length > indent){
-
-        // add comment line
-        return comment.push(line);
-      }
+    // walk through lines
+    lines.forEach(function(line, index){
 
 
       // ---
-      // if indentation doesn't match
-
-      var type = null;
-
-      if(next.indexOf(TYPE_MIXIN) > -1){
-        type = TYPE_MIXIN;
+      // comment start found
+      if(line.indexOf('//- '+ keyword) > -1){
+        comment = [];
+        indent = line.indexOf('//- '+ keyword);
+        return;
       }
-
-      else if(next.indexOf(TYPE_INCLUDE) > -1){
-        type = TYPE_INCLUDE;
-      }
-
-      else if(next.indexOf(TYPE_NODE) > -1){
-        type = TYPE_NODE;
-      }
-
 
       // ---
-      // collect code block
-      
-      var i = index;
-      var block = [lines[i]];
-      while(lines[i++] && typeof lines[i] !== 'undefined'){
-        if(lines[i].match(/^\s*/g)[0].length <= indent){
-          break;
+      // if comment has started
+      if(comment !== null){
+
+        // if line indentation is greater than start, add to comment
+        if(line.match(/^\s*/g)[0].length > indent){
+          comment.push(line);
         }
-        block.push(lines[i]);
+
+        // if line indentation doesn't match
+        var type = null;
+        var next = lines[index];
+
+        // determine type of jade block next to comment
+        if(next.indexOf(TYPE_MIXIN) > -1){
+          type = TYPE_MIXIN;
+        }else if(next.indexOf(TYPE_INCLUDE) > -1){
+          type = TYPE_INCLUDE;
+        }else if(next.indexOf(TYPE_NODE) > -1){
+          type = TYPE_NODE;
+        }else{
+          type = TYPE_NONE;
+        }
+
+        if(next){
+
+          // collect code block next to comment
+          var i = index;
+          var block = [lines[i]];
+          while(lines[i++] && typeof lines[i] !== 'undefined'){
+            if(lines[i].match(/^\s*/g)[0].length <= indent){
+              break;
+            }
+            block.push(lines[i]);
+          }
+        }else{
+          block = [];
+        }
+
+
+        // end
+        if(line.match(/^\s*/g)[0].length <= indent || index === lines.length -1){
+
+          // push comment
+          comments.push({
+            root: line,
+            comment: comment.join('\n'),
+            block: block.join('\n'),
+            type: type
+          });
+
+          // reset
+          indent = null;
+          comment = null;
+        }
       }
+    });
 
-      // push comment
-      comments.push({
-        root: line,
-        comment: comment.join('\n'),
-        block: block.join('\n'),
-        type: type
-      });
-
-      // reset
-      indent = null;
-      comment = null;
-    }
-  });
-
-  return comments;
-}
+    return comments;
+  }
 
 
-/**
- * Generate output HTML
- */
+  /**
+   * Generate output HTML
+   */
 
-function output(doc){
-  var extraJade = '';
+  function output(doc){
+    var extraJade = '';
 
-  // ---
-  // Mixin
-  if(doc.jade.type === TYPE_MIXIN){
-
-    // check if sample arguments are available
-    if(typeof doc.arguments !== 'undefined'){
+    // ---
+    // Mixin
+    if(doc.jade.type === TYPE_MIXIN){
       extraJade = '+'+ doc.jade.root.replace('mixin ', '');
 
-      // replace arguments with sample values
-      for(var key in doc.arguments){
-        extraJade = extraJade.replace(key, "'"+ doc.arguments[key]+ "'");
+      // check if sample arguments are available
+      if(typeof doc.arguments !== 'undefined'){
+
+        // replace arguments with sample values
+        for(var key in doc.arguments){
+          extraJade = extraJade.replace(key, '\''+ doc.arguments[key]+ '\'');
+        }
       }
     }
-  }
-
-
-  // ---
-  // Include 
-  // simply returns the jade block
-  else if(doc.jade.type === TYPE_INCLUDE){
-    return doc.jade.block;
-  }
-
-
-  // ---
-  // Node
-  else if(doc.jade.type === TYPE_NODE){
-
-  }
-
-
-  // add example mixin call to source
-  var source = doc.jade.block +'\n'+ extraJade;
-
-  // generate html from jade with example call
-  return jade.render(source);
-}
-
-
-/**
- * Parse file
- */
-
-function parseFile(fileSource, filePath){
-
-  // test if doc is present at all
-  if(fileSource.indexOf('//- '+ settings.keyword) === -1){
-    return done();
-  }
-
-  var comments = collectComments(fileSource, settings.keyword, filePath);
-
-  // insert YAML data into store obj
-  comments.forEach(function(comment){
-
-    var doc = {
-      meta: {
-        file: filePath
-      },
-      jade: comment
-    };
-
-    var json = YAML.safeLoad(comment.comment);
-    doc = objectAssign(doc, json);
 
 
     // ---
-    // generate example
-    doc.output = output(doc);
+    // Include 
+    // simply returns the jade block
+    else if(doc.jade.type === TYPE_INCLUDE){
+      return doc.jade.block;
+
+    // ---
+    // comment
+    }else if(doc.jade.type === TYPE_NONE){
+      return '';
+    }
 
 
     // ---
-    // store data
-    var key = doc.name;
-
-    // no value for required name
-    if(typeof key === 'undefined'){
-      throw new Error('Jade doc error: Required key `name` not found ('+ filePath +')');
-    }
-
-    // duplicate key
-    if(typeof store[key] !== 'undefined'){
-      throw new Error('Jade doc error: Duplicate doc name `'+ doc.name +'` ('+ filePath +')');
-    }
-
-    // save document to store
-    store[key] = doc;
-  });
-
-  done();
-}
+    // Node
+    //else if(doc.jade.type === TYPE_NODE){}
 
 
+    // add example mixin call to source
+    var source = doc.jade.block +'\n'+ extraJade;
 
-/**
- * done or next
- */
-
-function done(){
-
-  if(counter < num_files - 1){
-    return counter++;
+    // generate html from jade with example call
+    return jade.render(source);
   }
 
-  // create output dir if it doesn't exist
-  mkdirp.sync(path.dirname(settings.outputFile));
 
-  // create docs JSON if it doesn't exist
-  touch.sync(settings.outputFile);
+  /**
+   * Parse file
+   */
 
-  // write file
-  fs.writeFile(settings.outputFile, JSON.stringify(store, null, 2));
-}
+  function parseFile(fileSource, filePath){
+
+    // test if doc is present at all
+    if(fileSource.indexOf('//- '+ settings.keyword) === -1){
+      return done();
+    }
+
+    var comments = collectComments(fileSource, settings.keyword, filePath);
+
+    // insert YAML data into store obj
+    comments.forEach(function(comment){
+
+      var doc = {
+        meta: {
+          file: filePath
+        },
+        jade: comment
+      };
+
+      var json = YAML.safeLoad(comment.comment);
+      doc = objectAssign(doc, json);
 
 
-/**
- * Generate docs
- */
+      // ---
+      // generate example
+      doc.output = output(doc);
 
-function generate(options){
 
-  settings = objectAssign(defaults, options);
+      // ---
+      // store data
+      var key = doc.name;
 
-  // find all jade files
+      // no value for required name
+      if(typeof key === 'undefined'){
+        throw new Error('Jade doc error: Required key `name` not found ('+ filePath +')');
+      }
+
+      // duplicate key
+      if(typeof store[key] !== 'undefined'){
+        throw new Error('Jade doc error: Duplicate doc name `'+ doc.name +'` ('+ filePath +')');
+      }
+
+      // save document to store
+      store[key] = doc;
+    });
+
+    done();
+  }
+
+
+
+  /**
+   * done or next
+   */
+
+  function done(){
+
+    if(counter < num_files - 1){
+      return counter++;
+    }
+
+    // create output dir if it doesn't exist
+    mkdirp.sync(path.dirname(settings.outputFile));
+
+    // create docs JSON if it doesn't exist
+    touch.sync(settings.outputFile);
+
+    // write file
+    fs.writeFile(settings.outputFile, JSON.stringify(store, null, 2), complete);
+  }
+
+
+  /**
+   * Complete
+   */
+
+  function complete(err){
+    if(err) throw err;
+    console.log('Jade doc complete');
+
+    if(cb){
+      cb();
+    }
+  }
+
+
+
+  /**
+   * Go
+   */
+  
   glob(options.input, function(err, files){
 
     num_files = files.length;
@@ -267,9 +284,8 @@ function generate(options){
       });
     });
   });
+
 }
 
 
-module.exports = {
-  generate: generate
-};
+module.exports = JadeDoc;
