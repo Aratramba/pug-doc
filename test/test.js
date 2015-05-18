@@ -103,5 +103,29 @@ exports.docs = {
       test.deepEqual(tmp, expected);
       test.done();
     });
+  },
+
+
+  /**
+   * All
+   */
+
+  all: function(test) {
+    var JadeDoc = require('../index');
+    var fileName = 'all';
+    test.expect(1);
+
+    var options = {
+      input: './test/fixtures/**/*.jade',
+      output: './test/tmp/'+ fileName +'.json',
+      keyword: '@jadedoc'
+    };
+
+    new JadeDoc(options, function(){
+      var tmp = require('./tmp/'+ fileName +'.json');
+      var expected = require('./expected/'+ fileName +'.json');      
+      test.deepEqual(tmp, expected);
+      test.done();
+    });
   }
 };
