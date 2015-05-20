@@ -4,17 +4,20 @@
   "description": "Takes jade files, looks for @jadedoc comments and puts those in an output JSON file",
   "main": "index.js",
   "scripts": {
-    "test": "nodeunit test/test.js"
+    "test": "nodeunit test/test.js",
+    "test2": "node test/mixins.js"
   },
   "author": "Arjen Scherff-de Water",
   "license": "ISC",
   "dependencies": {
+    "async": "^0.9.2",
+    "concat-files": "^0.1.0",
     "glob": "^5.0.5",
     "jade": "^1.9.2",
     "js-yaml": "^3.3.0",
     "mkdirp": "^0.5.0",
-    "touch": "0.0.3",
-    "object-assign": "^2.0.0"
+    "object-assign": "^2.0.0",
+    "touch": "0.0.3"
   },
   "devDependencies": {
     "nodeunit": "^0.9.1",
