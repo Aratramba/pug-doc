@@ -1,27 +1,16 @@
 //- @jadedoc
-  name: doc3
-  description: this is jade mixin 3 documentation
+  name: mixin1
+
+mixin mixin1
+  | this is a mixin
+
+
+//- @jadedoc
+  name: mixin2
+  description: this is jade mixin 2 documentation
   arguments: 
     arg1: foo
     arg2: faa
 
-mixin doc3(arg1, arg2)
-  div(class="foo") this is a mixin
-  
-
-//- @jadedoc
-  name: doc4
-  description: this is jade mixin 4 documentation
-  arguments: 
-    arg1: faa
-    arg2: foo
-  
-mixin doc4(arg1, arg2)
+mixin mixin2(arg1, arg2)
   div this is a mixin #{arg1} #{arg2}
-
-
-//- @jadedoc
-  name: doc1
-
-mixin doc1
-  | this is a mixin

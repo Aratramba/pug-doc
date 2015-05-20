@@ -11,56 +11,38 @@
     },
     "name": "inclusion tag",
     "description": "this is an inclusion tag",
-    "output": "include 'node'"
+    "output": ""
   },
-  "doc3": {
+  "mixin1": {
     "meta": {
       "file": "./test/fixtures/mixins.jade"
     },
     "jade": {
-      "root": "mixin doc3(arg1, arg2)",
-      "comment": "  name: doc3\n  description: this is jade mixin 3 documentation\n  arguments: \n    arg1: foo\n    arg2: faa",
-      "block": "mixin doc3(arg1, arg2)\n  div(class=\"foo\") this is a mixin",
+      "root": "mixin mixin1",
+      "comment": "  name: mixin1",
+      "block": "mixin mixin1\n  | this is a mixin",
       "type": "mixin"
     },
-    "name": "doc3",
-    "description": "this is jade mixin 3 documentation",
+    "name": "mixin1",
+    "output": "this is a mixin"
+  },
+  "mixin2": {
+    "meta": {
+      "file": "./test/fixtures/mixins.jade"
+    },
+    "jade": {
+      "root": "mixin mixin2(arg1, arg2)",
+      "comment": "  name: mixin2\n  description: this is jade mixin 2 documentation\n  arguments: \n    arg1: foo\n    arg2: faa",
+      "block": "mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1} #{arg2}",
+      "type": "mixin"
+    },
+    "name": "mixin2",
+    "description": "this is jade mixin 2 documentation",
     "arguments": {
       "arg1": "foo",
       "arg2": "faa"
     },
-    "output": "<div class=\"foo\">this is a mixin</div>"
-  },
-  "doc4": {
-    "meta": {
-      "file": "./test/fixtures/mixins.jade"
-    },
-    "jade": {
-      "root": "mixin doc4(arg1, arg2)",
-      "comment": "  name: doc4\n  description: this is jade mixin 4 documentation\n  arguments: \n    arg1: faa\n    arg2: foo",
-      "block": "mixin doc4(arg1, arg2)\n  div this is a mixin #{arg1} #{arg2}",
-      "type": "mixin"
-    },
-    "name": "doc4",
-    "description": "this is jade mixin 4 documentation",
-    "arguments": {
-      "arg1": "faa",
-      "arg2": "foo"
-    },
-    "output": "<div>this is a mixin faa foo</div>"
-  },
-  "doc1": {
-    "meta": {
-      "file": "./test/fixtures/mixins.jade"
-    },
-    "jade": {
-      "root": "mixin doc1",
-      "comment": "  name: doc1",
-      "block": "mixin doc1\n  | this is a mixin",
-      "type": "mixin"
-    },
-    "name": "doc1",
-    "output": "this is a mixin"
+    "output": "<div>this is a mixin foo faa</div>"
   },
   "some-node": {
     "meta": {
