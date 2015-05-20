@@ -152,7 +152,7 @@ function JadeDoc(options, cb){
     // Include 
     // simply returns the jade block
     else if(doc.jade.type === TYPE_INCLUDE){
-      return doc.jade.block;
+      return '';
 
     // ---
     // comment
