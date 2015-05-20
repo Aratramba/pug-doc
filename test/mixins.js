@@ -7,5 +7,5 @@ rimraf.sync('./test/tmp');
 var JadeDoc = require('../index');
 new JadeDoc({
   input: './test/fixtures/**/*.jade',
-  output: './test/tmp/mixins.json'
+  output: './test/tmp/all.json'
 });
