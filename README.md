@@ -1,3 +1,5 @@
+`stability: unstable`
+
 # Collect Jade comments
 Takes jade files, looks for `@jadedoc` comments and puts those in an output JSON file.
 
@@ -69,8 +71,10 @@ mixin doc3(arg1, arg2)
   div(class="foo") this is a mixin
 ```
 
+Nested mixins are not supported as of yet.
+
 #### Includes
-Includes are not supported (for now).
+Includes are not supported yet.
 
 
 
