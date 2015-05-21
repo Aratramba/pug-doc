@@ -13,4 +13,19 @@ mixin mixin1
     arg2: faa
 
 mixin mixin2(arg1, arg2)
-  div this is a mixin #{arg1} #{arg2}
+  div this is a mixin #{arg1}
+  div this is the same mixin #{arg2}
+
+
+//- @jadedoc
+  name: mixin3
+
+mixin mixin3
+  +mixin1
+  +mixin2(foo, faa)
+  +nested
+    | foo
+
+
+mixin nested
+  block

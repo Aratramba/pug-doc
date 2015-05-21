@@ -1,13 +1,10 @@
 {
   "Only doc": {
-    "meta": {
-      "file": "./test/fixtures/only-doc.jade"
-    },
     "jade": {
-      "root": "  name: Only doc",
       "comment": "  name: Only doc",
-      "block": "  name: Only doc",
-      "type": "standalone-comment"
+      "type": "standalone-comment",
+      "indent": 0,
+      "file": "./test/fixtures/only-doc.jade"
     },
     "name": "Only doc",
     "output": ""

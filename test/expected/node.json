@@ -1,13 +1,12 @@
 {
   "some-node": {
-    "meta": {
-      "file": "./test/fixtures/node.jade"
-    },
     "jade": {
-      "root": "div.some-node",
       "comment": "  name: some-node",
-      "block": "div.some-node\n  | this is some node",
-      "type": "node"
+      "type": "node",
+      "indent": 0,
+      "root": "div.some-node",
+      "code": "div.some-node\n  | this is some node",
+      "file": "./test/fixtures/node.jade"
     },
     "name": "some-node",
     "output": "<div class=\"some-node\">this is some node</div>"
