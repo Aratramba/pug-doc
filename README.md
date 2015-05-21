@@ -80,13 +80,20 @@ Not supported yet.
 `npm install jade-doc`
 
 ```js
+var JadeDoc = require('jade-doc');
+
 var options = {
   input: '**/*.jade', // glob
   output: 'anything.json', // default jade-doc.json
   keyword: '@anything' // default @jadedoc
+
+  input: '**/*.jade', // glob
+  output: 'anything.json', // default jade-doc.json
+  keyword: '@anything' // default @jadedoc
+  complete: function(){
+    // optional callback
+  }
 };
 
-new JadeDoc(options, function(){
-  console.log('optional callback');
-});
+new JadeDoc(options);
 ```
