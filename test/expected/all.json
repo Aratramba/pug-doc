@@ -2,10 +2,10 @@
   "inclusion tag": {
     "jade": {
       "comment": "    name: inclusion tag\n    description: this is an inclusion tag",
-      "code": "  include 'node'\n",
-      "indent": 2,
       "type": "include",
+      "indent": 2,
       "root": "  include 'node'",
+      "code": "  include 'node'\n",
       "file": "./test/fixtures/include.jade"
     },
     "name": "inclusion tag",
@@ -15,10 +15,10 @@
   "mixin1": {
     "jade": {
       "comment": "  name: mixin1",
-      "code": "mixin mixin1\n  | this is a mixin",
-      "indent": 0,
       "type": "mixin",
+      "indent": 0,
       "root": "mixin mixin1",
+      "code": "mixin mixin1\n  | this is a mixin",
       "file": "./test/fixtures/mixins.jade"
     },
     "name": "mixin1",
@@ -27,10 +27,10 @@
   "mixin2": {
     "jade": {
       "comment": "  name: mixin2\n  description: this is jade mixin 2 documentation\n  arguments: \n    arg1: foo\n    arg2: faa",
-      "code": "mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1}\n  div this is the same mixin #{arg2}",
-      "indent": 0,
       "type": "mixin",
+      "indent": 0,
       "root": "mixin mixin2(arg1, arg2)",
+      "code": "mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1}\n  div this is the same mixin #{arg2}",
       "file": "./test/fixtures/mixins.jade"
     },
     "name": "mixin2",
@@ -44,22 +44,26 @@
   "mixin3": {
     "jade": {
       "comment": "  name: mixin3",
-      "code": "//- mixin mixin3\n",
-      "indent": 0,
       "type": "mixin",
-      "root": "//- mixin mixin3",
+      "indent": 0,
+      "root": "mixin mixin3",
+      "code": "mixin mixin3\n  +mixin1\n  +mixin2(foo, faa)",
+      "dependencies": [
+        "mixin mixin1\n  | this is a mixin",
+        "mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1}\n  div this is the same mixin #{arg2}"
+      ],
       "file": "./test/fixtures/mixins.jade"
     },
     "name": "mixin3",
-    "output": "\n+//- mixin3"
+    "output": "this is a mixin<div>this is a mixin </div><div>this is the same mixin </div>"
   },
   "some-node": {
     "jade": {
       "comment": "  name: some-node",
-      "code": "div.some-node\n  | this is some node",
-      "indent": 0,
       "type": "node",
+      "indent": 0,
       "root": "div.some-node",
+      "code": "div.some-node\n  | this is some node",
       "file": "./test/fixtures/node.jade"
     },
     "name": "some-node",
@@ -68,9 +72,8 @@
   "Only doc": {
     "jade": {
       "comment": "  name: Only doc",
-      "code": "\n",
-      "indent": 0,
       "type": "standalone-comment",
+      "indent": 0,
       "file": "./test/fixtures/only-doc.jade"
     },
     "name": "Only doc",

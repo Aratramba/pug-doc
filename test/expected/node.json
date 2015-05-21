@@ -2,10 +2,10 @@
   "some-node": {
     "jade": {
       "comment": "  name: some-node",
-      "code": "div.some-node\n  | this is some node",
-      "indent": 0,
       "type": "node",
+      "indent": 0,
       "root": "div.some-node",
+      "code": "div.some-node\n  | this is some node",
       "file": "./test/fixtures/node.jade"
     },
     "name": "some-node",

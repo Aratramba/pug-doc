@@ -20,5 +20,12 @@ mixin mixin2(arg1, arg2)
 //- @jadedoc
   name: mixin3
 
-//- mixin mixin3
-//-   +mixin1
+mixin mixin3
+  +mixin1
+  +mixin2(foo, faa)
+  +nested
+    | foo
+
+
+mixin nested
+  block

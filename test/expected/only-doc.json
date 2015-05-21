@@ -2,9 +2,8 @@
   "Only doc": {
     "jade": {
       "comment": "  name: Only doc",
-      "code": "\n",
-      "indent": 0,
       "type": "standalone-comment",
+      "indent": 0,
       "file": "./test/fixtures/only-doc.jade"
     },
     "name": "Only doc",

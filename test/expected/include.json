@@ -2,10 +2,10 @@
   "inclusion tag": {
     "jade": {
       "comment": "    name: inclusion tag\n    description: this is an inclusion tag",
-      "code": "  include 'node'\n",
-      "indent": 2,
       "type": "include",
+      "indent": 2,
       "root": "  include 'node'",
+      "code": "  include 'node'\n",
       "file": "./test/fixtures/include.jade"
     },
     "name": "inclusion tag",
