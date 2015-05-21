@@ -1,0 +1,26 @@
+{
+  "foo": {
+    "jade": {
+      "comment": "  name: foo",
+      "type": "standalone-comment",
+      "indent": 0,
+      "root": "div.foo",
+      "code": "div.foo\n  //- @jadedoc\n    name: faa\n  div.faa",
+      "file": "./test/fixtures/comments.jade"
+    },
+    "name": "foo",
+    "output": ""
+  },
+  "faa": {
+    "jade": {
+      "comment": "    name: faa",
+      "type": "standalone-comment",
+      "indent": 2,
+      "root": "  div.faa",
+      "code": "  div.faa\n",
+      "file": "./test/fixtures/comments.jade"
+    },
+    "name": "faa",
+    "output": ""
+  }
+}

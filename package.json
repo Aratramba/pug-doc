@@ -4,8 +4,7 @@
   "description": "Takes jade files, looks for @jadedoc comments and puts those in an output JSON file",
   "main": "index.js",
   "scripts": {
-    "test": "nodeunit test/test.js",
-    "test2": "node test/mixins.js"
+    "test": "nodeunit test/test.js"
   },
   "author": "Arjen Scherff-de Water",
   "license": "ISC",
