@@ -86,10 +86,6 @@ var options = {
   input: '**/*.jade', // glob
   output: 'anything.json', // default jade-doc.json
   keyword: '@anything' // default @jadedoc
-
-  input: '**/*.jade', // glob
-  output: 'anything.json', // default jade-doc.json
-  keyword: '@anything' // default @jadedoc
   complete: function(){
     // optional callback
   }
