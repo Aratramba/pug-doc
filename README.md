@@ -40,17 +40,16 @@ output will be
 ```json
 {
   "some-node": {
-    "meta": {
+    "jade": {
+      "comment": "  name: some-node",
+      "type": "node",
+      "indent": 0,
+      "root": "div.some-node",
+      "code": "div.some-node\n  | this is some node",
       "file": "./test/fixtures/node.jade"
     },
-    "jade": {
-      "root": "div.this-is-output-for-jade-doc",
-      "comment": "  name: some-node",
-      "block": "div.this-is-output-for-jade-doc",
-      "type": "node"
-    },
     "name": "some-node",
-    "output": "<div class=\"this-is-output-for-jade-doc\"></div>"
+    "output": "<div class=\"some-node\">this is some node</div>"
   }
 }
 ```
