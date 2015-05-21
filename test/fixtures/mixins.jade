@@ -23,10 +23,23 @@ mixin mixin2(arg1, arg2)
 mixin mixin3
   +mixin1
   +mixin2(foo, faa)
-  +nested
-    | foo
+  +block
+    | block
   | +foo
+  +deep
 
 
-mixin nested
+mixin block
   block
+
+mixin deep
+  +deeper
+    +deepest
+
+mixin deeper
+  | deeper
+  block
+
+mixin deepest
+  +deeper
+    | deepest
