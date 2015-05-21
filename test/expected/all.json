@@ -1,40 +1,37 @@
 {
   "inclusion tag": {
-    "meta": {
-      "file": "./test/fixtures/include.jade"
-    },
     "jade": {
-      "root": "include 'node'",
-      "comment": "  name: inclusion tag\n  description: this is an inclusion tag",
-      "block": "include 'node'",
-      "type": "include"
+      "comment": "    name: inclusion tag\n    description: this is an inclusion tag",
+      "code": "  include 'node'\n",
+      "indent": 2,
+      "type": "include",
+      "root": "  include 'node'",
+      "file": "./test/fixtures/include.jade"
     },
     "name": "inclusion tag",
     "description": "this is an inclusion tag",
     "output": ""
   },
   "mixin1": {
-    "meta": {
-      "file": "./test/fixtures/mixins.jade"
-    },
     "jade": {
-      "root": "mixin mixin1",
       "comment": "  name: mixin1",
-      "block": "mixin mixin1\n  | this is a mixin",
-      "type": "mixin"
+      "code": "mixin mixin1\n  | this is a mixin",
+      "indent": 0,
+      "type": "mixin",
+      "root": "mixin mixin1",
+      "file": "./test/fixtures/mixins.jade"
     },
     "name": "mixin1",
     "output": "this is a mixin"
   },
   "mixin2": {
-    "meta": {
-      "file": "./test/fixtures/mixins.jade"
-    },
     "jade": {
-      "root": "mixin mixin2(arg1, arg2)",
       "comment": "  name: mixin2\n  description: this is jade mixin 2 documentation\n  arguments: \n    arg1: foo\n    arg2: faa",
-      "block": "mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1} #{arg2}",
-      "type": "mixin"
+      "code": "mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1}\n  div this is the same mixin #{arg2}",
+      "indent": 0,
+      "type": "mixin",
+      "root": "mixin mixin2(arg1, arg2)",
+      "file": "./test/fixtures/mixins.jade"
     },
     "name": "mixin2",
     "description": "this is jade mixin 2 documentation",
@@ -42,30 +39,39 @@
       "arg1": "foo",
       "arg2": "faa"
     },
-    "output": "<div>this is a mixin foo faa</div>"
+    "output": "<div>this is a mixin foo</div><div>this is the same mixin faa</div>"
+  },
+  "mixin3": {
+    "jade": {
+      "comment": "  name: mixin3",
+      "code": "//- mixin mixin3\n",
+      "indent": 0,
+      "type": "mixin",
+      "root": "//- mixin mixin3",
+      "file": "./test/fixtures/mixins.jade"
+    },
+    "name": "mixin3",
+    "output": "\n+//- mixin3"
   },
   "some-node": {
-    "meta": {
-      "file": "./test/fixtures/node.jade"
-    },
     "jade": {
-      "root": "div.some-node",
       "comment": "  name: some-node",
-      "block": "div.some-node\n  | this is some node",
-      "type": "node"
+      "code": "div.some-node\n  | this is some node",
+      "indent": 0,
+      "type": "node",
+      "root": "div.some-node",
+      "file": "./test/fixtures/node.jade"
     },
     "name": "some-node",
     "output": "<div class=\"some-node\">this is some node</div>"
   },
   "Only doc": {
-    "meta": {
-      "file": "./test/fixtures/only-doc.jade"
-    },
     "jade": {
-      "root": "  name: Only doc",
       "comment": "  name: Only doc",
-      "block": "  name: Only doc",
-      "type": "standalone-comment"
+      "code": "\n",
+      "indent": 0,
+      "type": "standalone-comment",
+      "file": "./test/fixtures/only-doc.jade"
     },
     "name": "Only doc",
     "output": ""

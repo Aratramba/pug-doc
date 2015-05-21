@@ -1,13 +1,12 @@
 {
   "inclusion tag": {
-    "meta": {
-      "file": "./test/fixtures/include.jade"
-    },
     "jade": {
-      "root": "include 'node'",
-      "comment": "  name: inclusion tag\n  description: this is an inclusion tag",
-      "block": "include 'node'",
-      "type": "include"
+      "comment": "    name: inclusion tag\n    description: this is an inclusion tag",
+      "code": "  include 'node'\n",
+      "indent": 2,
+      "type": "include",
+      "root": "  include 'node'",
+      "file": "./test/fixtures/include.jade"
     },
     "name": "inclusion tag",
     "description": "this is an inclusion tag",

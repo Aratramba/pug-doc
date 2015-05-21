@@ -21,15 +21,16 @@ exports.docs = {
     var options = {
       input: './test/fixtures/'+ fileName +'.jade',
       output: './test/tmp/'+ fileName +'.json',
-      keyword: '@jadedoc'
+      keyword: '@jadedoc',
+      complete: function(){
+        var tmp = require('./tmp/'+ fileName +'.json');
+        var expected = require('./expected/'+ fileName +'.json');     
+        test.deepEqual(tmp, expected);
+        test.done();
+      }
     };
 
-    new JadeDoc(options, function(){
-      var tmp = require('./tmp/'+ fileName +'.json');
-      var expected = require('./expected/'+ fileName +'.json');      
-      test.deepEqual(tmp, expected);
-      test.done();
-    });
+    new JadeDoc(options);
   },
 
 
@@ -46,15 +47,16 @@ exports.docs = {
     var options = {
       input: './test/fixtures/'+ fileName +'.jade',
       output: './test/tmp/'+ fileName +'.json',
-      keyword: '@jadedoc'
+      keyword: '@jadedoc',
+      complete: function(){
+        var tmp = require('./tmp/'+ fileName +'.json');
+        var expected = require('./expected/'+ fileName +'.json');      
+        test.deepEqual(tmp, expected);
+        test.done();
+      }
     };
 
-    new JadeDoc(options, function(){
-      var tmp = require('./tmp/'+ fileName +'.json');
-      var expected = require('./expected/'+ fileName +'.json');      
-      test.deepEqual(tmp, expected);
-      test.done();
-    });
+    new JadeDoc(options);
   },
 
 
@@ -70,15 +72,16 @@ exports.docs = {
     var options = {
       input: './test/fixtures/'+ fileName +'.jade',
       output: './test/tmp/'+ fileName +'.json',
-      keyword: '@jadedoc'
+      keyword: '@jadedoc',
+      complete: function(){
+        var tmp = require('./tmp/'+ fileName +'.json');
+        var expected = require('./expected/'+ fileName +'.json');      
+        test.deepEqual(tmp, expected);
+        test.done();
+      }
     };
 
-    new JadeDoc(options, function(){
-      var tmp = require('./tmp/'+ fileName +'.json');
-      var expected = require('./expected/'+ fileName +'.json');      
-      test.deepEqual(tmp, expected);
-      test.done();
-    });
+    new JadeDoc(options);
   },
 
 
@@ -94,15 +97,16 @@ exports.docs = {
     var options = {
       input: './test/fixtures/'+ fileName +'.jade',
       output: './test/tmp/'+ fileName +'.json',
-      keyword: '@jadedoc'
+      keyword: '@jadedoc',
+      complete: function(){
+        var tmp = require('./tmp/'+ fileName +'.json');
+        var expected = require('./expected/'+ fileName +'.json');      
+        test.deepEqual(tmp, expected);
+        test.done();
+      }
     };
 
-    new JadeDoc(options, function(){
-      var tmp = require('./tmp/'+ fileName +'.json');
-      var expected = require('./expected/'+ fileName +'.json');      
-      test.deepEqual(tmp, expected);
-      test.done();
-    });
+    new JadeDoc(options);
   },
 
 
@@ -118,14 +122,15 @@ exports.docs = {
     var options = {
       input: './test/fixtures/**/*.jade',
       output: './test/tmp/'+ fileName +'.json',
-      keyword: '@jadedoc'
+      keyword: '@jadedoc',
+      complete: function(){
+        var tmp = require('./tmp/'+ fileName +'.json');
+        var expected = require('./expected/'+ fileName +'.json');      
+        test.deepEqual(tmp, expected);
+        test.done();
+      }
     };
 
-    new JadeDoc(options, function(){
-      var tmp = require('./tmp/'+ fileName +'.json');
-      var expected = require('./expected/'+ fileName +'.json');      
-      test.deepEqual(tmp, expected);
-      test.done();
-    });
+    new JadeDoc(options);
   }
 };
