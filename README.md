@@ -86,8 +86,9 @@ var options = {
   input: '**/*.jade', // glob
   output: 'anything.json', // default jade-doc.json
   keyword: '@anything' // default @jadedoc
-  complete: function(){
+  complete: function(result){
     // optional callback
+    // result is the JSON object, same as is written to output file
   }
 };
 
