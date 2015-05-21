@@ -19,7 +19,7 @@ function getOptions(name, test){
       test.deepEqual(tmp, expected);
       test.done();
     }
-  }
+  };
 }
 
 
