@@ -34,7 +34,7 @@
       "type": "mixin",
       "indent": 0,
       "root": "mixin mixin3",
-      "code": "mixin mixin3\n  +mixin1\n  +mixin2(foo, faa)\n  +nested\n    | foo",
+      "code": "mixin mixin3\n  +mixin1\n  +mixin2(foo, faa)\n  +nested\n    | foo\n  | +foo",
       "dependencies": [
         "mixin mixin1\n  | this is a mixin",
         "mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1}\n  div this is the same mixin #{arg2}",
@@ -43,6 +43,6 @@
       "file": "./test/fixtures/mixins.jade"
     },
     "name": "mixin3",
-    "output": "this is a mixin<div>this is a mixin </div><div>this is the same mixin </div>foo"
+    "output": "this is a mixin<div>this is a mixin </div><div>this is the same mixin </div>foo+foo"
   }
 }

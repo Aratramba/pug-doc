@@ -71,10 +71,9 @@ mixin doc3(arg1, arg2)
   div(class="foo") this is a mixin
 ```
 
-Nested mixins are not supported as of yet.
 
-#### Includes
-Includes are not supported yet.
+#### Includes, extends
+Not supported yet.
 
 
 
