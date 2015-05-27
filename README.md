@@ -5,7 +5,7 @@ Takes jade files, looks for `@jadedoc` comments and puts those in an output JSON
 
 
 ## Basic usage
-Use the keyword `@jadedoc` to search for comments inside your jade files to be used as input. Comments should be written in [YAML](http://en.wikipedia.org/wiki/YAML) format.
+Use the keyword `@jadedoc` to search for [unbuffered block comments](http://jade-lang.com/reference/comments/) inside your jade files to be used as input. Comments should be written in [YAML](http://en.wikipedia.org/wiki/YAML) format.
 
 Only the name argument is required. This is the key of your output JSON object.
 

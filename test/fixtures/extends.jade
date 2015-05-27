@@ -1,4 +1,24 @@
+//- @jadedoc
+  name: extends
+
 extends 'block'
 
-block append foo
-  | extended
+//- @jadedoc
+  name: append-block
+
+block append block1
+  | append
+
+
+//- @jadedoc
+  name: prepend-block
+
+block prepend block2
+  | prepend
+
+
+//- @jadedoc
+  name: block
+
+block block3
+  | replace
