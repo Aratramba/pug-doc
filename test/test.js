@@ -48,5 +48,13 @@ exports.docs = {
 
   comments: function(test) {
     this.JadeDoc(getOptions('comments', test));
+  },
+
+  extends: function(test) {
+    this.JadeDoc(getOptions('extends', test));
+  },
+
+  block: function(test) {
+    this.JadeDoc(getOptions('block', test));
   }
 };
