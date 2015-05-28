@@ -37,7 +37,7 @@ div.this-isnt
 
 output will be
 
-```json
+```javascript
 {
   "some-node": {
     "jade": {
