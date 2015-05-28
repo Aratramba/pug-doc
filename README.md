@@ -71,7 +71,7 @@ mixin doc3(arg1, arg2)
 ```
 
 
-#### Includes, extends
+#### Includes, extends, blocks
 Not supported yet.
 
 
