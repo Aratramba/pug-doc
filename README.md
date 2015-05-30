@@ -56,7 +56,7 @@ output will be
 
 
 #### Mixins
-Optionally provide mixins arguments. If no arguments are given, mixin will be executed without any arguments.
+Optionally provide mixin arguments. If no arguments are given, mixins will be executed without any arguments.
 
 ```jade
 //- @jadedoc
