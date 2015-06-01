@@ -9,6 +9,6 @@
       "file": "./test/fixtures/node.jade"
     },
     "name": "some-node",
-    "output": "<div class=\"some-node\">this is some node</div>"
+    "html": "<div class=\"some-node\">this is some node</div>"
   }
 }

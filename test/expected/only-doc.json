@@ -7,6 +7,6 @@
       "file": "./test/fixtures/only-doc.jade"
     },
     "name": "Only doc",
-    "output": ""
+    "html": ""
   }
 }

@@ -43,7 +43,17 @@ exports.docs = {
   },
 
   mixins: function(test) {
-    this.JadeDoc(getOptions('mixins', test));
+    this.JadeDoc({
+      input: './test/fixtures/mixins*.jade',
+      output: './test/tmp/mixins.json',
+      keyword: '@jadedoc',
+      complete: function(){
+        var tmp = require('./tmp/mixins.json');
+        var expected = require('./expected/mixins.json');     
+        test.deepEqual(tmp, expected);
+        test.done();
+      }
+    }, test);
   },
 
   comments: function(test) {

@@ -9,7 +9,7 @@
       "file": "./test/fixtures/comments.jade"
     },
     "name": "foo",
-    "output": ""
+    "html": ""
   },
   "faa": {
     "jade": {
@@ -21,6 +21,6 @@
       "file": "./test/fixtures/comments.jade"
     },
     "name": "faa",
-    "output": ""
+    "html": ""
   }
 }
