@@ -4,8 +4,8 @@
       "comment": "    name: inclusion tag\n    description: this is an inclusion tag",
       "type": "include",
       "indent": 2,
-      "root": "  include 'node'",
-      "code": "  include 'node'\n",
+      "root": "  include 'tag'",
+      "code": "  include 'tag'\n",
       "file": "./test/fixtures/include.jade"
     },
     "name": "inclusion tag",

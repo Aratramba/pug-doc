@@ -1,0 +1,14 @@
+{
+  "some-tag": {
+    "jade": {
+      "comment": "  name: some-tag",
+      "type": "tag",
+      "indent": 0,
+      "root": "div.some-tag",
+      "code": "div.some-tag\n  | this is some tag",
+      "file": "./test/fixtures/tag.jade"
+    },
+    "name": "some-tag",
+    "html": "<div class=\"some-tag\">this is some tag</div>"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "Empty line": {
+    "jade": {
+      "comment": "  name: Empty line",
+      "type": "comment",
+      "indent": 0,
+      "file": "./test/fixtures/empty-line.jade"
+    },
+    "name": "Empty line",
+    "html": ""
+  }
+}

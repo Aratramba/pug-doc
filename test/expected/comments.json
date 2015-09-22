@@ -2,10 +2,10 @@
   "foo": {
     "jade": {
       "comment": "  name: foo",
-      "type": "standalone-comment",
+      "type": "comment",
       "indent": 0,
-      "root": "div.foo",
-      "code": "div.foo\n  //- @jadedoc\n    name: faa\n  div.faa",
+      "root": "// foo",
+      "code": "// foo\n",
       "file": "./test/fixtures/comments.jade"
     },
     "name": "foo",
@@ -13,11 +13,11 @@
   },
   "faa": {
     "jade": {
-      "comment": "    name: faa",
-      "type": "standalone-comment",
-      "indent": 2,
-      "root": "  div.faa",
-      "code": "  div.faa\n",
+      "comment": "  name: faa",
+      "type": "comment",
+      "indent": 0,
+      "root": "//- faa",
+      "code": "//- faa\n  faa\n  faa",
       "file": "./test/fixtures/comments.jade"
     },
     "name": "faa",
