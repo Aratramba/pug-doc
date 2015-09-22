@@ -9,7 +9,7 @@
   "author": "Arjen Scherff-de Water",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EightMedia/jade-doc.git"
+    "url": "https://github.com/Aratramba/jade-doc.git"
   },
   "keywords": [
     "documentation",
@@ -17,9 +17,9 @@
     "jade"
   ],
   "bugs": {
-    "url": "https://github.com/EightMedia/jade-doc/issues"
+    "url": "https://github.com/Aratramba/jade-doc/issues"
   },
-  "homepage": "https://github.com/EightMedia/jade-doc",
+  "homepage": "https://github.com/Aratramba/jade-doc",
   "license": "ISC",
   "dependencies": {
     "array-flatten": "^1.1.0",
