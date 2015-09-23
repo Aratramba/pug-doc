@@ -29,12 +29,12 @@
       line-height: 1.7;
     }
 
-    .code pre{
+    .code .code__jade{
       display: table-cell;
       width: 50%;
     }
 
-    .code pre:first-of-type{
+    .code .code__jade:first-of-type{
       border-right: 20px solid white;
     }
   </style>
@@ -59,8 +59,23 @@
       <h1>{{name}}</h1>
       <p>{{description}}</p>
       <div class="code">
-        <pre class="language-jade"><code>{{jade.code}}</code></pre>
-        <pre class="language-html"><code>{{html}}</code></pre>
+
+        <div class="code__jade">
+          <pre class="language-jade"><code>{{jade.code}}</code></pre>
+          {{#jade.dependencies.length}}
+          <strong>Dependencies</strong>
+          <pre class="language-jade"><code>
+{{#jade.dependencies}}
+{{.}}
+
+{{/jade.dependencies}}</code></code></pre>
+          {{/jade.dependencies.length}}
+        </div>
+
+        <div class="code__html">
+          <pre class="language-html"><code>{{html}}</code></pre>
+        </div>
+
       </div>
     </div>
   </div>
@@ -68,7 +83,6 @@
   <script>
   'use strict';
   /* global Mustache, console, Prism */
-
 
   var $cnt = document.getElementById('container');
   var TEMPLATE = document.getElementById('template').innerHTML;
@@ -85,7 +99,6 @@
     xhr.onreadystatechange = function(){
       if(xhr.readyState === 4 && xhr.status === 200){
         var data = JSON.parse(xhr.responseText);
-
         for(var obj in data){
           display(data[obj]);
         }
