@@ -26,7 +26,7 @@
       "arg1": "foo",
       "arg2": "faa"
     },
-    "html": "<div>this is a mixin foo</div><div>this is the same mixin faa</div>"
+    "html": "\n<div>this is a mixin foo</div>\n<div>this is the same mixin faa</div>"
   },
   "mixin3": {
     "jade": {
@@ -46,6 +46,6 @@
       "file": "./test/fixtures/mixins.jade"
     },
     "name": "mixin3",
-    "html": "this is a mixin<div>this is a mixin </div><div>this is the same mixin </div>block+foodeeperdeeperdeepest"
+    "html": "this is a mixin\n<div>this is a mixin </div>\n<div>this is the same mixin </div>block+foodeeperdeeperdeepest"
   }
 }

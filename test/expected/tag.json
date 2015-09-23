@@ -9,6 +9,6 @@
       "file": "./test/fixtures/tag.jade"
     },
     "name": "some-tag",
-    "html": "<div class=\"some-tag\">this is some tag</div>"
+    "html": "\n<div class=\"some-tag\">this is some tag</div>"
   }
 }
