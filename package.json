@@ -4,7 +4,8 @@
   "description": "Jade documentation generator.",
   "main": "index.js",
   "scripts": {
-    "test": "nodeunit test/test.js"
+    "test": "nodeunit test/test.js",
+    "test:include": "npm run test -- -t include"
   },
   "author": "Arjen Scherff-de Water",
   "repository": {

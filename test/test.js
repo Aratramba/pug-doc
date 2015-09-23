@@ -30,16 +30,8 @@ exports.docs = {
     cb();
   },
 
-  block: function(test) {
-    this.JadeDoc(getOptions('block', test));
-  },
-
   comments: function(test) {
     this.JadeDoc(getOptions('comments', test));
-  },
-
-  extends: function(test) {
-    this.JadeDoc(getOptions('extends', test));
   },
 
   mixins: function(test) {
@@ -55,10 +47,6 @@ exports.docs = {
       }
     }, test);
   },
-
-  include: function(test) {
-    this.JadeDoc(getOptions('include', test));
-  },
   
   tag: function(test) {
     this.JadeDoc(getOptions('tag', test));
@@ -67,4 +55,16 @@ exports.docs = {
   empty_line: function(test) {
     this.JadeDoc(getOptions('empty-line', test));
   },
+
+  include: function(test) {
+    this.JadeDoc(getOptions('include', test));
+  },
+
+  // block: function(test) {
+  //   this.JadeDoc(getOptions('block', test));
+  // },
+  
+  // extends: function(test) {
+  //   this.JadeDoc(getOptions('extends', test));
+  // },
 };
