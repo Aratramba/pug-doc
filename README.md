@@ -85,7 +85,6 @@ var JadeDoc = require('jade-doc');
 var options = {
   input: '**/*.jade', // glob
   output: 'anything.json', // default jade-doc.json
-  keyword: '@anything' // default @jadedoc
   complete: function(result){
     // optional callback
     // result is the JSON object, same as is written to output file

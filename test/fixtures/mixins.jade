@@ -2,7 +2,7 @@
   name: mixin1
 
 mixin mixin1
-  | this is a mixin
+  | this is a mixin 1
 
 
 //- @jadedoc
@@ -13,31 +13,12 @@ mixin mixin1
     arg2: faa
 
 mixin mixin2(arg1, arg2)
-  div this is a mixin #{arg1}
-  div this is the same mixin #{arg2}
+  div this is a mixin #{arg1} 2
+  div this is the same mixin #{arg2} 2
 
 
 //- @jadedoc
   name: mixin3
 
 mixin mixin3
-  +mixin1
-  +mixin2(foo, faa)
-  +block
-    | block
-  | +foo
-  +deep
-
-
-mixin block
-  block
-
-
-//- @jadedoc
-  name: tag with mixin
-  
-div
-  mixin foo
-    | foo
-
-+foo
+  | this is a mixin 3
