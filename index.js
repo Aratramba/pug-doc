@@ -1,54 +1,94 @@
 'use strict';
-/* globals require, module, console */
+/* globals require, module */
 
+var fs = require('fs');
+var path = require('path');
 var jade = require('jade');
 var YAML = require('js-yaml');
+var mkdirp = require('mkdirp');
+var Stream = require('stream');
 var assign = require('object-assign');
 var jadeRuntime = require('jade-runtime');
 var getCodeBlock = require('jade-code-block');
-var writeJsonFile = require('write-json-file');
 var fileRegister = require('text-file-register');
 
 
-var MIXIN_NAME_REGEX = /^mixin +([-\w]+)?/;
-var JADEDOC_REGEX = /^\s*\/\/-\s+?\@jadedoc\s*$/;
-
+/**
+ * Jade Documentation generator
+ * returns a readable stream
+ * optionally writes a JSON array containing
+ * all docs to an output file.
+ */
 
 function jadeDoc(options){
+
+  if(typeof options === 'undefined'){
+    throw new Error('Jade doc requires a settings object.');
+  }
 
   if(typeof options.input === 'undefined'){
     throw new Error('Jade doc requires settings.input to be set.');
   }
 
-
   // options
   options = assign({
     input: null,
-    output: null,
-    pretty: true,
-    complete: function(){}
+    output: null
   }, options);
+
+  var MIXIN_NAME_REGEX = /^mixin +([-\w]+)?/;
+  var JADEDOC_REGEX = /^\s*\/\/-\s+?\@jadedoc\s*$/;
+
+  var counter = 0;
 
   // register files
   var register = fileRegister();
   register.addFiles(options.input, init);
 
 
+  // create readable stream
+  var stream = new Stream.Readable({ objectMode: true });
+  stream._read = function(){};
+
+  
   /**
    * Init
    */
   
   function init(){
-    var files = register.getAll();
-    var doc = {};
-    var file;
+    
+    // write stream to output file
+    if(options.output){
 
-    for(file in files){
-      doc[file] = {};
-      doc[file].comments = collectDocs(files[file], file);
+      // create directory if it doesn't exist
+      mkdirp.sync(path.dirname(options.output));
+
+      // create writable stream
+      var writable = fs.createWriteStream(options.output);
+
+      // write stream
+      stream.pipe(writable);
+
+      // start json array
+      stream.push('[');
     }
 
-    complete(doc);
+    // get all jade files
+    var files = register.getAll();
+    var file;
+
+    // collect docs for all files
+    for(file in files){
+      collectDocs(files[file], file);
+    }
+
+    // end json array stream
+    if(options.output){
+      stream.push(']');
+    }
+
+    // end stream
+    stream.push(null);
   }
 
 
@@ -60,7 +100,6 @@ function jadeDoc(options){
 
     // split by newline
     var lines = src.split('\n');
-    var docs = [];
 
     // walk through lines
     lines.forEach(function(line, index){
@@ -76,6 +115,9 @@ function jadeDoc(options){
 
         // get meta
         docItem.meta = getMeta(comment);
+
+        // add file path
+        docItem.file = path.relative('.', file);
         
         // get jade code block matching the comments indent
         docItem.source = getCodeBlock.afterBlockAtLine(src, index+1);
@@ -83,12 +125,18 @@ function jadeDoc(options){
         // get html output
         docItem.output = compileJade(docItem.source, file, docItem.meta);
 
-        // add doc
-        docs.push(docItem);
+        // omit first comma
+        if(counter !== 0){
+          stream.push(',');
+        }
+
+        // add object to stream
+        stream.push(JSON.stringify(docItem));
+
+        // up counter
+        ++counter;
       }
     });
-
-    return docs;
   }
 
 
@@ -137,24 +185,8 @@ function jadeDoc(options){
     return Function('jade', compiled.body + '\n' +'return template();')(jadeRuntime);
   }
 
-
-  /**
-   * Complete
-   */
-  
-  function complete(doc){    
-    if(options.output){
-      writeJsonFile(options.output, doc, {indent: null}).then(function () {
-        console.log('Saved '+ options.output);
-      });
-    }
-  }
-
+  return stream;
+ 
 }
 
 module.exports = jadeDoc;
-
-jadeDoc({
-  input: ['./test/fixtures/*.jade'],
-  output: './test/tmp/output.json',
-});
