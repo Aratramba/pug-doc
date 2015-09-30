@@ -23,20 +23,13 @@
   "homepage": "https://github.com/Aratramba/jade-doc",
   "license": "ISC",
   "dependencies": {
-    "array-flatten": "^1.1.0",
-    "array-uniq": "^1.0.2",
-    "async": "^0.9.2",
-    "concat-files": "^0.1.0",
-    "glob": "^5.0.5",
     "jade": "^1.11.0",
     "jade-code-block": "^0.1.5",
     "jade-runtime": "^1.1.0",
     "js-yaml": "^3.3.0",
-    "make-array": "^0.1.2",
-    "mkdirp": "^0.5.0",
-    "object-assign": "^2.0.0",
     "text-file-register": "^0.1.0",
-    "touch": "0.0.3"
+    "write-json-file": "^1.1.1",
+    "object-assign": "^2.0.0"
   },
   "devDependencies": {
     "faucet": "0.0.1",
