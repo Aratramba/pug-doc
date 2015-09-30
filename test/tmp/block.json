@@ -1,0 +1,1 @@
+[{"file":"test/fixtures/block.jade","source":"div  \n  include tag.jade","output":"<div> <div class=\"some-tag\">this is some tag</div><div class=\"some-other-tag\">this is some other tag</div></div>"}]

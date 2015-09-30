@@ -1,1 +1,0 @@
-[{"meta":{"name":"some-tag"},"file":"test/fixtures/tag.jade","source":"div.some-tag\n  | this is some tag","output":"<div class=\"some-tag\">this is some tag</div>"}]

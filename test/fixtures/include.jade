@@ -3,12 +3,5 @@
   description: this is an inclusion tag
 
 div
-  include tag.jade
-
-//- @jadedoc
-  name: inclusion tag
-  description: this is an inclusion tag
-
-div
   include mixins.jade
-  +mixin1
+  +mixin2('foo', 'faa')
