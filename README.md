@@ -1,5 +1,3 @@
-`stability: unstable`
-
 # Jade-doc
 Jade-doc is a [Jade](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@jadedoc` and puts its contents in an output JSON file. _It does not provide a styled interface for the documentation itself._
 
