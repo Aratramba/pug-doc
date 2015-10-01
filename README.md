@@ -64,7 +64,7 @@ Optionally use it through the command line.
 `npm install jade-doc -g`
 
 `jade-doc input.jade`
-`jade-doc input.jade output.json`
+`jade-doc input.jade --output output.json`
 
 
 ### Output file

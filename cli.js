@@ -7,16 +7,19 @@ var jadeDoc = require('./');
 var cli = meow({
   help: [
     'Usage',
-    '  $ jade-doc input.jade output.json',
+    '  $ jade-doc input.jade --output output.json',
+    '',
+    'Options',
+    '  --output    Set output json file',
   ]
 });
 
 var jd = new jadeDoc({
   input: cli.input[0],
-  output: cli.input[1]
+  output: cli.flags.output
 });
 
-if(!cli.input[1]){
+if(!cli.flags.output){
   process.stdin.pipe(jd).pipe(process.stdout);
 
   jd.on('end', function(){
