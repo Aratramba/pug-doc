@@ -1,1 +1,0 @@
-[{"meta":{"name":"inclusion tag","description":"this is an inclusion tag"},"file":"test/fixtures/include.jade","source":"div\n  include mixins.jade\n  +mixin2('foo', 'faa')","output":"<div><div>this is a mixin foo</div><div>this is the same mixin faa</div></div>"}]

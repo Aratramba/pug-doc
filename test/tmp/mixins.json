@@ -1,1 +1,0 @@
-[{"meta":{"name":"mixin","description":"this is jade mixin documentation","arguments":{"arg1":"foo","arg2":"faa"}},"file":"test/fixtures/mixins.jade","source":"mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1}\n  div this is the same mixin #{arg2}","output":"<div>this is a mixin foo</div><div>this is the same mixin faa</div>"}]
