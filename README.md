@@ -1,5 +1,7 @@
 # Jade-doc
-Jade-doc is a [Jade](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@jadedoc` and puts its contents in an output JSON file. _It does not provide a styled interface for the documentation itself._
+Jade-doc is a [Jade](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@jadedoc` and puts its contents in an output JSON file. 
+
+_This package does not provide a styled interface for the documentation itself._ Use [jade-doc-html](https://github.com/Aratramba/jade-doc-html) for pretty html.
 
 
 ## Usage
@@ -61,7 +63,8 @@ Optionally use it through the command line.
 
 `npm install jade-doc -g`
 
-`jade-doc --input file.jade --output file.json`
+`jade-doc input.jade`
+`jade-doc input.jade output.json`
 
 
 ### Output file
