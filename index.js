@@ -126,7 +126,7 @@ function jadeDoc(options){
         docItem.output = compileJade(docItem.source, file, docItem.meta);
 
         // omit first comma
-        if(counter !== 0){
+        if(counter !== 0 && options.output){
           stream.push(',');
         }
 
