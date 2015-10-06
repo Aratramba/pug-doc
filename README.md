@@ -1,7 +1,7 @@
 # Jade-doc
 Jade-doc is a [Jade](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@jadedoc` and puts its contents in an output JSON file. 
 
-_This package does not provide a styled interface for the documentation itself._ Use [jade-doc-html](https://github.com/Aratramba/jade-doc-html) or [jade-doc-markdown](https://github.com/Aratramba/jade-doc-markdown) for human readable docs.
+_This package does not provide a styled interface for the documentation itself._ Use [jade-doc-html](https://github.com/Aratramba/jade-doc-html) or [jade-doc-markdown](https://github.com/Aratramba/jade-doc-markdown) for human readable docs. Optionally use [jade-doc-faucet](https://github.com/Aratramba/jade-doc-faucet) for prettier terminal reporting.
 
 
 ## Usage
