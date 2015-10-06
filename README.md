@@ -1,11 +1,11 @@
 # Jade-doc
 Jade-doc is a [Jade](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@jadedoc` and puts its contents in an output JSON file. 
 
-_This package does not provide a styled interface for the documentation itself._ Use [jade-doc-html](https://github.com/Aratramba/jade-doc-html) for pretty html.
+_This package does not provide a styled interface for the documentation itself._ Use [jade-doc-html](https://github.com/Aratramba/jade-doc-html) for pretty html or [jade-doc-markdown](https://github.com/Aratramba/jade-doc-markdown) for human readable docs.
 
 
 ## Usage
-Use the keyword `@jadedoc` to flag [unbuffered block comments](http://jade-lang.com/reference/comments/) inside your jade files. Comments should be written in [YAML](http://en.wikipedia.org/wiki/YAML) format.
+Use the keyword `@jadedoc` to flag [unbuffered block comments](http://jade-lang.com/reference/comments/) inside your jade files. Comments should be written in properly formatted [YAML](http://en.wikipedia.org/wiki/YAML) format.
 
 ```jade
 //- @jadedoc
@@ -61,10 +61,13 @@ jadeDoc({
 ### Command line
 Optionally use it through the command line.
 
-`npm install jade-doc -g`
+```bash
+jade-doc input.jade
+```
 
-`jade-doc input.jade`
-`jade-doc input.jade --output output.json`
+```bash
+jade-doc input.jade --output output.json
+```
 
 
 ### Output file
