@@ -2,7 +2,7 @@
 'use strict';
 
 var meow = require('meow');
-var jadeDoc = require('./');
+var jadeDoc = require('./index');
 
 var cli = meow({
   help: [
