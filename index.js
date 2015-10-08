@@ -6,7 +6,7 @@ var path = require('path');
 var jade = require('jade');
 var YAML = require('js-yaml');
 var mkdirp = require('mkdirp');
-var Stream = require('stream');
+var through2 = require('through2');
 var assign = require('object-assign');
 var jadeRuntime = require('jade-runtime');
 var getCodeBlock = require('jade-code-block');
@@ -15,7 +15,7 @@ var fileRegister = require('text-file-register');
 
 /**
  * Jade Documentation generator
- * returns a readable stream
+ * returns a JSON stream
  * optionally writes a JSON array containing
  * all docs to an output file.
  */
@@ -47,8 +47,16 @@ function jadeDoc(options){
 
 
   // create readable stream
-  var stream = new Stream.Readable({ objectMode: true });
-  stream._read = function(){};
+  var stream = through2({ objectMode: true },
+    function(chunk, enc, next){
+      this.push(chunk);
+      next();
+    }, 
+    function(cb){
+      this.emit('complete');
+      cb();
+    }
+  );
 
   
   /**
@@ -131,7 +139,7 @@ function jadeDoc(options){
         }
 
         // add object to stream
-        stream.push(JSON.stringify(docItem));
+        stream.push(docItem);
 
         // up counter
         ++counter;

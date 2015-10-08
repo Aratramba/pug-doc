@@ -3,6 +3,8 @@
 
 var meow = require('meow');
 var jadeDoc = require('./index');
+var JSONStream = require('JSONStream');
+
 
 var cli = meow({
   help: [
@@ -20,7 +22,7 @@ var jd = new jadeDoc({
 });
 
 if(!cli.flags.output){
-  process.stdin.pipe(jd).pipe(process.stdout);
+  process.stdin.pipe(jd).pipe(JSONStream.stringify()).pipe(process.stdout);
 
   jd.on('end', function(){
     process.exit();

@@ -1,6 +1,6 @@
 {
   "name": "jade-doc",
-  "version": "1.2.3",
+  "version": "1.3.0",
   "description": "Jade documentation generator.",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Aratramba/jade-doc",
   "license": "ISC",
   "dependencies": {
+    "JSONStream": "^1.0.6",
     "jade": "^1.11.0",
     "jade-code-block": "^0.1.5",
     "jade-runtime": "^1.1.0",
@@ -31,7 +32,8 @@
     "meow": "^3.3.0",
     "mkdirp": "^0.5.1",
     "object-assign": "^2.0.0",
-    "text-file-register": "^0.1.0"
+    "text-file-register": "^0.1.0",
+    "through2": "^2.0.0"
   },
   "devDependencies": {
     "faucet": "0.0.1",
