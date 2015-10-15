@@ -21,10 +21,8 @@ var jd = new jadeDoc({
   output: cli.flags.output
 });
 
-if(!cli.flags.output){
-  process.stdin.pipe(jd).pipe(JSONStream.stringify()).pipe(process.stdout);
+process.stdin.pipe(jd).pipe(JSONStream.stringify()).pipe(process.stdout);
 
-  jd.on('end', function(){
-    process.exit();
-  });
-}
+jd.on('end', function(){
+  process.exit();
+});

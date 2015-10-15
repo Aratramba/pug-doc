@@ -75,9 +75,6 @@ function jadeDoc(options){
 
       // create writable stream
       writableStream = fs.createWriteStream(options.output);
-
-      // start json array
-      stream.push('[');
       writableStream.write('[');
     }
 
@@ -92,7 +89,6 @@ function jadeDoc(options){
 
     // end json array stream
     if(options.output){
-      stream.push(']');
       writableStream.write(']');
     }
 
