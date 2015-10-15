@@ -44,6 +44,24 @@ mixin doc3(arg1, arg2)
 ```
 
 
+#### Locals
+Locals can be also be passed.
+
+```jade
+//- @jadedoc
+  name: tag
+  locals:
+    foo: foo
+
+div #{foo}
+```
+
+
+#### Reserved words
+* `arguments` for mixin arguments.
+* `locals` for template locals.
+
+
 ## How to use
 `npm install jade-doc`
 
