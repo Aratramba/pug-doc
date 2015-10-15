@@ -26,3 +26,9 @@ process.stdin.pipe(jd).pipe(JSONStream.stringify()).pipe(process.stdout);
 jd.on('complete', function(){
   process.exit();
 });
+
+if(!cli.flags.output){
+  jd.on('end', function(){
+    process.exit();
+  });
+}
