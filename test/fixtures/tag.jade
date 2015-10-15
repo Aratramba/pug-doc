@@ -1,8 +1,10 @@
 //- @jadedoc
   name: some-tag
+  locals:
+    foo: foo
 
 div.some-tag
-  | this is some tag
+  | this is some tag #{foo}
 
 div.some-other-tag
   | this is some other tag

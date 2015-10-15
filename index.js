@@ -190,7 +190,7 @@ function jadeDoc(options){
     var compiled = jade.compileClientWithDependenciesTracked(src, { filename: file });
 
     // render jade function
-    return Function('jade', compiled.body + '\n' +'return template();')(jadeRuntime);
+    return Function('jade', compiled.body + '\n' +'return template('+ JSON.stringify(meta.locals || {}) +');')(jadeRuntime);
   }
 
   return stream;
