@@ -58,6 +58,8 @@ function jadeDoc(options){
     }
   );
 
+  var writableStream;
+
   
   /**
    * Init
@@ -72,13 +74,11 @@ function jadeDoc(options){
       mkdirp.sync(path.dirname(options.output));
 
       // create writable stream
-      var writable = fs.createWriteStream(options.output);
-
-      // write stream
-      stream.pipe(writable);
+      writableStream = fs.createWriteStream(options.output);
 
       // start json array
       stream.push('[');
+      writableStream.write('[');
     }
 
     // get all jade files
@@ -93,6 +93,7 @@ function jadeDoc(options){
     // end json array stream
     if(options.output){
       stream.push(']');
+      writableStream.write(']');
     }
 
     // end stream
@@ -140,6 +141,11 @@ function jadeDoc(options){
 
         // add object to stream
         stream.push(docItem);
+
+        if(options.output){
+          // send to output
+          writableStream.write(JSON.stringify(docItem));
+        }
 
         // up counter
         ++counter;
