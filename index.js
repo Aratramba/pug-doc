@@ -53,12 +53,11 @@ function jadeDoc(options){
       next();
     }, 
     function(cb){
-      this.emit('complete');
       cb();
     }
   );
 
-  var writableStream;
+  var output;
 
   
   /**
@@ -74,8 +73,12 @@ function jadeDoc(options){
       mkdirp.sync(path.dirname(options.output));
 
       // create writable stream
-      writableStream = fs.createWriteStream(options.output);
-      writableStream.write('[');
+      output = fs.createWriteStream(options.output);
+      output.write('[');
+
+      output.on('close', function(){
+        stream.emit('complete');
+      }.bind(this));
     }
 
     // get all jade files
@@ -89,7 +92,8 @@ function jadeDoc(options){
 
     // end json array stream
     if(options.output){
-      writableStream.write(']');
+      output.write(']');
+      output.end();
     }
 
     // end stream
@@ -132,7 +136,7 @@ function jadeDoc(options){
 
         // omit first comma
         if(counter !== 0 && options.output){
-          stream.push(',');
+          output.write(',');
         }
 
         // add object to stream
@@ -140,7 +144,7 @@ function jadeDoc(options){
 
         if(options.output){
           // send to output
-          writableStream.write(JSON.stringify(docItem));
+          output.write(JSON.stringify(docItem));
         }
 
         // up counter

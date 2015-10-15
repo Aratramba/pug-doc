@@ -23,6 +23,6 @@ var jd = new jadeDoc({
 
 process.stdin.pipe(jd).pipe(JSONStream.stringify()).pipe(process.stdout);
 
-jd.on('end', function(){
+jd.on('complete', function(){
   process.exit();
 });
