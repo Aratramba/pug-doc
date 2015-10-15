@@ -16,7 +16,6 @@ test('tag', function(assert){
   });
 
   stream.on('data', function(data){
-    data = JSON.parse(data);
 
     var actual = data.meta.name;
     var expected = 'some-tag';
@@ -27,11 +26,11 @@ test('tag', function(assert){
     assert.equal(actual, expected, 'Filename should match the jade file');
     
     actual = data.source;
-    expected = 'div.some-tag\n  | this is some tag';
+    expected = 'div.some-tag\n  | this is some tag #{foo}';
     assert.equal(actual, expected, 'Source code block should be correct');
 
     actual = data.output;
-    expected = '<div class=\"some-tag\">this is some tag</div>';
+    expected = '<div class=\"some-tag\">this is some tag foo</div>';
     assert.equal(actual, expected, 'Its html output should be correct');
 
     assert.end();
@@ -50,7 +49,6 @@ test('mixins', function(assert){
   });
 
   stream.on('data', function(data){
-    data = JSON.parse(data);
 
     var actual = data.meta.name;
     var expected = 'mixin';
@@ -100,7 +98,6 @@ test('Include', function(assert){
   });
 
   stream.on('data', function(data){
-    data = JSON.parse(data);
 
     var actual = data.meta.name;
     var expected = 'inclusion tag';
@@ -138,7 +135,6 @@ test('Extends', function(assert){
   });
 
   stream.on('data', function(data){
-    data = JSON.parse(data);
 
     var actual = data.meta.name;
     var expected = 'extends';
@@ -153,7 +149,7 @@ test('Extends', function(assert){
     assert.equal(actual, expected, 'Source should match the extends tag');
     
     actual = data.output;
-    expected = '<div class=\"some-tag\">this is some tag</div><div class=\"some-other-tag\">this is some other tag</div>';
+    expected = '<div class=\"some-tag\">this is some tag foo</div><div class=\"some-other-tag\">this is some other tag</div>';
     assert.equal(actual, expected, 'Output should match the html compiled from tag.jade');
     
     assert.end();
