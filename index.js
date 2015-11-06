@@ -3,14 +3,11 @@
 
 var fs = require('fs');
 var path = require('path');
-var jade = require('jade');
-var YAML = require('js-yaml');
 var mkdirp = require('mkdirp');
 var through2 = require('through2');
 var assign = require('object-assign');
-var jadeRuntime = require('jade-runtime');
-var getCodeBlock = require('jade-code-block');
 var fileRegister = require('text-file-register');
+var jadedocParser = require('./lib/jadedoc-parser.js');
 
 
 /**
@@ -36,9 +33,6 @@ function jadeDoc(options){
     output: null
   }, options);
 
-  var MIXIN_NAME_REGEX = /^mixin +([-\w]+)?/;
-  var JADEDOC_REGEX = /^\s*\/\/-\s+?\@jadedoc\s*$/;
-
   var counter = 0;
 
   // register files
@@ -51,7 +45,7 @@ function jadeDoc(options){
     function(chunk, enc, next){
       this.push(chunk);
       next();
-    }, 
+    },
     function(cb){
       cb();
     }
@@ -59,13 +53,13 @@ function jadeDoc(options){
 
   var output;
 
-  
+
   /**
    * Init
    */
-  
+
   function init(){
-    
+
     // write stream to output file
     if(options.output){
 
@@ -87,7 +81,21 @@ function jadeDoc(options){
 
     // collect docs for all files
     for(file in files){
-      collectDocs(files[file], file);
+      var jadeDocDocuments = jadedocParser.getJadedocDocuments(files[file], file);
+      jadeDocDocuments.forEach(function(docItem) {
+        // omit first comma
+        if(counter !== 0 && options.output){
+          output.write(',');
+        }
+        // add object to stream
+        stream.push(docItem);
+        if(options.output){
+          // send to output
+          output.write(JSON.stringify(docItem));
+        }
+        // up counter
+        ++counter;
+      });
     }
 
     // end json array stream
@@ -100,107 +108,8 @@ function jadeDoc(options){
     stream.push(null);
   }
 
-
-  /**
-   * Collect jade-doc comments
-   */
-  
-  function collectDocs(src, file){
-
-    // split by newline
-    var lines = src.split('\n');
-
-    // walk through lines
-    lines.forEach(function(line, index){
-
-      // check if line is jade doc flag
-      var isJadeDoc = line.match(JADEDOC_REGEX);
-
-      if(isJadeDoc){
-
-        // find complete jade doc comment
-        var docItem = {};
-        var comment = getCodeBlock.byLine(src, index+1);
-
-        // get meta
-        docItem.meta = getMeta(comment);
-
-        // add file path
-        docItem.file = path.relative('.', file);
-        
-        // get jade code block matching the comments indent
-        docItem.source = getCodeBlock.afterBlockAtLine(src, index+1);
-
-        // get html output
-        docItem.output = compileJade(docItem.source, file, docItem.meta);
-
-        // omit first comma
-        if(counter !== 0 && options.output){
-          output.write(',');
-        }
-
-        // add object to stream
-        stream.push(docItem);
-
-        if(options.output){
-          // send to output
-          output.write(JSON.stringify(docItem));
-        }
-
-        // up counter
-        ++counter;
-      }
-    });
-  }
-
-
-  /**
-   * Get attributes
-   */
-  
-  function getMeta(comment){
-
-    // remove first line (@jadedoc)
-    comment = comment.split('\n');
-    comment.shift();
-    comment = comment.join('\n');
-
-    // parse YAML
-    return YAML.safeLoad(comment);
-  }
-
-
-  /**
-   * Compile Jade
-   */
-  
-  function compileJade(src, file, meta){
-
-    // add mixin call to mixin
-    if(MIXIN_NAME_REGEX.test(src)){
-      src += '\n+'+ src.match(MIXIN_NAME_REGEX)[1];
-
-      if(meta.arguments){
-        var args = [];
-        var arg;
-
-        for(arg in meta.arguments){
-          args.push(JSON.stringify(meta.arguments[arg]));
-        }
-
-        src += '('+ args.join(',') +')';
-      }
-    }
-
-    // compile jade
-    var compiled = jade.compileClientWithDependenciesTracked(src, { filename: file });
-
-    // render jade function
-    return Function('jade', compiled.body + '\n' +'return template('+ JSON.stringify(meta.locals || {}) +');')(jadeRuntime);
-  }
-
   return stream;
- 
+
 }
 
 module.exports = jadeDoc;
