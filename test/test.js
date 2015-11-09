@@ -2,7 +2,9 @@
 /* global require */
 
 var test = require('tape');
+var fs = require('fs');
 var jadeDoc = require('../');
+var jadeDocParser = require('../lib/jadedoc-parser');
 
 
 /**
@@ -154,4 +156,66 @@ test('Extends', function(assert){
     
     assert.end();
   });
+});
+
+
+/**
+ * Parser
+ */
+
+test('Parser: extract jadedoc', function(assert){
+  var src = fs.readFileSync('./test/fixtures/multiple.jade').toString();
+
+  var actual = jadeDocParser.extractJadedocBlocks(src);
+  var expected =  [ { code: 'p foo', comment: '//- @jadedoc\n  name: foo', lineNumber: 1 }, { code: 'p faa', comment: '//- @jadedoc', lineNumber: 6 } ];
+  assert.deepEqual(actual, expected, 'extractor should return array with objects');
+
+  actual = jadeDocParser.extractJadedocBlocks('//- @jadedoc\nname: foo');
+  expected = [ { code: 'name: foo', comment: '//- @jadedoc', lineNumber: 1 } ];
+  assert.deepEqual(actual, expected, 'extractor should return array with objects');
+
+  actual = jadeDocParser.extractJadedocBlocks('');
+  expected = [];
+  assert.deepEqual(actual, expected, 'extractor should return empty array when nothing was passed in');
+
+  actual = jadeDocParser.extractJadedocBlocks('//- @jadedoc');
+  expected = [];
+  assert.deepEqual(actual, expected, 'extractor should return empty array when only an empty jadedoc was passed');
+
+  assert.end();
+});
+
+test('Parser: parse comment', function(assert){
+
+  var actual = jadeDocParser.parseJadedocComment('\nname: foo\ndescription: faa');
+  var expected = { name: 'foo', description: 'faa' };
+  assert.deepEqual(actual, expected, 'yaml comment should return object');
+
+  actual = jadeDocParser.parseJadedocComment('');
+  expected = {};
+  assert.deepEqual(actual, expected, 'comment parser should return empty object if no input was given');
+
+  actual = jadeDocParser.parseJadedocComment('//- @jadedoc');
+  expected = {};
+  assert.deepEqual(actual, expected, 'comment parser should return empty object if no input was given');
+
+  actual = jadeDocParser.parseJadedocComment('//- @jadedoc\n');
+  expected = {};
+  assert.deepEqual(actual, expected, 'comment parser should return empty object if no input was given');
+
+  assert.end();
+});
+
+test('Parser: parse doc', function(assert){
+  var src = fs.readFileSync('./test/fixtures/multiple.jade').toString();
+
+  var actual = jadeDocParser.getJadedocDocuments(src, 'test.jade');
+  var expected = [ { file: 'test.jade', meta: { name: 'foo' }, output: '<p>foo</p>', source: 'p foo' }, { file: 'test.jade', meta: {}, output: '<p>faa</p>', source: 'p faa' } ];
+  assert.deepEqual(actual, expected, 'document parser should return valid object');
+
+  actual = jadeDocParser.getJadedocDocuments('', 'test.jade');
+  expected = {};
+  assert.deepEqual(actual, expected, 'document parser should return empty object');
+
+  assert.end();
 });
