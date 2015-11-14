@@ -81,8 +81,13 @@ test('mixins', function(assert){
     assert.equal(actual, expected, 'Source should match the complete mixin code block');
     
     actual = data.output;
-    expected = '<div>this is a mixin foo</div><div>this is the same mixin faa</div>';
+    expected = '<div>this is a mixin foo</div><div>this is the same mixin faa</div><div>this is a mixin faa</div><div>this is the same mixin foo</div>';
     assert.equal(actual, expected, 'HTML output should be the rendered mixin with passed arguments.');
+
+    actual = data.meta.examples;
+    expected = ["+mixin2('foo', 'faa')", "+mixin2('faa', 'foo')"];
+    assert.deepEqual(actual, expected, 'examples should be an array');
+    
 
     assert.end();
   });
@@ -216,6 +221,60 @@ test('Parser: parse doc', function(assert){
   actual = jadeDocParser.getJadedocDocuments('', 'test.jade');
   expected = {};
   assert.deepEqual(actual, expected, 'document parser should return empty object');
+
+  assert.end();
+});
+
+test('Insert into array', function(assert){
+
+  var actual = jadeDocParser.insertIntoArray([], 'foo');
+  var expected = ['foo'];
+  assert.deepEqual(actual, expected, 'should insert a string');
+
+  actual = jadeDocParser.insertIntoArray([], ['foo', 'faa']);
+  expected = ['foo', 'faa'];
+  assert.deepEqual(actual, expected, 'should insert an array');
+
+  assert.end();
+});
+
+test('Get examples', function(assert){
+
+  var actual = jadeDocParser.getExamples({ example: 'foo' });
+  var expected = ['foo'];
+  assert.deepEqual(actual, expected, 'should return an array of examples when given example object string');
+
+  actual = jadeDocParser.getExamples({ example: ['foo', 'faa'] });
+  expected = ['foo', 'faa'];
+  assert.deepEqual(actual, expected, 'should return an array of examples when given example object array');
+
+  actual = jadeDocParser.getExamples({ example: '' });
+  expected = [];
+  assert.deepEqual(actual, expected, 'should return an empty when given an empty examples string');
+
+  actual = jadeDocParser.getExamples({ examples: 'foo' });
+  expected = ['foo'];
+  assert.deepEqual(actual, expected, 'should return an array of examples when given examples object string');
+
+  actual = jadeDocParser.getExamples({ examples: ['foo', 'faa'] });
+  expected = ['foo', 'faa'];
+  assert.deepEqual(actual, expected, 'should return an array of examples when given examples object array');
+
+  actual = jadeDocParser.getExamples({ examples: '' });
+  expected = [];
+  assert.deepEqual(actual, expected, 'should return an empty when given an empty examples string');
+
+  actual = jadeDocParser.getExamples({ example: 'bar', examples: ['foo', 'faa'] });
+  expected = ['bar', 'foo', 'faa'];
+  assert.deepEqual(actual, expected, 'should return an array of examples when given examples object array and example string');
+
+  actual = jadeDocParser.getExamples({ example: '', examples: ['foo', 'faa'] });
+  expected = ['foo', 'faa'];
+  assert.deepEqual(actual, expected, 'should return an array of examples when given examples object array');
+
+  actual = jadeDocParser.getExamples({ example: [], examples: [] });
+  expected = [];
+  assert.deepEqual(actual, expected, 'should return an empty array of examples when given empty examples object array');
 
   assert.end();
 });

@@ -9,10 +9,10 @@ Use the keyword `@jadedoc` to flag [unbuffered block comments](http://jade-lang.
 
 ```jade
 //- @jadedoc
-  name: My JadeDoc
+  name: my jadedoc
   description: this is a description for my jade doc
   beep: boop
-  foo: bar
+  foo: faa
 ```
 
 
@@ -29,23 +29,26 @@ div.this-isnt
 
 
 #### Mixins
-Optionally provide mixin arguments. If no arguments are given, mixins will be executed without any arguments.
+Optionally provide mixin arguments and example calls. If no examples are given, mixins will not be executed, so no output will be generated.
 
 ```jade
 //- @jadedoc
-  name: mixin
-  description: this is jade mixin documentation
+  name: my mixin
+  description: this is my mixin documentation
   arguments: 
     arg1: foo
     arg2: faa
+  examples:
+    - +myMixin('foo', 'faa')
+    - +myMixin('faa', foo')
 
-mixin doc3(arg1, arg2)
+mixin myMixin(arg1, arg2)
   div this is a mixin #{arg1} #{arg2}
 ```
 
 
 #### Locals
-Locals can be also be passed.
+Jade locals can be also be passed.
 
 ```jade
 //- @jadedoc
@@ -60,6 +63,7 @@ div #{foo}
 #### Reserved words
 * `arguments` for mixin arguments.
 * `locals` for template locals.
+* `examples` for example mixin calls
 
 
 ## How to use

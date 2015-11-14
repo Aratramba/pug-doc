@@ -4,6 +4,9 @@
   arguments: 
     arg1: foo
     arg2: faa
+  examples:
+    - +mixin2('foo', 'faa')
+    - +mixin2('faa', 'foo')
 
 mixin mixin2(arg1, arg2)
   div this is a mixin #{arg1}
