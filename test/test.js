@@ -4,7 +4,7 @@
 var test = require('tape');
 var fs = require('fs');
 var jadeDoc = require('../');
-var jadeDocParser = require('../lib/jadedoc-parser');
+var jadeDocParser = require('../lib/parser');
 
 
 /**

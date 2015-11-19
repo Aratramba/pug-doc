@@ -7,7 +7,7 @@ var mkdirp = require('mkdirp');
 var through2 = require('through2');
 var assign = require('object-assign');
 var fileRegister = require('text-file-register');
-var jadedocParser = require('./lib/jadedoc-parser.js');
+var jadedocParser = require('./lib/parser.js');
 
 
 /**
