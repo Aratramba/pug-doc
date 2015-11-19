@@ -17,7 +17,8 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: false, 
     optional: false, 
-    type: 'boolean' 
+    type: 'boolean',
+    original: '{boolean} arg - boolean'
   };
   assert.deepEqual(actual, expected, 'type symbol');
 
@@ -28,7 +29,8 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: false, 
     optional: false, 
-    type: 'myNamespace.MyClass' 
+    type: 'myNamespace.MyClass',
+    original: '{myNamespace.MyClass} arg - myNamespace.MyClass'
   };
   assert.deepEqual(actual, expected, 'type symbol');
 
@@ -41,7 +43,9 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: false, 
     optional: false, 
-    type: [ 'number', 'boolean' ] };
+    type: [ 'number', 'boolean' ],
+    original: '{(number|boolean)} arg - number or boolean'
+  };
   assert.deepEqual(actual, expected, 'type union');
 
 
@@ -53,7 +57,8 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: false, 
     optional: false, 
-    type: 'Array' 
+    type: 'Array',
+    original: '{Array.<MyClass>} arg - An array of MyClass instances.'
   };
   assert.deepEqual(actual, expected, 'type applications');
 
@@ -64,7 +69,8 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: false, 
     optional: false, 
-    type: 'Array' 
+    type: 'Array',
+    original: '{MyClass[]} arg - An array of MyClass instances.'
   };
   assert.deepEqual(actual, expected, 'type applications');
 
@@ -75,7 +81,8 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: false, 
     optional: false, 
-    type: 'Object' 
+    type: 'Object',
+    original: '{Object.<string, number>} arg - An object with string keys and number values'
   };
   assert.deepEqual(actual, expected, 'type applications');
 
@@ -87,7 +94,8 @@ test('jsdoc param', function(assert){
     name: 'myObj', 
     nullable: false, 
     optional: false, 
-    type: 'Object' 
+    type: 'Object',
+    original: '{{a: number, b: string, c}} myObj - An object called \'myObj\' with properties \'a\' (a number), \'b\' (a string) and \'c\' (any type).'
   };
   assert.deepEqual(actual, expected, 'type record');
 
@@ -97,7 +105,8 @@ test('jsdoc param', function(assert){
     name: 'myObj', 
     nullable: false, 
     optional: false, 
-    type: 'Object' 
+    type: 'Object',
+    original: '{Object} myObj - An object called \'myObj\' with properties \'a\' (a number), \'b\' (a string) and \'c\' (any type).'
   };
   assert.deepEqual(actual, expected, 'type record');
 
@@ -108,7 +117,8 @@ test('jsdoc param', function(assert){
     name: 'myObj.a', 
     nullable: false, 
     optional: false, 
-    type: 'number' 
+    type: 'number',
+    original: '{number} myObj.a - An object called \'myObj\' with properties \'a\' (a number), \'b\' (a string) and \'c\' (any type).'
   };
   assert.deepEqual(actual, expected, 'type record');
 
@@ -119,7 +129,8 @@ test('jsdoc param', function(assert){
     name: 'myObj.b', 
     nullable: false, 
     optional: false, 
-    type: 'string' 
+    type: 'string',
+    original: '{string} myObj.b - An object called \'myObj\' with properties \'a\' (a number), \'b\' (a string) and \'c\' (any type).'
   };
   assert.deepEqual(actual, expected, 'type record');
 
@@ -132,7 +143,8 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: true, 
     optional: false, 
-    type: 'number' 
+    type: 'number',
+    original: '{?number} arg - nullable'
   };
   assert.deepEqual(actual, expected, 'Nullable type');
 
@@ -145,7 +157,8 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: false, 
     optional: false, 
-    type: 'number' 
+    type: 'number',
+    original: '{!number} arg - non nullable'
   };
   assert.deepEqual(actual, expected, 'Non-nullable type');
 
@@ -158,7 +171,8 @@ test('jsdoc param', function(assert){
     name: 'arg', 
     nullable: false, 
     optional: false, 
-    type: 'number' 
+    type: 'number',
+    original: '{...number} arg - This function accepts a variable number of numeric parameters.'
   };
   assert.deepEqual(actual, expected, 'Variable number of that type');
 
@@ -171,7 +185,8 @@ test('jsdoc param', function(assert){
     name: 'foo', 
     nullable: false, 
     optional: true, 
-    type: 'number' 
+    type: 'number',
+    original: '{number} [foo] - An optional parameter named foo.'
   };
   assert.deepEqual(actual, expected, 'Optional parameter');
 
@@ -182,7 +197,8 @@ test('jsdoc param', function(assert){
     name: 'foo', 
     nullable: false, 
     optional: true, 
-    type: 'number' 
+    type: 'number',
+    original: '{number=} foo - An optional parameter named foo.'
   };
   assert.deepEqual(actual, expected, 'Optional parameter');
 
@@ -193,7 +209,8 @@ test('jsdoc param', function(assert){
     name: 'foo', 
     nullable: false, 
     optional: true, 
-    type: 'number' 
+    type: 'number',
+    original: '{number} [foo=1] - An optional parameter foo with default value 1.'
   };
   assert.deepEqual(actual, expected, 'Optional parameter');
 

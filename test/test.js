@@ -64,17 +64,34 @@ test('mixins', function(assert){
     expected = 'test/fixtures/mixins.jade';
     assert.equal(actual, expected, 'Filename should match the jade file');
 
-    actual = typeof data.meta.arguments;
-    expected = 'object';
-    assert.equal(actual, expected, 'Arguments should be an object');
 
-    actual = data.meta.arguments.arg1;
-    expected = 'foo';
-    assert.equal(actual, expected, 'Argument 1 value should be foo');
-    
-    actual = data.meta.arguments.arg2;
-    expected = 'faa';
-    assert.equal(actual, expected, 'Argument 2 value should be faa');
+    actual = Array.isArray(data.meta.arguments);
+    expected = true;
+    assert.equal(actual, expected, 'Arguments should be an array');
+
+    actual = data.meta.arguments[0].name;
+    expected = 'arg1';
+    assert.equal(actual, expected, 'Argument 1 name should be arg1');
+
+    actual = data.meta.arguments[0].type;
+    expected = 'string';
+    assert.equal(actual, expected, 'Argument 1 type should be string');
+
+    actual = data.meta.arguments[0].original;
+    expected = '{string} arg1 - this is arg1';
+    assert.equal(actual, expected, 'Argument 1 original should be the jsdoc string');
+
+    actual = data.meta.arguments[1].name;
+    expected = 'arg2';
+    assert.equal(actual, expected, 'Argument 2 name should be arg1');
+
+    actual = data.meta.arguments[1].type;
+    expected = 'string';
+    assert.equal(actual, expected, 'Argument 2 type should be string');
+
+    actual = data.meta.arguments[1].original;
+    expected = '{string} arg2 - this is arg2';
+    assert.equal(actual, expected, 'Argument 2 original should be the jsdoc string');
     
     actual = data.source;
     expected = 'mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1}\n  div this is the same mixin #{arg2}';
@@ -87,7 +104,6 @@ test('mixins', function(assert){
     actual = data.meta.examples;
     expected = ["+mixin2('foo', 'faa')", "+mixin2('faa', 'foo')"];
     assert.deepEqual(actual, expected, 'examples should be an array');
-    
 
     assert.end();
   });

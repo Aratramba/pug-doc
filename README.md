@@ -29,15 +29,15 @@ div.this-isnt
 
 
 #### Mixins
-Optionally provide mixin arguments and example calls. If no examples are given, mixins will not be executed, so no output will be generated. Arguments must follow the [jsdoc param](http://usejsdoc.org/tags-param.html) syntax.
+Optionally provide mixin arguments and example calls. If no examples are given, mixins will not be executed, so no output will be generated. Arguments  follow the [jsdoc param](http://usejsdoc.org/tags-param.html) syntax.
 
 ```jade
 //- @jadedoc
   name: my mixin
   description: this is my mixin documentation
   arguments: 
-    - {string} arg1 - arg1 is a string
-    - {number} [arg2=1] - arg2 is a number with default value 1
+    - {string} arg1 - this is the description of arg1
+    - {number} arg2 - this is the description of arg2
   examples:
     - +myMixin('foo', 1)
     - +myMixin('faa', 2)
