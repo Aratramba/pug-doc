@@ -4,7 +4,7 @@
   "description": "Jade documentation generator.",
   "main": "index.js",
   "scripts": {
-    "test": "tape test/test.js | faucet"
+    "test": "tape test/*.js | faucet"
   },
   "author": "Arjen Scherff-de Water",
   "repository": {
@@ -27,7 +27,7 @@
     "JSONStream": "^1.0.6",
     "doctrine": "^0.7.1",
     "jade": "^1.11.0",
-    "jade-code-block": "^0.1.5",
+    "jade-code-block": "^0.1.6",
     "jade-runtime": "^1.1.0",
     "js-yaml": "^3.3.0",
     "meow": "^3.3.0",
