@@ -25,6 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "JSONStream": "^1.0.6",
+    "doctrine": "^0.7.1",
     "jade": "^1.11.0",
     "jade-code-block": "^0.1.5",
     "jade-runtime": "^1.1.0",
