@@ -102,7 +102,7 @@ test('mixins', function(assert){
     assert.equal(actual, expected, 'HTML output should be the rendered mixin with passed arguments.');
 
     actual = data.meta.examples;
-    expected = ['+mixin2(\'foo\', \'faa\')', '+mixin2(\'faa\', \'foo\')'];
+    expected = ['+mixin2(\'foo\', \'faa\') // mixin example description', '+mixin2(\'faa\', \'foo\')'];
     assert.deepEqual(actual, expected, 'examples should be an array');
 
     assert.end();
