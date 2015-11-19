@@ -72,7 +72,7 @@ function jadeDoc(options){
 
       output.on('close', function(){
         stream.emit('complete');
-      }.bind(this));
+      });
     }
 
     // get all jade files
