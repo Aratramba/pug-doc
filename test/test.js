@@ -241,19 +241,6 @@ test('Parser: parse doc', function(assert){
   assert.end();
 });
 
-test('Insert into array', function(assert){
-
-  var actual = jadeDocParser.insertIntoArray([], 'foo');
-  var expected = ['foo'];
-  assert.deepEqual(actual, expected, 'should insert a string');
-
-  actual = jadeDocParser.insertIntoArray([], ['foo', 'faa']);
-  expected = ['foo', 'faa'];
-  assert.deepEqual(actual, expected, 'should insert an array');
-
-  assert.end();
-});
-
 test('Get examples', function(assert){
 
   var actual = jadeDocParser.getExamples({ example: 'foo' });
