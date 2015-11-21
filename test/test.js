@@ -124,6 +124,18 @@ test('mixins', function(assert){
     expected = '{string} attr2 - this is attr2';
     assert.equal(actual, expected, 'Attribute 2 original should be the jsdoc string');
 
+    actual = data.meta.attributes[2].name;
+    expected = 'data-attr3';
+    assert.equal(actual, expected, 'Attribute 3 name should be data-attr3');
+
+    actual = data.meta.attributes[2].type;
+    expected = 'string';
+    assert.equal(actual, expected, 'Attribute 3 type should be string');
+
+    actual = data.meta.attributes[2].original;
+    expected = '{string} data-attr3 - this is attr3';
+    assert.equal(actual, expected, 'Attribute 3 original should be the jsdoc string');
+
 
     // source
     actual = data.source;
