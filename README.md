@@ -29,7 +29,9 @@ div.this-isnt
 
 
 #### Mixins
-Optionally provide mixin arguments and example calls. If no examples are given, mixins will not be executed, so no output will be generated. Arguments  follow the [jsdoc param](http://usejsdoc.org/tags-param.html) syntax.
+Optionally provide mixin arguments, attributes and example calls. If no examples are given, mixins will not be executed, so no output will be generated. 
+
+Arguments and attributes  follow the [jsdoc param](http://usejsdoc.org/tags-param.html) syntax.
 
 ```jade
 //- @jadedoc
@@ -38,12 +40,15 @@ Optionally provide mixin arguments and example calls. If no examples are given, 
   arguments: 
     - {string} arg1 - this is the description of arg1
     - {number} arg2 - this is the description of arg2
+  attributes: 
+    - {string} attr1 - this is the description of attr1
+    - {number} attr2 - this is the description of attr2
   examples:
     - +myMixin('foo', 1)
-    - +myMixin('faa', 2)
+    - +myMixin('faa', 2, attr1='foo', attr2='faa')
 
 mixin myMixin(arg1, arg2)
-  div this is a mixin #{arg1} #{arg2}
+  div this is a mixin #{arg1} #{arg2} #{attr1} #{attr2}
 ```
 
 
@@ -62,6 +67,7 @@ div #{foo}
 
 #### Reserved words
 * `arguments` for mixin arguments.
+* `attributes` for (mixin) attributes.
 * `locals` for template locals.
 * `examples` for example mixin calls
 
