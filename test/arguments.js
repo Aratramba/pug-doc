@@ -221,17 +221,36 @@ test('jsdoc param', function(assert){
 test('yaml arguments escape', function(assert){
   var actual, expected;
 
-  actual = args.escapeArgumentsYAML('foo:\n  arguments:\n    - {string} str1 - my string\n    - {string} str2 - my string\n');
+  actual = args.escapeArgumentsYAML('foo:\n  arguments:\n    - {string} str1 - my string\n    - {string} str2 - my string\n', 'arguments');
   expected = 'foo:\n  arguments:\n    - "{string} str1 - my string"\n    - "{string} str2 - my string"\n';
   assert.equal(actual, expected, 'arguments list needs to escaped before being passed to yaml parser.');
 
-  actual = args.escapeArgumentsYAML('arguments:');
+  actual = args.escapeArgumentsYAML('arguments:', 'arguments');
   expected = 'arguments:';
   assert.equal(actual, expected, 'arguments should be empty');
 
-  actual = args.escapeArgumentsYAML('arguments:\n  - foo\n  - faa\n');
+  actual = args.escapeArgumentsYAML('arguments:\n  - foo\n  - faa\n', 'arguments');
   expected = 'arguments:\n  - "foo"\n  - "faa"\n';
-  assert.equal(actual, expected, 'arguments should be empty');
+  assert.equal(actual, expected, 'arguments should be a list of quotes strings');
+
+  assert.end();
+});
+
+
+test('yaml attributes escape', function(assert){
+  var actual, expected;
+
+  actual = args.escapeArgumentsYAML('foo:\n  attributes:\n    - {string} str1 - my string\n    - {string} str2 - my string\n', 'attributes');
+  expected = 'foo:\n  attributes:\n    - "{string} str1 - my string"\n    - "{string} str2 - my string"\n';
+  assert.equal(actual, expected, 'attributes list needs to escaped before being passed to yaml parser.');
+
+  actual = args.escapeArgumentsYAML('attributes:', 'attributes');
+  expected = 'attributes:';
+  assert.equal(actual, expected, 'attributes should be empty');
+
+  actual = args.escapeArgumentsYAML('attributes:\n  - foo\n  - faa\n', 'attributes');
+  expected = 'attributes:\n  - "foo"\n  - "faa"\n';
+  assert.equal(actual, expected, 'attributes should be a list of quotes strings');
 
   assert.end();
 });
