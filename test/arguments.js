@@ -254,3 +254,40 @@ test('yaml attributes escape', function(assert){
 
   assert.end();
 });
+
+
+test('get jsdoc name', function(assert){
+
+  assert.equal(args.getJSDocName('attr1-foo'), 'attr1-foo');
+  assert.equal(args.getJSDocName('attr1 - this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('attr1-foo-foo - this is attr1'), 'attr1-foo-foo');
+  assert.equal(args.getJSDocName('attr1-foo-foo this is attr1'), 'attr1-foo-foo');
+  assert.equal(args.getJSDocName('{string} attr1 - this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('{string} attr2 - this is attr2'), 'attr2');
+  assert.equal(args.getJSDocName('{string} data-attr3 - this is attr3'), 'data-attr3');
+  assert.equal(args.getJSDocName('{string} data-attr3-foo - this is attr3'), 'data-attr3-foo');
+  assert.equal(args.getJSDocName('{string} data-attr3--foo - this is attr3'), 'data-attr3--foo');
+  assert.equal(args.getJSDocName('{string} [attr4=Some string] - this is attr4'), 'attr4');
+  assert.equal(args.getJSDocName('{string} [attr4-foo-faa=Some string] - this is attr4'), 'attr4-foo-faa');
+  assert.equal(args.getJSDocName('{string}  attr1 - this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('{string}  attr2 - this is attr2'), 'attr2');
+  assert.equal(args.getJSDocName('{string}  data-attr3 - this is attr3'), 'data-attr3');
+  assert.equal(args.getJSDocName('{string}  [attr4=Some string] - this is attr4'), 'attr4');
+  assert.equal(args.getJSDocName('{string} attr1- this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('{string} attr2- this is attr2'), 'attr2');
+  assert.equal(args.getJSDocName('{string} data-attr3- this is attr3'), 'data-attr3');
+  assert.equal(args.getJSDocName('{string} [attr4=Some string]- this is attr4'), 'attr4');
+  assert.equal(args.getJSDocName('{string} attr1- this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('{string} attr2- this is attr2'), 'attr2');
+  assert.equal(args.getJSDocName('{string} data-attr3- this is attr3'), 'data-attr3');
+  assert.equal(args.getJSDocName('{string} [attr4=Some string]- this is attr4'), 'attr4');
+  assert.equal(args.getJSDocName('{string} attr1_foo- this is attr1'), 'attr1_foo');
+  assert.equal(args.getJSDocName('{string} attr2_foo-faa- this is attr2'), 'attr2_foo-faa');
+  assert.equal(args.getJSDocName('{string} attr1_foo- this is attr1-foo'), 'attr1_foo');
+  assert.equal(args.getJSDocName('{string} attr2_foo-faa- this is attr2-faa'), 'attr2_foo-faa');
+  assert.equal(args.getJSDocName('{string} myObj.b this is attr2-faa'), 'myObj.b');
+  assert.equal(args.getJSDocName('{Array.<MyClass>} foo - faa'), 'foo');
+  assert.equal(args.getJSDocName('{Array.<MyClass>} foo faa'), 'foo');
+  assert.equal(args.getJSDocName('{number} [foo] - An optional parameter named foo.'), 'foo');
+  assert.end();
+});
