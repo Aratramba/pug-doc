@@ -65,6 +65,7 @@ test('mixins', function(assert){
     assert.equal(actual, expected, 'Filename should match the jade file');
 
 
+    // arguments
     actual = Array.isArray(data.meta.arguments);
     expected = true;
     assert.equal(actual, expected, 'Arguments should be an array');
@@ -92,7 +93,51 @@ test('mixins', function(assert){
     actual = data.meta.arguments[1].original;
     expected = '{string} arg2 - this is arg2';
     assert.equal(actual, expected, 'Argument 2 original should be the jsdoc string');
-    
+
+
+    // attributes
+    actual = Array.isArray(data.meta.attributes);
+    expected = true;
+    assert.equal(actual, expected, 'Attributes should be an array');
+
+    actual = data.meta.attributes[0].name;
+    expected = 'attr1';
+    assert.equal(actual, expected, 'Attribute 1 name should be arg1');
+
+    actual = data.meta.attributes[0].type;
+    expected = 'string';
+    assert.equal(actual, expected, 'Attribute 1 type should be string');
+
+    actual = data.meta.attributes[0].original;
+    expected = '{string} attr1 - this is attr1';
+    assert.equal(actual, expected, 'Attribute 1 original should be the jsdoc string');
+
+    actual = data.meta.attributes[1].name;
+    expected = 'attr2';
+    assert.equal(actual, expected, 'Attribute 2 name should be attr2');
+
+    actual = data.meta.attributes[1].type;
+    expected = 'string';
+    assert.equal(actual, expected, 'Attribute 2 type should be string');
+
+    actual = data.meta.attributes[1].original;
+    expected = '{string} attr2 - this is attr2';
+    assert.equal(actual, expected, 'Attribute 2 original should be the jsdoc string');
+
+    actual = data.meta.attributes[2].name;
+    expected = 'data-attr3';
+    assert.equal(actual, expected, 'Attribute 3 name should be data-attr3');
+
+    actual = data.meta.attributes[2].type;
+    expected = 'string';
+    assert.equal(actual, expected, 'Attribute 3 type should be string');
+
+    actual = data.meta.attributes[2].original;
+    expected = '{string} data-attr3 - this is attr3';
+    assert.equal(actual, expected, 'Attribute 3 original should be the jsdoc string');
+
+
+    // source
     actual = data.source;
     expected = 'mixin mixin2(arg1, arg2)\n  div this is a mixin #{arg1}\n  div this is the same mixin #{arg2}';
     assert.equal(actual, expected, 'Source should match the complete mixin code block');

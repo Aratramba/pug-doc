@@ -221,17 +221,73 @@ test('jsdoc param', function(assert){
 test('yaml arguments escape', function(assert){
   var actual, expected;
 
-  actual = args.escapeArgumentsYAML('foo:\n  arguments:\n    - {string} str1 - my string\n    - {string} str2 - my string\n');
+  actual = args.escapeArgumentsYAML('foo:\n  arguments:\n    - {string} str1 - my string\n    - {string} str2 - my string\n', 'arguments');
   expected = 'foo:\n  arguments:\n    - "{string} str1 - my string"\n    - "{string} str2 - my string"\n';
   assert.equal(actual, expected, 'arguments list needs to escaped before being passed to yaml parser.');
 
-  actual = args.escapeArgumentsYAML('arguments:');
+  actual = args.escapeArgumentsYAML('arguments:', 'arguments');
   expected = 'arguments:';
   assert.equal(actual, expected, 'arguments should be empty');
 
-  actual = args.escapeArgumentsYAML('arguments:\n  - foo\n  - faa\n');
+  actual = args.escapeArgumentsYAML('arguments:\n  - foo\n  - faa\n', 'arguments');
   expected = 'arguments:\n  - "foo"\n  - "faa"\n';
-  assert.equal(actual, expected, 'arguments should be empty');
+  assert.equal(actual, expected, 'arguments should be a list of quotes strings');
 
+  assert.end();
+});
+
+
+test('yaml attributes escape', function(assert){
+  var actual, expected;
+
+  actual = args.escapeArgumentsYAML('foo:\n  attributes:\n    - {string} str1 - my string\n    - {string} str2 - my string\n', 'attributes');
+  expected = 'foo:\n  attributes:\n    - "{string} str1 - my string"\n    - "{string} str2 - my string"\n';
+  assert.equal(actual, expected, 'attributes list needs to escaped before being passed to yaml parser.');
+
+  actual = args.escapeArgumentsYAML('attributes:', 'attributes');
+  expected = 'attributes:';
+  assert.equal(actual, expected, 'attributes should be empty');
+
+  actual = args.escapeArgumentsYAML('attributes:\n  - foo\n  - faa\n', 'attributes');
+  expected = 'attributes:\n  - "foo"\n  - "faa"\n';
+  assert.equal(actual, expected, 'attributes should be a list of quotes strings');
+
+  assert.end();
+});
+
+
+test('get jsdoc name', function(assert){
+
+  assert.equal(args.getJSDocName('attr1-foo'), 'attr1-foo');
+  assert.equal(args.getJSDocName('attr1 - this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('attr1-foo-foo - this is attr1'), 'attr1-foo-foo');
+  assert.equal(args.getJSDocName('attr1-foo-foo this is attr1'), 'attr1-foo-foo');
+  assert.equal(args.getJSDocName('{string} attr1 - this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('{string} attr2 - this is attr2'), 'attr2');
+  assert.equal(args.getJSDocName('{string} data-attr3 - this is attr3'), 'data-attr3');
+  assert.equal(args.getJSDocName('{string} data-attr3-foo - this is attr3'), 'data-attr3-foo');
+  assert.equal(args.getJSDocName('{string} data-attr3--foo - this is attr3'), 'data-attr3--foo');
+  assert.equal(args.getJSDocName('{string} [attr4=Some string] - this is attr4'), 'attr4');
+  assert.equal(args.getJSDocName('{string} [attr4-foo-faa=Some string] - this is attr4'), 'attr4-foo-faa');
+  assert.equal(args.getJSDocName('{string}  attr1 - this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('{string}  attr2 - this is attr2'), 'attr2');
+  assert.equal(args.getJSDocName('{string}  data-attr3 - this is attr3'), 'data-attr3');
+  assert.equal(args.getJSDocName('{string}  [attr4=Some string] - this is attr4'), 'attr4');
+  assert.equal(args.getJSDocName('{string} attr1- this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('{string} attr2- this is attr2'), 'attr2');
+  assert.equal(args.getJSDocName('{string} data-attr3- this is attr3'), 'data-attr3');
+  assert.equal(args.getJSDocName('{string} [attr4=Some string]- this is attr4'), 'attr4');
+  assert.equal(args.getJSDocName('{string} attr1- this is attr1'), 'attr1');
+  assert.equal(args.getJSDocName('{string} attr2- this is attr2'), 'attr2');
+  assert.equal(args.getJSDocName('{string} data-attr3- this is attr3'), 'data-attr3');
+  assert.equal(args.getJSDocName('{string} [attr4=Some string]- this is attr4'), 'attr4');
+  assert.equal(args.getJSDocName('{string} attr1_foo- this is attr1'), 'attr1_foo');
+  assert.equal(args.getJSDocName('{string} attr2_foo-faa- this is attr2'), 'attr2_foo-faa');
+  assert.equal(args.getJSDocName('{string} attr1_foo- this is attr1-foo'), 'attr1_foo');
+  assert.equal(args.getJSDocName('{string} attr2_foo-faa- this is attr2-faa'), 'attr2_foo-faa');
+  assert.equal(args.getJSDocName('{string} myObj.b this is attr2-faa'), 'myObj.b');
+  assert.equal(args.getJSDocName('{Array.<MyClass>} foo - faa'), 'foo');
+  assert.equal(args.getJSDocName('{Array.<MyClass>} foo faa'), 'foo');
+  assert.equal(args.getJSDocName('{number} [foo] - An optional parameter named foo.'), 'foo');
   assert.end();
 });
