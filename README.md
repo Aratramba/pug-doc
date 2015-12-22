@@ -51,6 +51,17 @@ mixin myMixin(arg1, arg2)
   div this is a mixin #{arg1} #{arg2} #{attr1} #{attr2}
 ```
 
+Should you need multiline examples, use [YAML's folded style](http://www.yaml.org/spec/1.2/spec.html#id2796251), like:
+
+```jade
+  //- @jadedoc
+    examples:
+      - >
+        +myMixin({
+          foo: 'foo
+        }
+```
+
 
 #### Locals
 Jade locals can be also be passed.
