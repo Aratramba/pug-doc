@@ -2,21 +2,21 @@
 'use strict';
 
 var meow = require('meow');
-var jadeDoc = require('./index');
+var pugDoc = require('./index');
 var JSONStream = require('JSONStream');
 
 
 var cli = meow({
   help: [
     'Usage',
-    '  $ jade-doc input.jade --output output.json',
+    '  $ pug-doc input.jade --output output.json',
     '',
     'Options',
     '  --output    Set output json file',
   ]
 });
 
-var jd = new jadeDoc({
+var jd = new pugDoc({
   input: cli.input[0],
   output: cli.flags.output
 });

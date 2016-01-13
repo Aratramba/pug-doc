@@ -3,17 +3,17 @@
 
 var test = require('tape');
 var fs = require('fs');
-var jadeDoc = require('../');
-var jadeDocParser = require('../lib/parser');
+var pugDoc = require('../index');
+var pugDocParser = require('../lib/parser');
 
 
 /**
- * Simple Jade tag
+ * Simple Pug tag
  */
 
 test('tag', function(assert){
 
-  var stream = jadeDoc({
+  var stream = pugDoc({
     input: ['./test/fixtures/tag.jade']
   });
 
@@ -46,7 +46,7 @@ test('tag', function(assert){
 
 test('mixins', function(assert){
 
-  var stream = jadeDoc({
+  var stream = pugDoc({
     input: ['./test/fixtures/mixins.jade']
   });
 
@@ -161,7 +161,7 @@ test('mixins', function(assert){
 
 test('Include', function(assert){
 
-  var stream = jadeDoc({
+  var stream = pugDoc({
     input: ['./test/fixtures/include.jade']
   });
 
@@ -198,7 +198,7 @@ test('Include', function(assert){
 
 test('Extends', function(assert){
 
-  var stream = jadeDoc({
+  var stream = pugDoc({
     input: ['./test/fixtures/extends.jade']
   });
 
@@ -229,43 +229,43 @@ test('Extends', function(assert){
  * Parser
  */
 
-test('Parser: extract jadedoc', function(assert){
+test('Parser: extract pugDoc', function(assert){
   var src = fs.readFileSync('./test/fixtures/multiple.jade').toString();
 
-  var actual = jadeDocParser.extractJadedocBlocks(src);
-  var expected =  [ { code: 'p foo', comment: '//- @jadedoc\n  name: foo', lineNumber: 1 }, { code: 'p faa', comment: '//- @jadedoc', lineNumber: 6 } ];
+  var actual = pugDocParser.extractPugdocBlocks(src);
+  var expected =  [ { code: 'p foo', comment: '//- @pugdoc\n  name: foo', lineNumber: 1 }, { code: 'p faa', comment: '//- @pugdoc', lineNumber: 6 } ];
   assert.deepEqual(actual, expected, 'extractor should return array with objects');
 
-  actual = jadeDocParser.extractJadedocBlocks('//- @jadedoc\nname: foo');
-  expected = [ { code: 'name: foo', comment: '//- @jadedoc', lineNumber: 1 } ];
+  actual = pugDocParser.extractPugdocBlocks('//- @pugdoc\nname: foo');
+  expected = [ { code: 'name: foo', comment: '//- @pugdoc', lineNumber: 1 } ];
   assert.deepEqual(actual, expected, 'extractor should return array with objects');
 
-  actual = jadeDocParser.extractJadedocBlocks('');
+  actual = pugDocParser.extractPugdocBlocks('');
   expected = [];
   assert.deepEqual(actual, expected, 'extractor should return empty array when nothing was passed in');
 
-  actual = jadeDocParser.extractJadedocBlocks('//- @jadedoc');
+  actual = pugDocParser.extractPugdocBlocks('//- @pugdoc');
   expected = [];
-  assert.deepEqual(actual, expected, 'extractor should return empty array when only an empty jadedoc was passed');
+  assert.deepEqual(actual, expected, 'extractor should return empty array when only an empty pugDoc was passed');
 
   assert.end();
 });
 
 test('Parser: parse comment', function(assert){
 
-  var actual = jadeDocParser.parseJadedocComment('\nname: foo\ndescription: faa');
+  var actual = pugDocParser.parsePugdocComment('\nname: foo\ndescription: faa');
   var expected = { name: 'foo', description: 'faa' };
   assert.deepEqual(actual, expected, 'yaml comment should return object');
 
-  actual = jadeDocParser.parseJadedocComment('');
+  actual = pugDocParser.parsePugdocComment('');
   expected = {};
   assert.deepEqual(actual, expected, 'comment parser should return empty object if no input was given');
 
-  actual = jadeDocParser.parseJadedocComment('//- @jadedoc');
+  actual = pugDocParser.parsePugdocComment('//- @pugdoc');
   expected = {};
   assert.deepEqual(actual, expected, 'comment parser should return empty object if no input was given');
 
-  actual = jadeDocParser.parseJadedocComment('//- @jadedoc\n');
+  actual = pugDocParser.parsePugdocComment('//- @pugdoc\n');
   expected = {};
   assert.deepEqual(actual, expected, 'comment parser should return empty object if no input was given');
 
@@ -275,11 +275,11 @@ test('Parser: parse comment', function(assert){
 test('Parser: parse doc', function(assert){
   var src = fs.readFileSync('./test/fixtures/multiple.jade').toString();
 
-  var actual = jadeDocParser.getJadedocDocuments(src, 'test.jade');
+  var actual = pugDocParser.getPugdocDocuments(src, 'test.jade');
   var expected = [ { file: 'test.jade', meta: { name: 'foo' }, output: '<p>foo</p>', source: 'p foo' }, { file: 'test.jade', meta: {}, output: '<p>faa</p>', source: 'p faa' } ];
   assert.deepEqual(actual, expected, 'document parser should return valid object');
 
-  actual = jadeDocParser.getJadedocDocuments('', 'test.jade');
+  actual = pugDocParser.getPugdocDocuments('', 'test.jade');
   expected = {};
   assert.deepEqual(actual, expected, 'document parser should return empty object');
 
@@ -288,39 +288,39 @@ test('Parser: parse doc', function(assert){
 
 test('Get examples', function(assert){
 
-  var actual = jadeDocParser.getExamples({ example: 'foo' });
+  var actual = pugDocParser.getExamples({ example: 'foo' });
   var expected = ['foo'];
   assert.deepEqual(actual, expected, 'should return an array of examples when given example object string');
 
-  actual = jadeDocParser.getExamples({ example: ['foo', 'faa'] });
+  actual = pugDocParser.getExamples({ example: ['foo', 'faa'] });
   expected = ['foo', 'faa'];
   assert.deepEqual(actual, expected, 'should return an array of examples when given example object array');
 
-  actual = jadeDocParser.getExamples({ example: '' });
+  actual = pugDocParser.getExamples({ example: '' });
   expected = [];
   assert.deepEqual(actual, expected, 'should return an empty when given an empty examples string');
 
-  actual = jadeDocParser.getExamples({ examples: 'foo' });
+  actual = pugDocParser.getExamples({ examples: 'foo' });
   expected = ['foo'];
   assert.deepEqual(actual, expected, 'should return an array of examples when given examples object string');
 
-  actual = jadeDocParser.getExamples({ examples: ['foo', 'faa'] });
+  actual = pugDocParser.getExamples({ examples: ['foo', 'faa'] });
   expected = ['foo', 'faa'];
   assert.deepEqual(actual, expected, 'should return an array of examples when given examples object array');
 
-  actual = jadeDocParser.getExamples({ examples: '' });
+  actual = pugDocParser.getExamples({ examples: '' });
   expected = [];
   assert.deepEqual(actual, expected, 'should return an empty when given an empty examples string');
 
-  actual = jadeDocParser.getExamples({ example: 'bar', examples: ['foo', 'faa'] });
+  actual = pugDocParser.getExamples({ example: 'bar', examples: ['foo', 'faa'] });
   expected = ['bar', 'foo', 'faa'];
   assert.deepEqual(actual, expected, 'should return an array of examples when given examples object array and example string');
 
-  actual = jadeDocParser.getExamples({ example: '', examples: ['foo', 'faa'] });
+  actual = pugDocParser.getExamples({ example: '', examples: ['foo', 'faa'] });
   expected = ['foo', 'faa'];
   assert.deepEqual(actual, expected, 'should return an array of examples when given examples object array');
 
-  actual = jadeDocParser.getExamples({ example: [], examples: [] });
+  actual = pugDocParser.getExamples({ example: [], examples: [] });
   expected = [];
   assert.deepEqual(actual, expected, 'should return an empty array of examples when given empty examples object array');
 
@@ -335,7 +335,7 @@ test('Get examples', function(assert){
 test('Pug', function(assert){
   var src = fs.readFileSync('./test/fixtures/pug.jade').toString();
 
-  var actual = jadeDocParser.getJadedocDocuments(src, 'test.jade')[0].output;
+  var actual = pugDocParser.getPugdocDocuments(src, 'test.jade')[0].output;
   var expected = '<div class="beep boop-biip">biip</div>';
   assert.equal(actual, expected);
 

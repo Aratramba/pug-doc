@@ -7,24 +7,24 @@ var mkdirp = require('mkdirp');
 var through2 = require('through2');
 var assign = require('object-assign');
 var fileRegister = require('text-file-register');
-var jadedocParser = require('./lib/parser.js');
+var parser = require('./lib/parser.js');
 
 
 /**
- * Jade Documentation generator
+ * Pug Documentation generator
  * returns a JSON stream
  * optionally writes a JSON array containing
  * all docs to an output file.
  */
 
-function jadeDoc(options){
+function pugDoc(options){
 
   if(typeof options === 'undefined'){
-    throw new Error('Jade doc requires a settings object.');
+    throw new Error('Pug doc requires a settings object.');
   }
 
   if(typeof options.input === 'undefined'){
-    throw new Error('Jade doc requires settings.input to be set.');
+    throw new Error('Pug doc requires settings.input to be set.');
   }
 
   // options
@@ -81,8 +81,8 @@ function jadeDoc(options){
 
     // collect docs for all files
     for(file in files){
-      var jadeDocDocuments = jadedocParser.getJadedocDocuments(files[file], file);
-      jadeDocDocuments.forEach(function(docItem) {
+      var pugDocDocuments = parser.getPugdocDocuments(files[file], file);
+      pugDocDocuments.forEach(function(docItem) {
         // omit first comma
         if(counter !== 0 && options.output){
           output.write(',');
@@ -112,4 +112,4 @@ function jadeDoc(options){
 
 }
 
-module.exports = jadeDoc;
+module.exports = pugDoc;

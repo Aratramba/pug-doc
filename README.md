@@ -1,29 +1,29 @@
-# Jade-doc
-Jade-doc is a [Jade](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@jadedoc` and puts its contents in an output JSON file. 
+# Pug-doc
+Pug-doc is a [Pug (Jade)](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@pugdoc` and puts its contents in an output JSON file. 
 
-_This package does not provide a styled interface for the documentation itself._ Use [jade-doc-html](https://github.com/Aratramba/jade-doc-html) or [jade-doc-markdown](https://github.com/Aratramba/jade-doc-markdown) for human readable docs. Optionally use [jade-doc-faucet](https://github.com/Aratramba/jade-doc-faucet) for prettier terminal reporting.
+_This package does not provide a styled interface for the documentation itself._ Use [pug-doc-html](https://github.com/Aratramba/pug-doc-html) or [pug-doc-markdown](https://github.com/Aratramba/pug-doc-markdown) for human readable docs. Optionally use [pug-doc-faucet](https://github.com/Aratramba/pug-doc-faucet) for prettier terminal reporting.
 
 
 ## Usage
-Use the keyword `@jadedoc` to flag [unbuffered block comments](http://jade-lang.com/reference/comments/) inside your jade files. Comments should be written in properly formatted [YAML](http://en.wikipedia.org/wiki/YAML) format.
+Use the keyword `@pugdoc` to flag [unbuffered block comments](http://jade-lang.com/reference/comments/) inside your jade files. Comments should be written in properly formatted [YAML](http://en.wikipedia.org/wiki/YAML) format.
 
 ```jade
-//- @jadedoc
-  name: my jadedoc
-  description: this is a description for my jade doc
+//- @pugdoc
+  name: my pugdoc
+  description: this is a description for my pug doc
   beep: boop
   foo: faa
 ```
 
 
 ### HTML Output
-The immediate next Jade code block after the comment will be compiled to HTML output.
+The immediate next Pug code block after the comment will be compiled to HTML output.
 
 ```jade
-//- @jadedoc
+//- @pugdoc
   name: some-node
 
-div.this-is-output-for-jade-doc
+div.this-is-output-for-pug-doc
 div.this-isnt
 ```
 
@@ -34,7 +34,7 @@ Optionally provide mixin arguments, attributes and example calls. If no examples
 Arguments and attributes  follow the [jsdoc param](http://usejsdoc.org/tags-param.html) syntax.
 
 ```jade
-//- @jadedoc
+//- @pugdoc
   name: my mixin
   description: this is my mixin documentation
   arguments: 
@@ -54,7 +54,7 @@ mixin myMixin(arg1, arg2)
 Should you need multiline examples, use [YAML's folded style](http://www.yaml.org/spec/1.2/spec.html#id2796251), like:
 
 ```jade
-  //- @jadedoc
+  //- @pugdoc
     examples:
       - >
         +myMixin({
@@ -64,10 +64,10 @@ Should you need multiline examples, use [YAML's folded style](http://www.yaml.or
 
 
 #### Locals
-Jade locals can be also be passed.
+Pug locals can be also be passed.
 
 ```jade
-//- @jadedoc
+//- @pugdoc
   name: tag
   locals:
     foo: foo
@@ -84,12 +84,12 @@ div #{foo}
 
 
 ## How to use
-`npm install jade-doc`
+`npm install pug-doc`
 
 ```js
-var jadeDoc = require('jade-doc');
+var pugDoc = require('pug-doc');
 
-jadeDoc({
+pugDoc({
   input: '**/*.jade',
   output: 'anything.json'
 });
@@ -101,12 +101,12 @@ jadeDoc({
 Optionally use it through the command line.
 
 ```bash
-jade-doc input.jade
+pug-doc input.jade
 ```
 
 ```bash
-jade-doc input.jade --output output.json
-jade-doc "**/*.jade" --output output.json
+pug-doc input.jade --output output.json
+pug-doc "**/*.jade" --output output.json
 ```
 
 
