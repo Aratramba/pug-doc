@@ -326,3 +326,18 @@ test('Get examples', function(assert){
 
   assert.end();
 });
+
+
+/**
+ * Pug
+ */
+
+test('Pug', function(assert){
+  var src = fs.readFileSync('./test/fixtures/pug.jade').toString();
+
+  var actual = jadeDocParser.getJadedocDocuments(src, 'test.jade')[0].output;
+  var expected = '<div class="beep boop-biip">biip</div>';
+  assert.equal(actual, expected);
+
+  assert.end();
+});

@@ -1,6 +1,6 @@
 {
   "name": "jade-doc",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Jade documentation generator.",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,8 @@
     "meow": "^3.3.0",
     "mkdirp": "^0.5.1",
     "object-assign": "^2.0.0",
+    "pug": "^0.1.0",
+    "pug-runtime": "^2.0.0",
     "text-file-register": "^0.1.0",
     "through2": "^2.0.0"
   },

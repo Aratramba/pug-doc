@@ -1,0 +1,14 @@
+//- @jadedoc
+  name: pugMixin
+  description: Pug mixin. This fails with the old jade (runtime)
+  arguments: 
+    - {type} cls - class
+  attributes: 
+    - {type} name - description
+  examples:
+    - +pugMixin('biip')
+
+mixin pugMixin(cls)
+  .beep(class="boop-"+ cls)&attributes(attributes)
+    | #{cls}
+  
