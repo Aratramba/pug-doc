@@ -106,6 +106,7 @@ jade-doc input.jade
 
 ```bash
 jade-doc input.jade --output output.json
+jade-doc "**/*.jade" --output output.json
 ```
 
 
