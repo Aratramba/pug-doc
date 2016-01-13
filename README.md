@@ -95,6 +95,31 @@ pugDoc({
 });
 ```
 
+---
+
+## Caveats
+### Mixin dependencies
+Mixins are standalone blocks, so you need to include any dependencies inside the mixin.
+
+```jade
+include ../mixin1.jade
+
+mixin mixin2
+  +mixin1
++mixin2
+```
+
+Will throw something like `TypeError: jade_mixins.mixin1 is not a function on line 4`. Instead you need to do this:
+
+```jade
+mixin mixin2
+  include ../mixin1.jade
+  +mixin1
++mixin2
+```
+
+
+---
 
 
 ### Command line
