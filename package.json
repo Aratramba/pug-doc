@@ -1,7 +1,7 @@
 {
-  "name": "jade-doc",
-  "version": "1.10.0",
-  "description": "Jade documentation generator.",
+  "name": "pug-doc",
+  "version": "1.11.0",
+  "description": "Pug (Jade) documentation generator.",
   "main": "index.js",
   "scripts": {
     "test": "tape test/*.js | faucet"
@@ -9,19 +9,21 @@
   "author": "Arjen Scherff-de Water",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Aratramba/jade-doc.git"
+    "url": "https://github.com/Aratramba/pug-doc.git"
   },
   "keywords": [
     "documentation",
     "docs",
     "jade",
-    "jade-doc"
+    "jade-doc",
+    "pug",
+    "pug-doc"
   ],
   "bin": "cli.js",
   "bugs": {
-    "url": "https://github.com/Aratramba/jade-doc/issues"
+    "url": "https://github.com/Aratramba/pug-doc/issues"
   },
-  "homepage": "https://github.com/Aratramba/jade-doc",
+  "homepage": "https://github.com/Aratramba/pug-doc",
   "license": "ISC",
   "dependencies": {
     "JSONStream": "^1.0.6",
