@@ -341,3 +341,29 @@ test('Pug', function(assert){
 
   assert.end();
 });
+
+
+/**
+ * Indented block
+ * https://github.com/Aratramba/pug-doc/issues/43
+ */
+
+test('indented block', function(assert){
+
+  var stream = pugDoc({
+    input: ['./test/fixtures/indent.jade']
+  });
+
+  stream.on('data', function(data){
+
+    var actual = data.source;
+    var expected = '  p faa';
+    assert.equal(actual, expected, 'Source code block should be correct');
+
+    actual = data.output;
+    expected = '<p>faa</p>';
+    assert.equal(actual, expected, 'Its html output should be correct');
+
+    assert.end();
+  });
+});
