@@ -357,11 +357,11 @@ test('indented block', function(assert){
   stream.on('data', function(data){
 
     var actual = data.source;
-    var expected = '  p faa';
+    var expected = 'div\n  div\n    div\n      p foo';
     assert.equal(actual, expected, 'Source code block should be correct');
 
     actual = data.output;
-    expected = '<p>faa</p>';
+    expected = '<div><div><div><p>foo</p></div></div></div>';
     assert.equal(actual, expected, 'Its html output should be correct');
 
     assert.end();
