@@ -106,6 +106,10 @@ function pugDoc(options){
 
     // end stream
     stream.push(null);
+
+    if (options.complete && typeof options.complete === 'function') {
+      options.complete();
+    }
   }
 
   return stream;

@@ -1,6 +1,6 @@
 {
   "name": "pug-doc",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Pug (Jade) documentation generator.",
   "main": "index.js",
   "scripts": {

@@ -8,6 +8,29 @@ var pugDocParser = require('../lib/parser');
 
 
 /**
+ * Complete
+ */
+
+test('complete', function(assert){
+  assert.plan(1);
+
+  // callback
+  pugDoc({
+    input: ['./test/fixtures/*.jade'],
+    complete: function() {
+      assert.pass();
+    }
+  });
+
+  // silently do nothing
+  pugDoc({
+    input: ['./test/fixtures/*.jade'],
+    complete: null
+  });
+});
+
+
+/**
  * Simple Pug tag
  */
 

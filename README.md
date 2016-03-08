@@ -91,7 +91,8 @@ var pugDoc = require('pug-doc');
 
 pugDoc({
   input: '**/*.jade',
-  output: 'anything.json'
+  output: 'anything.json',
+  complete: function(){}
 });
 ```
 
