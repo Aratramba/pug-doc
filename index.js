@@ -73,6 +73,12 @@ function pugDoc(options){
       output.on('close', function(){
         stream.emit('complete');
       });
+
+      output.on('finish', function() {
+        if (options.complete && typeof options.complete === 'function') {
+          options.complete();
+        }
+      });
     }
 
     // get all jade files
@@ -102,14 +108,14 @@ function pugDoc(options){
     if(options.output){
       output.write(']');
       output.end();
+    } else {
+      if (options.complete && typeof options.complete === 'function') {
+        options.complete();
+      }
     }
 
     // end stream
     stream.push(null);
-
-    if (options.complete && typeof options.complete === 'function') {
-      options.complete();
-    }
   }
 
   return stream;
