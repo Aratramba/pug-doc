@@ -32,7 +32,6 @@
     "js-yaml": "^3.3.0",
     "meow": "^3.3.0",
     "mkdirp": "^0.5.1",
-    "normalize-html-whitespace": "^0.2.0",
     "object-assign": "^2.0.0",
     "pug": "^0.1.0",
     "pug-code-block": "^1.1.0",
