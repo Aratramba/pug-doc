@@ -427,3 +427,19 @@ test('Locals', function(assert){
   expected = '<div>local</div>';
   assert.equal(actual, expected);
 });
+
+
+/**
+ * Whitespace
+ * https://github.com/Aratramba/pug-doc/issues/41
+ */
+
+test('Whitespace', function(assert){
+  assert.plan(1);
+  var src = fs.readFileSync('./test/issues/41.jade').toString();
+
+  // test local
+  var actual = pugDocParser.getPugdocDocuments(src, '41.jade')[0].output;
+  var expected = '<div>fooo faa\nfooo faa\nfooo faa</div>';
+  assert.equal(actual, expected);
+});
