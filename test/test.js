@@ -12,13 +12,24 @@ var pugDocParser = require('../lib/parser');
  */
 
 test('complete', function(assert){
-  assert.plan(1);
+  assert.plan(2);
 
   // callback
   pugDoc({
     input: ['./test/fixtures/*.jade'],
     complete: function() {
       assert.pass();
+    }
+  });
+
+  // callback
+  pugDoc({
+    input: ['./test/fixtures/tag.jade'],
+    output: './test/tmp/tag.json',
+    complete: function() {
+      var src = fs.readFileSync('./test/tmp/tag.json').toString();
+      var obj = JSON.parse(src)[0];
+      assert.equal(obj.output, '<div class=\"some-tag\">this is some tag foo</div>');
     }
   });
 
@@ -389,4 +400,30 @@ test('indented block', function(assert){
 
     assert.end();
   });
+});
+
+
+/**
+ * Locals
+ * https://github.com/Aratramba/pug-doc/issues/44
+ */
+
+test('Locals', function(assert){
+  assert.plan(3);
+  var src = fs.readFileSync('./test/fixtures/locals.jade').toString();
+
+  // test local
+  var actual = pugDocParser.getPugdocDocuments(src, 'locals.jade')[0].output;
+  var expected = '<div>local</div>';
+  assert.equal(actual, expected);
+
+  // add global
+  actual = pugDocParser.getPugdocDocuments(src, 'locals.jade', { globalVar: 'global' })[0].output;
+  expected = '<div>localglobal</div>';
+  assert.equal(actual, expected);
+
+  // don't overwrite local
+  actual = pugDocParser.getPugdocDocuments(src, 'locals.jade', { localVar: 'global' })[0].output;
+  expected = '<div>local</div>';
+  assert.equal(actual, expected);
 });

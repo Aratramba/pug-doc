@@ -92,7 +92,10 @@ var pugDoc = require('pug-doc');
 pugDoc({
   input: '**/*.jade',
   output: 'anything.json',
-  complete: function(){}
+  complete: function(){},
+  globals: {
+    myGlobal: 'foo'
+  }
 });
 ```
 
