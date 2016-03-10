@@ -76,11 +76,29 @@ div #{foo}
 ```
 
 
+
+#### Capture multiple blocks
+The `capture` keyword specifies how many blocks after the comment will be returned. Use `Infinity` to capture the rest of the document.
+
+```jade
+//- @pugdoc
+  name: tag
+  capture: 3
+
+div 1
+div 2
+div 3
+div nope
+div nope
+```
+
+
 #### Reserved words
 * `arguments` for mixin arguments.
 * `attributes` for (mixin) attributes.
 * `locals` for template locals.
 * `examples` for example mixin calls
+* `capture` for the number of code blocks to be captured
 
 
 ## How to use

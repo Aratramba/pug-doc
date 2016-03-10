@@ -436,7 +436,7 @@ test('Locals', function(assert){
 
 test('Whitespace', function(assert){
   assert.plan(1);
-  var src = fs.readFileSync('./test/issues/41.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/whitespace.jade').toString();
 
   // test local
   var actual = pugDocParser.getPugdocDocuments(src, '41.jade')[0].output;
@@ -452,10 +452,17 @@ test('Whitespace', function(assert){
  */
 
 test('Capture', function(assert){
-  assert.plan(1);
-  var src = fs.readFileSync('./test/issues/45.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/capture.jade').toString();
 
-  var actual = pugDocParser.getPugdocDocuments(src, '45.jade')[0].output;
+  var doc = pugDocParser.getPugdocDocuments(src, '45.jade');
+
+  var actual = doc[0].output;
   var expected = '<div>1</div><div>2</div><div>3</div>';
-  assert.equal(actual, expected);
+  assert.deepEqual(actual, expected);
+
+  actual = doc[1].output;
+  expected = '<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>';
+  assert.deepEqual(actual, expected);
+
+  assert.end();
 });
