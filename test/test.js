@@ -443,3 +443,19 @@ test('Whitespace', function(assert){
   var expected = '<div>fooo faa\nfooo faa\nfooo faa</div>';
   assert.equal(actual, expected);
 });
+
+
+
+/**
+ * Capture
+ * https://github.com/Aratramba/pug-doc/issues/45
+ */
+
+test('Capture', function(assert){
+  assert.plan(1);
+  var src = fs.readFileSync('./test/issues/45.jade').toString();
+
+  var actual = pugDocParser.getPugdocDocuments(src, '45.jade')[0].output;
+  var expected = '<div>1</div><div>2</div><div>3</div>';
+  assert.equal(actual, expected);
+});

@@ -125,3 +125,9 @@ function pugDoc(options){
 }
 
 module.exports = pugDoc;
+
+
+
+pugDoc({
+  input: './test/issues/45.jade'
+});
