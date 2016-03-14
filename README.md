@@ -78,7 +78,7 @@ div #{foo}
 
 
 #### Capture multiple blocks
-The `capture` keyword specifies how many blocks after the comment will be returned. Use `capture: all` to capture the rest of the document.
+The `capture` keyword specifies how many blocks after the comment will be returned. Use `capture: all` to capture the rest of the document. Use `capture: section` to capture all items until the next pugdoc tag.
 
 ```jade
 //- @pugdoc
