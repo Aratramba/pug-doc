@@ -136,8 +136,12 @@ div nope
 * `arguments` for mixin arguments.
 * `attributes` for (mixin) attributes.
 * `locals` for template locals.
+* `example` for example mixin call or example block
 * `examples` for example mixin calls or example blocks
 * `capture` for the number of code blocks to be captured
+  - `all`: the rest of the document until it meets a lower indent
+  - `section`: the rest of the document until it meets a lower indent or a new pugdoc comment
+  - `number`: the exact positive number of blocks
 
 ---
 
