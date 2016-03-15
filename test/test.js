@@ -465,6 +465,10 @@ test('Capture', function(assert){
   assert.deepEqual(actual, expected);
 
   actual = doc[2].output;
+  expected = '<div>4 section</div><div>5 section</div><div>6 section</div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[3].output;
   expected = '<div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>';
   assert.deepEqual(actual, expected);
 
