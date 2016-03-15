@@ -1,5 +1,5 @@
 # Pug-doc
-Pug-doc is a [Pug (Jade)](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@pugdoc` and puts its contents in an output JSON file. 
+Pug-doc is a [Pug (Jade)](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@pugdoc` and puts its contents in an output JSON file. It looks for the immediate next pug code block for output.
 
 _This package does not provide a styled interface for the documentation itself._ Use [pug-doc-html](https://github.com/Aratramba/pug-doc-html) or [pug-doc-markdown](https://github.com/Aratramba/pug-doc-markdown) for human readable docs. Optionally use [pug-doc-faucet](https://github.com/Aratramba/pug-doc-faucet) for prettier terminal reporting.
 
@@ -15,9 +15,12 @@ Use the keyword `@pugdoc` to flag [unbuffered block comments](http://jade-lang.c
   foo: faa
 ```
 
+see [test/fixtures](https://github.com/Aratramba/pug-doc/tree/master/test/fixtures) for examples.
+
+-
 
 ### HTML Output
-The immediate next Pug code block after the comment will be compiled to HTML output.
+The immediate next Pug code block after the comment will be compiled to HTML output. If you need to capture multiple blocks, see [Capture multiple blocks](#capture-multiple-blocks)
 
 ```jade
 //- @pugdoc
@@ -27,6 +30,7 @@ div.this-is-output-for-pug-doc
 div.this-isnt
 ```
 
+-
 
 #### Mixins
 Optionally provide mixin arguments, attributes and example calls. If no examples are given, mixins will not be executed, so no output will be generated. 
@@ -51,6 +55,39 @@ mixin myMixin(arg1, arg2)
   div this is a mixin #{arg1} #{arg2} #{attr1} #{attr2}
 ```
 
+-
+
+#### Examples
+You can add an example or multiple examples with the `example` or `examples` keyword, where the former is a YAML string and the latter a YAML list. The `block` flag will be replaced by the captured block.
+
+For documenting mixins the use of examples is recommended, since mixins will not be executed if no examples are given. For other jade blocks, examples are optional and can be used to add extra context (e.g. a parent div with styling).
+
+_single example_
+```jade
+//- @pugdoc
+  name: example
+  example: |
+    div.example(style="max-width: 300px")
+      block
+
+p this is my example
+```
+
+_multiple example_
+```jade
+//- @pugdoc
+  name: example
+  examples: 
+    - |
+      div.example
+        block
+    - |
+      div.example
+        block
+
+p this is my example
+```
+
 Should you need multiline examples, use [YAML's folded style](http://www.yaml.org/spec/1.2/spec.html#id2796251), like:
 
 ```jade
@@ -62,6 +99,7 @@ Should you need multiline examples, use [YAML's folded style](http://www.yaml.or
         }
 ```
 
+-
 
 #### Locals
 Pug locals can be also be passed.
@@ -75,7 +113,7 @@ Pug locals can be also be passed.
 div #{foo}
 ```
 
-
+-
 
 #### Capture multiple blocks
 The `capture` keyword specifies how many blocks after the comment will be returned. Use `capture: all` to capture the rest of the document. Use `capture: section` to capture all items until the next pugdoc tag.
@@ -92,14 +130,16 @@ div nope
 div nope
 ```
 
+-
 
 #### Reserved words
 * `arguments` for mixin arguments.
 * `attributes` for (mixin) attributes.
 * `locals` for template locals.
-* `examples` for example mixin calls
+* `examples` for example mixin calls or example blocks
 * `capture` for the number of code blocks to be captured
 
+---
 
 ## How to use
 `npm install pug-doc`

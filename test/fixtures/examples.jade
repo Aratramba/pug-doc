@@ -1,0 +1,132 @@
+//- @pugdoc
+  name: example
+  example: |
+    div.example
+      block
+
+p this is my example
+
+
+//- @pugdoc
+  name: example
+  example: |
+    div.example
+      block
+      block
+
+p this is my example
+
+
+//- @pugdoc
+  name: example
+  example: |
+    div.example
+    block
+    div.example
+
+p this is my example
+
+
+//- @pugdoc
+  name: example
+  example: |
+    div.example
+
+p this is my example
+
+
+//- @pugdoc
+  name: example
+  example: |
+    div.block
+
+p this is my example
+
+
+//- @pugdoc
+  name: example
+  example: |
+    notblock
+    block
+
+p this is my example
+
+
+//- @pugdoc
+  name: examples
+  examples:
+    - |
+      div.example
+        block
+
+p this is my example
+
+
+//- @pugdoc
+  name: examples
+  examples:
+    - |
+      div.example1
+        block
+    - |
+      div.example2
+        block
+
+p this is my example
+
+
+//- @pugdoc
+  name: examples
+  examples:
+    - |
+      div.example
+        block
+
+div
+  p this is my example
+
+
+//- @pugdoc
+  name: examples
+  capture: section
+  examples:
+    - |
+      div.example
+        block
+      div.example
+        block
+
+p section 1
+p section 2
+
+
+//- @pugdoc
+  name: examples
+  examples:
+    - |
+      mixin mixin2
+        block
+      +mixin2
+
+| foo
+
+
+//- @pugdoc
+  name: examples
+  examples:
+    - |
+      mixin mixin2
+        | foo
+      block
+
++mixin2
+
+
+//- @pugdoc
+  name: examples
+  examples:
+    - |
+      include mixins.jade
+      block
+
++mixin2('foo', 'faa')

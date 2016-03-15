@@ -474,3 +474,70 @@ test('Capture', function(assert){
 
   assert.end();
 });
+
+
+
+/**
+ * Example
+ * https://github.com/Aratramba/pug-doc/issues/46
+ */
+
+test('Examples', function(assert){
+  var src = fs.readFileSync('./test/fixtures/examples.jade').toString();
+
+  var doc = pugDocParser.getPugdocDocuments(src, './test/fixtures/examples.jade');
+
+  var actual = doc[0].output;
+  var expected = '<div class="example"><p>this is my example</p></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[1].output;
+  expected = '<div class="example"><p>this is my example</p><p>this is my example</p></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[2].output;
+  expected = '<div class="example"></div><p>this is my example</p><div class="example"></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[3].output;
+  expected = '<div class="example"></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[4].output;
+  expected = '<div class="block"></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[5].output;
+  expected = '<notblock></notblock><p>this is my example</p>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[6].output;
+  expected = '<div class="example"><p>this is my example</p></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[7].output;
+  expected = '<div class="example1"><p>this is my example</p></div><div class="example2"><p>this is my example</p></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[8].output;
+  expected = '<div class="example"><div><p>this is my example</p></div></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[9].output;
+  expected = '<div class="example"><p>section 1</p><p>section 2</p></div><div class="example"><p>section 1</p><p>section 2</p></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[10].output;
+  expected = 'foo';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[11].output;
+  expected = 'foo';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[12].output;
+  expected = '<div>this is a mixin foo</div><div>this is the same mixin faa</div>';
+  assert.deepEqual(actual, expected);
+
+  assert.end();
+});
