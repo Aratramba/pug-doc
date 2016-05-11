@@ -170,12 +170,15 @@ Mixins are standalone blocks, so you need to include any dependencies inside the
 ```jade
 include ../mixin1.jade
 
+//- @pugdoc
+  name: mixin2
+  example: +mixin2
+
 mixin mixin2
   +mixin1
-+mixin2
 ```
 
-Will throw something like `TypeError: jade_mixins.mixin1 is not a function on line 4`. Instead you need to do this:
+Will throw something like `TypeError: jade_mixins.mixin1 is not a function on line x`. Instead you need to do the include inside the mixin, 
 
 ```jade
 mixin mixin2
@@ -184,6 +187,18 @@ mixin mixin2
 +mixin2
 ```
 
+or include it inside the example
+
+```jade
+//- @pugdoc
+  name: mixin2
+  example: |
+    include ../mixin1.jade
+    +mixin2
+
+mixin mixin2
+  +mixin1
+```
 
 ---
 
