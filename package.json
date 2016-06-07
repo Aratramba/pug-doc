@@ -1,6 +1,6 @@
 {
   "name": "pug-doc",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "description": "Pug (Jade) documentation generator.",
   "main": "index.js",
   "scripts": {
@@ -26,24 +26,24 @@
   "homepage": "https://github.com/Aratramba/pug-doc",
   "license": "ISC",
   "dependencies": {
-    "JSONStream": "^1.0.6",
+    "JSONStream": "^1.1.1",
     "clean-whitespace": "^0.1.2",
     "detect-indent": "^4.0.0",
-    "doctrine": "^0.7.1",
+    "doctrine": "^1.2.2",
     "indented-code-block": "^1.1.0",
-    "js-yaml": "^3.3.0",
-    "meow": "^3.3.0",
+    "js-yaml": "^3.6.1",
+    "meow": "^3.7.0",
     "mkdirp": "^0.5.1",
-    "object-assign": "^2.0.0",
-    "pug": "^0.1.0",
+    "object-assign": "^4.1.0",
+    "pug": "^2.0.0-beta2",
     "pug-code-block": "^3.4.0",
-    "pug-runtime": "^2.0.0",
+    "pug-runtime": "^2.0.1",
     "rebase-indent": "^1.5.0",
     "text-file-register": "^0.1.0",
-    "through2": "^2.0.0"
+    "through2": "^2.0.1"
   },
   "devDependencies": {
     "faucet": "0.0.1",
-    "tape": "^4.2.0"
+    "tape": "^4.5.1"
   }
 }

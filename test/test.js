@@ -16,7 +16,7 @@ test('complete', function(assert){
 
   // callback
   pugDoc({
-    input: ['./test/fixtures/*.jade'],
+    input: ['./test/fixtures/*.pug'],
     complete: function() {
       assert.pass();
     }
@@ -24,7 +24,7 @@ test('complete', function(assert){
 
   // callback
   pugDoc({
-    input: ['./test/fixtures/tag.jade'],
+    input: ['./test/fixtures/tag.pug'],
     output: './test/tmp/tag.json',
     complete: function() {
       var src = fs.readFileSync('./test/tmp/tag.json').toString();
@@ -35,7 +35,7 @@ test('complete', function(assert){
 
   // silently do nothing
   pugDoc({
-    input: ['./test/fixtures/*.jade'],
+    input: ['./test/fixtures/*.pug'],
     complete: null
   });
 });
@@ -48,7 +48,7 @@ test('complete', function(assert){
 test('tag', function(assert){
 
   var stream = pugDoc({
-    input: ['./test/fixtures/tag.jade']
+    input: ['./test/fixtures/tag.pug']
   });
 
   stream.on('data', function(data){
@@ -58,7 +58,7 @@ test('tag', function(assert){
     assert.equal(actual, expected, 'Name should match name inside YAML data');
 
     actual = data.file;
-    expected = 'test/fixtures/tag.jade';
+    expected = 'test/fixtures/tag.pug';
     assert.equal(actual, expected, 'Filename should match the jade file');
     
     actual = data.source;
@@ -81,7 +81,7 @@ test('tag', function(assert){
 test('mixins', function(assert){
 
   var stream = pugDoc({
-    input: ['./test/fixtures/mixins.jade']
+    input: ['./test/fixtures/mixins.pug']
   });
 
   stream.on('data', function(data){
@@ -95,7 +95,7 @@ test('mixins', function(assert){
     assert.equal(actual, expected, 'Description should match description inside YAML data');
 
     actual = data.file;
-    expected = 'test/fixtures/mixins.jade';
+    expected = 'test/fixtures/mixins.pug';
     assert.equal(actual, expected, 'Filename should match the jade file');
 
 
@@ -196,7 +196,7 @@ test('mixins', function(assert){
 test('Include', function(assert){
 
   var stream = pugDoc({
-    input: ['./test/fixtures/include.jade']
+    input: ['./test/fixtures/include.pug']
   });
 
   stream.on('data', function(data){
@@ -210,15 +210,15 @@ test('Include', function(assert){
     assert.equal(actual, expected, 'Description should match description inside YAML data');
 
     actual = data.file;
-    expected = 'test/fixtures/include.jade';
+    expected = 'test/fixtures/include.pug';
     assert.equal(actual, expected, 'Filename should match the jade file');
 
     actual = data.source;
-    expected = 'div\n  include mixins.jade\n  +mixin2(\'foo\', \'faa\')';
+    expected = 'div\n  include mixins.pug\n  include deprecated.jade\n  +mixin2(\'foo\', \'faa\')';
     assert.equal(actual, expected, 'Source should match the complete mixin code block');
     
     actual = data.output;
-    expected = '<div><div>this is a mixin foo</div><div>this is the same mixin faa</div></div>';
+    expected = '<div>deprecated .jade file<div>this is a mixin foo</div><div>this is the same mixin faa</div></div>';
     assert.equal(actual, expected, 'HTML output should be the rendered mixin with passed arguments.');
 
     assert.end();
@@ -233,7 +233,7 @@ test('Include', function(assert){
 test('Extends', function(assert){
 
   var stream = pugDoc({
-    input: ['./test/fixtures/extends.jade']
+    input: ['./test/fixtures/extends.pug']
   });
 
   stream.on('data', function(data){
@@ -243,16 +243,16 @@ test('Extends', function(assert){
     assert.equal(actual, expected, 'Name should match name inside YAML data');
 
     actual = data.file;
-    expected = 'test/fixtures/extends.jade';
+    expected = 'test/fixtures/extends.pug';
     assert.equal(actual, expected, 'Filename should match the jade file');
 
     actual = data.source;
-    expected = 'extends tag.jade';
+    expected = 'extends tag.pug';
     assert.equal(actual, expected, 'Source should match the extends tag');
     
     actual = data.output;
     expected = '<div class=\"some-tag\">this is some tag foo</div><div class=\"some-other-tag\">this is some other tag</div>';
-    assert.equal(actual, expected, 'Output should match the html compiled from tag.jade');
+    assert.equal(actual, expected, 'Output should match the html compiled from tag.pug');
     
     assert.end();
   });
@@ -264,7 +264,7 @@ test('Extends', function(assert){
  */
 
 test('Parser: extract pugDoc', function(assert){
-  var src = fs.readFileSync('./test/fixtures/multiple.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/multiple.pug').toString();
 
   var actual = pugDocParser.extractPugdocBlocks(src);
   var expected =  [ { code: 'p foo', comment: '//- @pugdoc\n  name: foo', lineNumber: 1 }, { code: 'p faa', comment: '//- @pugdoc', lineNumber: 6 } ];
@@ -307,13 +307,13 @@ test('Parser: parse comment', function(assert){
 });
 
 test('Parser: parse doc', function(assert){
-  var src = fs.readFileSync('./test/fixtures/multiple.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/multiple.pug').toString();
 
-  var actual = pugDocParser.getPugdocDocuments(src, 'test.jade');
-  var expected = [ { file: 'test.jade', meta: { name: 'foo' }, output: '<p>foo</p>', source: 'p foo' }, { file: 'test.jade', meta: {}, output: '<p>faa</p>', source: 'p faa' } ];
+  var actual = pugDocParser.getPugdocDocuments(src, 'test.pug');
+  var expected = [ { file: 'test.pug', meta: { name: 'foo' }, output: '<p>foo</p>', source: 'p foo' }, { file: 'test.pug', meta: {}, output: '<p>faa</p>', source: 'p faa' } ];
   assert.deepEqual(actual, expected, 'document parser should return valid object');
 
-  actual = pugDocParser.getPugdocDocuments('', 'test.jade');
+  actual = pugDocParser.getPugdocDocuments('', 'test.pug');
   expected = {};
   assert.deepEqual(actual, expected, 'document parser should return empty object');
 
@@ -367,9 +367,9 @@ test('Get examples', function(assert){
  */
 
 test('Pug', function(assert){
-  var src = fs.readFileSync('./test/fixtures/pug.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/pug.pug').toString();
 
-  var actual = pugDocParser.getPugdocDocuments(src, 'test.jade')[0].output;
+  var actual = pugDocParser.getPugdocDocuments(src, 'test.pug')[0].output;
   var expected = '<div class="beep boop-biip">biip</div>';
   assert.equal(actual, expected);
 
@@ -385,7 +385,7 @@ test('Pug', function(assert){
 test('indented block', function(assert){
 
   var stream = pugDoc({
-    input: ['./test/fixtures/indent.jade']
+    input: ['./test/fixtures/indent.pug']
   });
 
   stream.on('data', function(data){
@@ -410,20 +410,20 @@ test('indented block', function(assert){
 
 test('Locals', function(assert){
   assert.plan(3);
-  var src = fs.readFileSync('./test/fixtures/locals.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/locals.pug').toString();
 
   // test local
-  var actual = pugDocParser.getPugdocDocuments(src, 'locals.jade')[0].output;
+  var actual = pugDocParser.getPugdocDocuments(src, 'locals.pug')[0].output;
   var expected = '<div>local</div>';
   assert.equal(actual, expected);
 
   // add global
-  actual = pugDocParser.getPugdocDocuments(src, 'locals.jade', { globalVar: 'global' })[0].output;
+  actual = pugDocParser.getPugdocDocuments(src, 'locals.pug', { globalVar: 'global' })[0].output;
   expected = '<div>localglobal</div>';
   assert.equal(actual, expected);
 
   // don't overwrite local
-  actual = pugDocParser.getPugdocDocuments(src, 'locals.jade', { localVar: 'global' })[0].output;
+  actual = pugDocParser.getPugdocDocuments(src, 'locals.pug', { localVar: 'global' })[0].output;
   expected = '<div>local</div>';
   assert.equal(actual, expected);
 });
@@ -436,10 +436,10 @@ test('Locals', function(assert){
 
 test('Whitespace', function(assert){
   assert.plan(1);
-  var src = fs.readFileSync('./test/fixtures/whitespace.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/whitespace.pug').toString();
 
   // test local
-  var actual = pugDocParser.getPugdocDocuments(src, '41.jade')[0].output;
+  var actual = pugDocParser.getPugdocDocuments(src, '41.pug')[0].output;
   var expected = '<div>fooo faa\nfooo faa\nfooo faa</div>';
   assert.equal(actual, expected);
 });
@@ -452,9 +452,9 @@ test('Whitespace', function(assert){
  */
 
 test('Capture', function(assert){
-  var src = fs.readFileSync('./test/fixtures/capture.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/capture.pug').toString();
 
-  var doc = pugDocParser.getPugdocDocuments(src, '45.jade');
+  var doc = pugDocParser.getPugdocDocuments(src, '45.pug');
 
   var actual = doc[0].output;
   var expected = '<div>1</div><div>2</div><div>3</div>';
@@ -487,9 +487,9 @@ test('Capture', function(assert){
  */
 
 test('Examples', function(assert){
-  var src = fs.readFileSync('./test/fixtures/examples.jade').toString();
+  var src = fs.readFileSync('./test/fixtures/examples.pug').toString();
 
-  var doc = pugDocParser.getPugdocDocuments(src, './test/fixtures/examples.jade');
+  var doc = pugDocParser.getPugdocDocuments(src, './test/fixtures/examples.pug');
 
   var actual = doc[0].output;
   var expected = '<div class="example"><p>this is my example</p></div>';

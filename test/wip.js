@@ -4,5 +4,5 @@
 var pugDoc = require('../index');
 
 pugDoc({
-  input: ['./test/tmp/fixtures/examples.jade']
+  input: ['./test/tmp/fixtures/examples.pug']
 });
