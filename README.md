@@ -135,7 +135,7 @@ div nope
 #### Reserved words
 * `arguments` for mixin arguments.
 * `attributes` for (mixin) attributes.
-* `globals` for template globals.
+* `locals` for template locals.
 * `example` for example mixin call or example block
 * `examples` for example mixin calls or example blocks
 * `capture` for the number of code blocks to be captured
