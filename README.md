@@ -155,7 +155,7 @@ pugDoc({
   input: '**/*.jade',
   output: 'anything.json',
   complete: function(){},
-  globals: {
+  locals: {
     myGlobal: 'foo'
   }
 });
