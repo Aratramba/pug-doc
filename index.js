@@ -31,7 +31,7 @@ function pugDoc(options){
   options = assign({
     input: null,
     output: null,
-    globals: {},
+    locals: {},
     complete: function() {}
   }, options);
 
@@ -89,7 +89,7 @@ function pugDoc(options){
 
     // collect docs for all files
     for(file in files){
-      var pugDocDocuments = parser.getPugdocDocuments(files[file], file, options.globals);
+      var pugDocDocuments = parser.getPugdocDocuments(files[file], file, options.locals);
       pugDocDocuments.forEach(function(docItem) {
         // omit first comma
         if(counter !== 0 && options.output){

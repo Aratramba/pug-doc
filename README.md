@@ -156,7 +156,7 @@ pugDoc({
   output: 'anything.json',
   complete: function(){},
   locals: {
-    myGlobal: 'foo'
+    myTemplateLocal: 'foo'
   }
 });
 ```
