@@ -17,7 +17,7 @@ Use the keyword `@pugdoc` to flag [unbuffered block comments](http://jade-lang.c
 
 see [test/fixtures](https://github.com/Aratramba/pug-doc/tree/master/test/fixtures) for examples.
 
--
+---
 
 ### HTML Output
 The immediate next Pug code block after the comment will be compiled to HTML output. If you need to capture multiple blocks, see [Capture multiple blocks](#capture-multiple-blocks)
@@ -30,7 +30,7 @@ div.this-is-output-for-pug-doc
 div.this-isnt
 ```
 
--
+---
 
 #### Mixins
 Optionally provide mixin arguments, attributes and example calls. If no examples are given, mixins will not be executed, so no output will be generated. 
@@ -55,7 +55,7 @@ mixin myMixin(arg1, arg2)
   div this is a mixin #{arg1} #{arg2} #{attr1} #{attr2}
 ```
 
--
+---
 
 #### Examples
 You can add an example or multiple examples with the `example` or `examples` keyword, where the former is a YAML string and the latter a YAML list. The `block` flag will be replaced by the captured block.
@@ -99,7 +99,7 @@ Should you need multiline examples, use [YAML's folded style](http://www.yaml.or
         }
 ```
 
--
+---
 
 #### Locals
 Pug locals can be also be passed.
@@ -113,7 +113,7 @@ Pug locals can be also be passed.
 div #{foo}
 ```
 
--
+---
 
 #### Capture multiple blocks
 The `capture` keyword specifies how many blocks after the comment will be returned. Use `capture: all` to capture the rest of the document. Use `capture: section` to capture all items until the next pugdoc tag.
@@ -130,12 +130,12 @@ div nope
 div nope
 ```
 
--
+---
 
 #### Reserved words
 * `arguments` for mixin arguments.
 * `attributes` for (mixin) attributes.
-* `locals` for template locals.
+* `globals` for template globals.
 * `example` for example mixin call or example block
 * `examples` for example mixin calls or example blocks
 * `capture` for the number of code blocks to be captured
