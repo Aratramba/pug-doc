@@ -90,7 +90,9 @@ function pugDoc(options){
     // collect docs for all files
     for(file in files){
       var pugDocDocuments = parser.getPugdocDocuments(files[file], file, options.locals);
-      pugDocDocuments.forEach(function(docItem) {
+      pugDocDocuments.filter(function(docItem) {
+        return Boolean(docItem);
+      }).forEach(function(docItem) {
         // omit first comma
         if(counter !== 0 && options.output){
           output.write(',');

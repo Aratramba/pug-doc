@@ -16,7 +16,7 @@ test('complete', function(assert){
 
   // callback
   pugDoc({
-    input: ['./test/fixtures/*.pug'],
+    input: ['./test/fixtures/capture.pug', './test/fixtures/examples.pug'],
     complete: function() {
       assert.pass();
     }
@@ -35,7 +35,7 @@ test('complete', function(assert){
 
   // silently do nothing
   pugDoc({
-    input: ['./test/fixtures/*.pug'],
+    input: ['./test/fixtures/capture.pug', './test/fixtures/examples.pug'],
     complete: null
   });
 });
@@ -544,4 +544,29 @@ test('Examples', function(assert){
   assert.deepEqual(actual, expected);
 
   assert.end();
+});
+
+
+/**
+ * Test stderr output when pug compilation fails
+ */
+
+test('Error', function(assert){
+
+  var src = fs.readFileSync('./test/fixtures/error.pug').toString();
+  var doc = pugDocParser.getPugdocDocuments(src, './test/fixtures/error.pug');
+
+  var actual = doc[0];
+  var expected = null;
+  assert.deepEqual(actual, expected);
+
+  var spawn = require('tape-spawn');
+  var st = spawn(assert, './cli.js test/fixtures/error.pug');
+  st.stderr.match(`TypeError: ${process.cwd()}/test/fixtures/error.pug:2
+    1| mixin error-mixin()
+  > 2|   +error
+    3| +error-mixin()
+
+pug_mixins.error is not a function`);
+  st.end();
 });
