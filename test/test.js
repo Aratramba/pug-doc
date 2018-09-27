@@ -546,6 +546,23 @@ test('Examples', function(assert){
   assert.end();
 });
 
+/**
+ * Example
+ * https://github.com/Aratramba/pug-doc/issues/53
+ */
+
+test('Examples objects', function(assert){
+  var src = fs.readFileSync('./test/fixtures/examples-objects.pug').toString();
+
+  var doc = pugDocParser.getPugdocDocuments(src, './test/fixtures/examples-objects.pug');
+
+  var actual = doc[0].output;
+  var expected = '<div class="example1a"><p>this is my example</p></div><div class="example1b"><p>this is my example</p></div><div class="example2"><p>this is my example</p></div><div class="example3"><p>this is my example</p></div><div class="example4"><p>this is my example</p></div>';
+  assert.deepEqual(actual, expected);
+
+  assert.end();
+});
+
 
 /**
  * Test stderr output when pug compilation fails
