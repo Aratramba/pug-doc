@@ -50,6 +50,12 @@ Arguments and attributes  follow the [jsdoc param](http://usejsdoc.org/tags-para
   examples:
     - +myMixin('foo', 1)
     - +myMixin('faa', 2, attr1='foo', attr2='faa')
+    - 
+      name: My mixin
+      description: this is my subexample
+      examples:
+        - |
+          +myMixin('beep', 3)
 
 mixin myMixin(arg1, arg2)
   div this is a mixin #{arg1} #{arg2} #{attr1} #{attr2}
@@ -61,6 +67,8 @@ mixin myMixin(arg1, arg2)
 You can add an example or multiple examples with the `example` or `examples` keyword, where the former is a YAML string and the latter a YAML list. The `block` flag will be replaced by the captured block.
 
 For documenting mixins the use of examples is recommended, since mixins will not be executed if no examples are given. For other jade blocks, examples are optional and can be used to add extra context (e.g. a parent div with styling).
+
+If an object is found inside the examples list, two things will happen. The subexample is 1) appended to the rest of the examples and 2) added to a list of subexamples. This way a complete, rendered HTML example will be available, while also keeping the named subexamples intact.
 
 _single example_
 ```jade
@@ -84,6 +92,25 @@ _multiple example_
     - |
       div.example
         block
+
+p this is my example
+```
+
+_subexamples example_
+```jade
+//- @pugdoc
+  name: example
+  examples: 
+    - 
+      name: Subexample 1
+      example: |
+        div.example1
+          block
+    - 
+      name: Subexample 2
+      example: |
+        div.example2
+          block
 
 p this is my example
 ```

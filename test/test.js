@@ -177,11 +177,11 @@ test('mixins', function(assert){
     assert.equal(actual, expected, 'Source should match the complete mixin code block');
     
     actual = data.output;
-    expected = '<div>this is a mixin foo</div><div>this is the same mixin faa</div><div>this is a mixin faa</div><div>this is the same mixin foo</div>';
+    expected = '<div>this is a mixin foo</div><div>this is the same mixin faa</div><div>this is a mixin faa</div><div>this is the same mixin foo</div><div>this is a mixin beep</div><div>this is the same mixin boop</div>';
     assert.equal(actual, expected, 'HTML output should be the rendered mixin with passed arguments.');
 
     actual = data.meta.examples;
-    expected = ['+mixin2(\'foo\', \'faa\') // mixin example description', '+mixin2(\'faa\', \'foo\')'];
+    expected = ['+mixin2(\'foo\', \'faa\') // mixin example description', '+mixin2(\'faa\', \'foo\')', '+mixin2(\'beep\', \'boop\')\n'];
     assert.deepEqual(actual, expected, 'examples should be an array');
 
     assert.end();
@@ -558,6 +558,22 @@ test('Examples objects', function(assert){
 
   var actual = doc[0].output;
   var expected = '<div class="example1a"><p>this is my example</p></div><div class="example1b"><p>this is my example</p></div><div class="example2"><p>this is my example</p></div><div class="example3"><p>this is my example</p></div><div class="example4"><p>this is my example</p></div>';
+  assert.deepEqual(actual, expected);
+
+  actual = doc[0].subexamples.length;
+  expected = 3;
+  assert.deepEqual(actual, expected);
+
+  actual = doc[0].subexamples[0];
+  expected = { meta: { description: 'description 1', examples: [ 'div.example1a\n  block\n', 'div.example1b\n  block\n' ], name: 'Examples (1)' }, output: '<div class="example1a"><p>this is my example</p></div><div class="example1b"><p>this is my example</p></div>' };
+  assert.deepEqual(actual, expected);
+
+  actual = doc[0].subexamples[1];
+  expected = { meta: { description: 'description 3', example: [ 'div.example3\n  block\n' ], name: 'Examples (3)' }, output: '<div class="example3"><p>this is my example</p></div>' };
+  assert.deepEqual(actual, expected);
+
+  actual = doc[0].subexamples[2];
+  expected = { meta: { description: 'description 4', example: 'div.example4\n  block\n', name: 'Examples (4)' }, output: '<div class="example4"><p>this is my example</p></div>' };
   assert.deepEqual(actual, expected);
 
   assert.end();

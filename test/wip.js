@@ -4,5 +4,5 @@
 var pugDoc = require('../index');
 
 pugDoc({
-  input: ['./test/fixtures/examples-split.pug']
+  input: ['./test/fixtures/examples-objects.pug']
 });
