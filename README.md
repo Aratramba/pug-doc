@@ -7,7 +7,7 @@ _This package does not provide a styled interface for the documentation itself._
 ## Usage
 Use the keyword `@pugdoc` to flag [unbuffered block comments](http://jade-lang.com/reference/comments/) inside your jade files. Comments should be written in properly formatted [YAML](http://en.wikipedia.org/wiki/YAML) format.
 
-```jade
+```pug
 //- @pugdoc
   name: my pugdoc
   description: this is a description for my pug doc
@@ -22,7 +22,7 @@ see [test/fixtures](https://github.com/Aratramba/pug-doc/tree/master/test/fixtur
 ### HTML Output
 The immediate next Pug code block after the comment will be compiled to HTML output. If you need to capture multiple blocks, see [Capture multiple blocks](#capture-multiple-blocks)
 
-```jade
+```pug
 //- @pugdoc
   name: some-node
 
@@ -37,7 +37,7 @@ Optionally provide mixin arguments, attributes and example calls. If no examples
 
 Arguments and attributes  follow the [jsdoc param](http://usejsdoc.org/tags-param.html) syntax.
 
-```jade
+```pug
 //- @pugdoc
   name: my mixin
   description: this is my mixin documentation
@@ -71,7 +71,7 @@ For documenting mixins the use of examples is recommended, since mixins will not
 If an object is found inside the examples list, two things will happen. The subexample is 1) appended to the rest of the examples and 2) added to a list of subexamples. This way a complete, rendered HTML example will be available, while also keeping the named subexamples intact.
 
 _single example_
-```jade
+```pug
 //- @pugdoc
   name: example
   example: |
@@ -82,7 +82,7 @@ p this is my example
 ```
 
 _multiple example_
-```jade
+```pug
 //- @pugdoc
   name: example
   examples: 
@@ -97,7 +97,7 @@ p this is my example
 ```
 
 _subexamples example_
-```jade
+```pug
 //- @pugdoc
   name: example
   examples: 
@@ -117,7 +117,7 @@ p this is my example
 
 Should you need multiline examples, use [YAML's folded style](http://www.yaml.org/spec/1.2/spec.html#id2796251), like:
 
-```jade
+```pug
   //- @pugdoc
     examples:
       - >
@@ -131,7 +131,7 @@ Should you need multiline examples, use [YAML's folded style](http://www.yaml.or
 #### Locals
 Pug locals can be also be passed.
 
-```jade
+```pug
 //- @pugdoc
   name: tag
   locals:
@@ -145,7 +145,7 @@ div #{foo}
 #### Capture multiple blocks
 The `capture` keyword specifies how many blocks after the comment will be returned. Use `capture: all` to capture the rest of the document. Use `capture: section` to capture all items until the next pugdoc tag.
 
-```jade
+```pug
 //- @pugdoc
   name: tag
   capture: 3
@@ -194,7 +194,7 @@ pugDoc({
 ### Mixin dependencies
 Mixins are standalone blocks, so you need to include any dependencies inside the mixin.
 
-```jade
+```pug
 include ../mixin1.jade
 
 //- @pugdoc
@@ -207,7 +207,7 @@ mixin mixin2
 
 Will throw something like `TypeError: jade_mixins.mixin1 is not a function on line x`. Instead you need to do the include inside the mixin, 
 
-```jade
+```pug
 mixin mixin2
   include ../mixin1.jade
   +mixin1
@@ -216,7 +216,7 @@ mixin mixin2
 
 or include it inside the example
 
-```jade
+```pug
 //- @pugdoc
   name: mixin2
   example: |
