@@ -1,14 +1,13 @@
-'use strict';
+"use strict";
 /* globals require, module */
 
-var fs = require('fs');
-var path = require('path');
-var mkdirp = require('mkdirp');
-var through2 = require('through2');
-var assign = require('object-assign');
-var fileRegister = require('text-file-register');
-var parser = require('./lib/parser.js');
-
+var fs = require("fs");
+var path = require("path");
+var mkdirp = require("mkdirp");
+var through2 = require("through2");
+var assign = require("object-assign");
+var fileRegister = require("text-file-register");
+var parser = require("./lib/parser.js");
 
 /**
  * Pug Documentation generator
@@ -17,23 +16,25 @@ var parser = require('./lib/parser.js');
  * all docs to an output file.
  */
 
-function pugDoc(options){
-
-  if(typeof options === 'undefined'){
-    throw new Error('Pug doc requires a settings object.');
+function pugDoc(options) {
+  if (typeof options === "undefined") {
+    throw new Error("Pug doc requires a settings object.");
   }
 
-  if(typeof options.input === 'undefined'){
-    throw new Error('Pug doc requires settings.input to be set.');
+  if (typeof options.input === "undefined") {
+    throw new Error("Pug doc requires settings.input to be set.");
   }
 
   // options
-  options = assign({
-    input: null,
-    output: null,
-    locals: {},
-    complete: function() {}
-  }, options);
+  options = assign(
+    {
+      input: null,
+      output: null,
+      locals: {},
+      complete: function() {}
+    },
+    options
+  );
 
   var counter = 0;
 
@@ -41,43 +42,40 @@ function pugDoc(options){
   var register = fileRegister();
   register.addFiles(options.input, init);
 
-
   // create readable stream
-  var stream = through2({ objectMode: true },
-    function(chunk, enc, next){
+  var stream = through2(
+    { objectMode: true },
+    function(chunk, enc, next) {
       this.push(chunk);
       next();
     },
-    function(cb){
+    function(cb) {
       cb();
     }
   );
 
   var output;
 
-
   /**
    * Init
    */
 
-  function init(){
-
+  function init() {
     // write stream to output file
-    if(options.output){
-
+    if (options.output) {
       // create directory if it doesn't exist
       mkdirp.sync(path.dirname(options.output));
 
       // create writable stream
       output = fs.createWriteStream(options.output);
-      output.write('[');
+      output.write("[");
 
-      output.on('close', function(){
-        stream.emit('complete');
+      output.on("close", function() {
+        stream.emit("complete");
       });
 
-      output.on('finish', function() {
-        if (options.complete && typeof options.complete === 'function') {
+      output.on("finish", function() {
+        if (options.complete && typeof options.complete === "function") {
           options.complete();
         }
       });
@@ -88,32 +86,38 @@ function pugDoc(options){
     var file;
 
     // collect docs for all files
-    for(file in files){
-      var pugDocDocuments = parser.getPugdocDocuments(files[file], file, options.locals);
-      pugDocDocuments.filter(function(docItem) {
-        return Boolean(docItem);
-      }).forEach(function(docItem) {
-        // omit first comma
-        if(counter !== 0 && options.output){
-          output.write(',');
-        }
-        // add object to stream
-        stream.push(docItem);
-        if(options.output){
-          // send to output
-          output.write(JSON.stringify(docItem));
-        }
-        // up counter
-        ++counter;
-      });
+    for (file in files) {
+      var pugDocDocuments = parser.getPugdocDocuments(
+        files[file],
+        file,
+        options.locals
+      );
+      pugDocDocuments
+        .filter(function(docItem) {
+          return Boolean(docItem);
+        })
+        .forEach(function(docItem) {
+          // omit first comma
+          if (counter !== 0 && options.output) {
+            output.write(",");
+          }
+          // add object to stream
+          stream.push(docItem);
+          if (options.output) {
+            // send to output
+            output.write(JSON.stringify(docItem));
+          }
+          // up counter
+          ++counter;
+        });
     }
 
     // end json array stream
-    if(options.output){
-      output.write(']');
+    if (options.output) {
+      output.write("]");
       output.end();
     } else {
-      if (options.complete && typeof options.complete === 'function') {
+      if (options.complete && typeof options.complete === "function") {
         options.complete();
       }
     }
@@ -123,7 +127,6 @@ function pugDoc(options){
   }
 
   return stream;
-
 }
 
 module.exports = pugDoc;
