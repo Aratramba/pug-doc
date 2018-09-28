@@ -68,7 +68,7 @@ You can add an example or multiple examples with the `example` or `examples` key
 
 For documenting mixins the use of examples is recommended, since mixins will not be executed if no examples are given. For other jade blocks, examples are optional and can be used to add extra context (e.g. a parent div with styling).
 
-If an object is found inside the examples list, two things will happen. The subexample is 1) appended to the rest of the examples and 2) added to a list of subexamples. This way a complete, rendered HTML example will be available, while also keeping the named subexamples intact.
+If an object is found inside the examples list, two things will happen. The subexample is 1) rendered and appended to the rest of the examples and 2) added to a list of fragments. This way a complete, rendered HTML example will be available, while also keeping the named subexamples intact.
 
 _single example_
 ```pug

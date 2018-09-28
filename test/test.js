@@ -690,11 +690,11 @@ test("Examples objects", function(assert) {
     '<div class="example1a"><p>this is my example</p></div><div class="example1b"><p>this is my example</p></div><div class="example2"><p>this is my example</p></div><div class="example3"><p>this is my example</p></div><div class="example4"><p>this is my example</p></div>';
   assert.deepEqual(actual, expected);
 
-  actual = doc[0].subexamples.length;
+  actual = doc[0].fragments.length;
   expected = 3;
   assert.deepEqual(actual, expected);
 
-  actual = doc[0].subexamples[0];
+  actual = doc[0].fragments[0];
   expected = {
     meta: {
       description: "description 1",
@@ -706,7 +706,7 @@ test("Examples objects", function(assert) {
   };
   assert.deepEqual(actual, expected);
 
-  actual = doc[0].subexamples[1];
+  actual = doc[0].fragments[1];
   expected = {
     meta: {
       description: "description 3",
@@ -717,7 +717,7 @@ test("Examples objects", function(assert) {
   };
   assert.deepEqual(actual, expected);
 
-  actual = doc[0].subexamples[2];
+  actual = doc[0].fragments[2];
   expected = {
     meta: {
       description: "description 4",
