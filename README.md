@@ -126,6 +126,27 @@ Should you need multiline examples, use [YAML's folded style](http://www.yaml.or
         }
 ```
 
+_beforeEach example_
+```pug
+//- @pugdoc
+  name: example
+  beforeEach: |
+    include ./my-mixin
+  examples:
+    - 
+      name: Example 1
+      example: +my-mixin(1)
+    - 
+      name: Example 2
+      example: +my-mixin(2)
+    - 
+      name: Example 2
+      beforeEach: 
+      example: +my-mixin(3) // ‹- error: my-mixin is undefined
+```
+
+
+
 ---
 
 #### Locals
@@ -165,12 +186,16 @@ div nope
 * `arguments` for mixin arguments.
 * `attributes` for (mixin) attributes.
 * `locals` for template locals.
+* `beforeEach` (string) add pug code before each example
+* `afterEach` (string) add pug code after each example
 * `example` (string) for example mixin call or example block
 * `examples` (list) for example mixin calls or example blocks
 * `examples.name`
 * `examples.description`
 * `examples.example` (string)
 * `examples.examples` (list)
+* `examples.beforeEach` (string) overwrite beforeEach for single example
+* `examples.afterEach` (string) overwrite afterEach for single example
 * `capture` for the number of code blocks to be captured
   - `all`: the rest of the document until it meets a lower indent
   - `section`: the rest of the document until it meets a lower indent or a new pugdoc comment

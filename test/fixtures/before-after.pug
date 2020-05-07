@@ -1,0 +1,136 @@
+//- @pugdoc
+  name: Before each, single example
+  beforeEach: |
+    include hello.pug
+    +hello('before')
+  example: div
+
+div
+
+//- @pugdoc
+  name: Before each, single example, mixin
+  beforeEach: |
+    include hello.pug
+  example: |
+    +foo
+      +hello(1)
+
+mixin foo
+  block
+
+//- @pugdoc
+  name: Before each, multiple examples
+  beforeEach: |
+    include hello.pug
+  examples:
+    - +hello(1)
+    - +hello(2)
+    - +hello(3)
+
+div
+//- @pugdoc
+  name: Before each, multiple examples, mixin
+  beforeEach: |
+    include hello.pug
+  examples:
+    - |
+      +foo
+        +hello(1)
+    - |
+      +foo
+        +hello(2)
+    - |
+      +foo
+        +hello(3)
+
+mixin foo
+  block
+
+//- @pugdoc
+  name: After each, single example
+  afterEach: |
+    include hello.pug
+    +hello('after')
+  example: div
+
+div
+
+//- @pugdoc
+  name: After each, single example, mixin
+  afterEach: |
+    include hello.pug
+    +hello('after')
+  example: |
+    +foo
+      div
+
+mixin foo
+  block
+
+//- @pugdoc
+  name: After each, multiple examples
+  afterEach: |
+    include hello.pug
+    +hello('after')
+  examples:
+    - div 1
+    - div 2
+    - div 3
+
+div
+
+//- @pugdoc
+  name: After each, multiple examples, mixin
+  afterEach: |
+    include hello.pug
+    +hello('after')
+  examples:
+    - |
+      +foo
+        div
+    - |
+      +foo
+        div
+    - |
+      +foo
+        div
+
+mixin foo
+  block
+
+//- @pugdoc
+  name: Before each, multiple named examples
+  beforeEach: |
+    include hello.pug
+  examples:
+    - 
+      name: Foo
+      example: +hello(1)
+    - 
+      name: Foo
+      example: +hello(2)
+    - 
+      name: Foo
+      beforeEach:
+      example: div
+
+div
+
+//- @pugdoc
+  name: After each, multiple named examples
+  afterEach: |
+    include hello.pug
+    +hello('after')
+  examples:
+    - 
+      name: Foo
+      example: div 1
+    - 
+      name: Foo
+      example: div 2
+    - 
+      name: Foo
+      afterEach: 
+      example: div 3
+
+div

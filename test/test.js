@@ -753,3 +753,93 @@ test("Error", function (assert) {
 pug_mixins.error is not a function`);
   st.end();
 });
+
+/**
+ * Before / After
+ */
+
+test("Before / After", function (assert) {
+  let src = fs.readFileSync("./test/fixtures/before-after.pug").toString();
+
+  let doc = pugDocParser.getPugdocDocuments(
+    src,
+    "./test/fixtures/before-after.pug"
+  );
+
+  actual = doc[0].output;
+  expected = "<hello>before</hello><div></div>";
+  assert.deepEqual(actual, expected, "Before each, single example");
+
+  actual = doc[1].output;
+  expected = "<hello>1</hello>";
+  assert.deepEqual(actual, expected, "Before each, single example, mixin");
+
+  actual = doc[2].output;
+  expected = "<hello>1</hello><hello>2</hello><hello>3</hello>";
+  assert.deepEqual(actual, expected, "Before each, multiple examples");
+
+  actual = doc[3].output;
+  expected = "<hello>1</hello><hello>2</hello><hello>3</hello>";
+  assert.deepEqual(actual, expected, "Before each, multiple examples, mixin");
+
+  actual = doc[4].output;
+  expected = "<div></div><hello>after</hello>";
+  assert.deepEqual(actual, expected, "After each, single example");
+
+  actual = doc[5].output;
+  expected = "<div></div><hello>after</hello>";
+  assert.deepEqual(actual, expected, "After each, single example, mixin");
+
+  actual = doc[6].output;
+  expected =
+    "<div>1</div><hello>after</hello><div>2</div><hello>after</hello><div>3</div><hello>after</hello>";
+  assert.deepEqual(actual, expected, "After each, multiple examples");
+
+  actual = doc[7].output;
+  expected =
+    "<div></div><hello>after</hello><div></div><hello>after</hello><div></div><hello>after</hello>";
+  assert.deepEqual(actual, expected, "After each, multiple examples, mixin");
+
+  actual = doc[8].output;
+  expected = "<hello>1</hello><hello>2</hello><div></div>";
+  assert.deepEqual(actual, expected, "Before each, multiple named examples");
+
+  actual = doc[8].fragments[0].output;
+  expected = "<hello>1</hello>";
+  assert.deepEqual(actual, expected, "Before each, multiple named examples 1");
+
+  actual = doc[8].fragments[1].output;
+  expected = "<hello>2</hello>";
+  assert.deepEqual(actual, expected, "Before each, multiple named examples 2");
+
+  actual = doc[8].fragments[2].output;
+  expected = "<div></div>";
+  assert.deepEqual(
+    actual,
+    expected,
+    "Before each, multiple named examples 3 - override beforeEach"
+  );
+
+  actual = doc[9].output;
+  expected =
+    "<div>1</div><hello>after</hello><div>2</div><hello>after</hello><div>3</div>";
+  assert.deepEqual(actual, expected, "After each, multiple named examples");
+
+  actual = doc[9].fragments[0].output;
+  expected = "<div>1</div><hello>after</hello>";
+  assert.deepEqual(actual, expected, "After each, multiple named examples 1");
+
+  actual = doc[9].fragments[1].output;
+  expected = "<div>2</div><hello>after</hello>";
+  assert.deepEqual(actual, expected, "After each, multiple named examples 2");
+
+  actual = doc[9].fragments[2].output;
+  expected = "<div>3</div>";
+  assert.deepEqual(
+    actual,
+    expected,
+    "After each, multiple named examples 3 - override afterEach"
+  );
+
+  assert.end();
+});
