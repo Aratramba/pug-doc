@@ -745,7 +745,9 @@ test("Error", function (assert) {
 
   let spawn = require("tape-spawn");
   let st = spawn(assert, "./cli.js test/fixtures/error.pug");
-  st.stderr.match(`Pug-doc error: {
+  st.stderr.match(`
+
+Pug-doc error: {
   "name": "error-mixin",
   "examples": [
     "+error-mixin()"
