@@ -182,7 +182,7 @@ div nope
 `npm install pug-doc`
 
 ```js
-var pugDoc = require('pug-doc');
+const pugDoc = require('pug-doc');
 
 pugDoc({
   input: '**/*.jade',

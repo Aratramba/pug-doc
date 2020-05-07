@@ -1,13 +1,13 @@
 "use strict";
 /* globals require, module */
 
-var fs = require("fs");
-var path = require("path");
-var mkdirp = require("mkdirp");
-var through2 = require("through2");
-var assign = require("object-assign");
-var fileRegister = require("text-file-register");
-var parser = require("./lib/parser.js");
+const fs = require("fs");
+const path = require("path");
+const mkdirp = require("mkdirp");
+const through2 = require("through2");
+const assign = require("object-assign");
+const fileRegister = require("text-file-register");
+const parser = require("./lib/parser.js");
 
 /**
  * Pug Documentation generator
@@ -31,30 +31,30 @@ function pugDoc(options) {
       input: null,
       output: null,
       locals: {},
-      complete: function() {}
+      complete: function () {},
     },
     options
   );
 
-  var counter = 0;
+  let counter = 0;
 
   // register files
-  var register = fileRegister();
+  const register = fileRegister();
   register.addFiles(options.input, init);
 
   // create readable stream
-  var stream = through2(
+  const stream = through2(
     { objectMode: true },
-    function(chunk, enc, next) {
+    function (chunk, enc, next) {
       this.push(chunk);
       next();
     },
-    function(cb) {
+    function (cb) {
       cb();
     }
   );
 
-  var output;
+  let output;
 
   /**
    * Init
@@ -70,11 +70,11 @@ function pugDoc(options) {
       output = fs.createWriteStream(options.output);
       output.write("[");
 
-      output.on("close", function() {
+      output.on("close", function () {
         stream.emit("complete");
       });
 
-      output.on("finish", function() {
+      output.on("finish", function () {
         if (options.complete && typeof options.complete === "function") {
           options.complete();
         }
@@ -82,21 +82,21 @@ function pugDoc(options) {
     }
 
     // get all jade files
-    var files = register.getAll();
-    var file;
+    const files = register.getAll();
+    let file;
 
     // collect docs for all files
     for (file in files) {
-      var pugDocDocuments = parser.getPugdocDocuments(
+      let pugDocDocuments = parser.getPugdocDocuments(
         files[file],
         file,
         options.locals
       );
       pugDocDocuments
-        .filter(function(docItem) {
+        .filter(function (docItem) {
           return Boolean(docItem);
         })
-        .forEach(function(docItem) {
+        .forEach(function (docItem) {
           // omit first comma
           if (counter !== 0 && options.output) {
             output.write(",");

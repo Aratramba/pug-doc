@@ -1,7 +1,7 @@
-var test = require("tape");
-var fs = require("fs");
-var pugDoc = require("../index");
-var pugDocParser = require("../lib/parser");
+const test = require("tape");
+const fs = require("fs");
+const pugDoc = require("../index");
+const pugDocParser = require("../lib/parser");
 
 /**
  * Complete
@@ -23,8 +23,8 @@ test("complete", function (assert) {
     input: ["./test/fixtures/tag.pug"],
     output: "./test/tmp/tag.json",
     complete: function () {
-      var src = fs.readFileSync("./test/tmp/tag.json").toString();
-      var obj = JSON.parse(src)[0];
+      let src = fs.readFileSync("./test/tmp/tag.json").toString();
+      let obj = JSON.parse(src)[0];
       assert.equal(
         obj.output,
         '<div class="some-tag">this is some tag foo</div>'
@@ -44,13 +44,13 @@ test("complete", function (assert) {
  */
 
 test("tag", function (assert) {
-  var stream = pugDoc({
+  let stream = pugDoc({
     input: ["./test/fixtures/tag.pug"],
   });
 
   stream.on("data", function (data) {
-    var actual = data.meta.name;
-    var expected = "some-tag";
+    let actual = data.meta.name;
+    let expected = "some-tag";
     assert.equal(actual, expected, "Name should match name inside YAML data");
 
     actual = data.file;
@@ -74,13 +74,13 @@ test("tag", function (assert) {
  */
 
 test("mixins", function (assert) {
-  var stream = pugDoc({
+  let stream = pugDoc({
     input: ["./test/fixtures/mixins.pug"],
   });
 
   stream.on("data", function (data) {
-    var actual = data.meta.name;
-    var expected = "mixin";
+    let actual = data.meta.name;
+    let expected = "mixin";
     assert.equal(actual, expected, "Name should match name inside YAML data");
 
     actual = data.meta.description;
@@ -221,13 +221,13 @@ test("mixins", function (assert) {
  */
 
 test("Include", function (assert) {
-  var stream = pugDoc({
+  let stream = pugDoc({
     input: ["./test/fixtures/include.pug"],
   });
 
   stream.on("data", function (data) {
-    var actual = data.meta.name;
-    var expected = "inclusion tag";
+    let actual = data.meta.name;
+    let expected = "inclusion tag";
     assert.equal(actual, expected, "Name should match name inside YAML data");
 
     actual = data.meta.description;
@@ -269,13 +269,13 @@ test("Include", function (assert) {
  */
 
 test("Extends", function (assert) {
-  var stream = pugDoc({
+  let stream = pugDoc({
     input: ["./test/fixtures/extends.pug"],
   });
 
   stream.on("data", function (data) {
-    var actual = data.meta.name;
-    var expected = "extends";
+    let actual = data.meta.name;
+    let expected = "extends";
     assert.equal(actual, expected, "Name should match name inside YAML data");
 
     actual = data.file;
@@ -304,10 +304,10 @@ test("Extends", function (assert) {
  */
 
 test("Parser: extract pugDoc", function (assert) {
-  var src = fs.readFileSync("./test/fixtures/multiple.pug").toString();
+  let src = fs.readFileSync("./test/fixtures/multiple.pug").toString();
 
-  var actual = pugDocParser.extractPugdocBlocks(src);
-  var expected = [
+  let actual = pugDocParser.extractPugdocBlocks(src);
+  let expected = [
     { code: "p foo", comment: "//- @pugdoc\n  name: foo", lineNumber: 1 },
     { code: "p faa", comment: "//- @pugdoc", lineNumber: 6 },
   ];
@@ -345,8 +345,8 @@ test("Parser: extract pugDoc", function (assert) {
 });
 
 test("Parser: parse comment", function (assert) {
-  var actual = pugDocParser.parsePugdocComment("\nname: foo\ndescription: faa");
-  var expected = { name: "foo", description: "faa" };
+  let actual = pugDocParser.parsePugdocComment("\nname: foo\ndescription: faa");
+  let expected = { name: "foo", description: "faa" };
   assert.deepEqual(actual, expected, "yaml comment should return object");
 
   actual = pugDocParser.parsePugdocComment("");
@@ -377,10 +377,10 @@ test("Parser: parse comment", function (assert) {
 });
 
 test("Parser: parse doc", function (assert) {
-  var src = fs.readFileSync("./test/fixtures/multiple.pug").toString();
+  let src = fs.readFileSync("./test/fixtures/multiple.pug").toString();
 
-  var actual = pugDocParser.getPugdocDocuments(src, "test.pug");
-  var expected = [
+  let actual = pugDocParser.getPugdocDocuments(src, "test.pug");
+  let expected = [
     {
       file: "test.pug",
       meta: { name: "foo" },
@@ -407,8 +407,8 @@ test("Parser: parse doc", function (assert) {
 });
 
 test("Get examples", function (assert) {
-  var actual = pugDocParser.getExamples({ example: "foo" });
-  var expected = ["foo"];
+  let actual = pugDocParser.getExamples({ example: "foo" });
+  let expected = ["foo"];
   assert.deepEqual(
     actual,
     expected,
@@ -490,10 +490,10 @@ test("Get examples", function (assert) {
  */
 
 test("Pug", function (assert) {
-  var src = fs.readFileSync("./test/fixtures/pug.pug").toString();
+  let src = fs.readFileSync("./test/fixtures/pug.pug").toString();
 
-  var actual = pugDocParser.getPugdocDocuments(src, "test.pug")[0].output;
-  var expected = '<div class="beep boop-biip">biip</div>';
+  let actual = pugDocParser.getPugdocDocuments(src, "test.pug")[0].output;
+  let expected = '<div class="beep boop-biip">biip</div>';
   assert.equal(actual, expected);
 
   assert.end();
@@ -505,13 +505,13 @@ test("Pug", function (assert) {
  */
 
 test("indented block", function (assert) {
-  var stream = pugDoc({
+  let stream = pugDoc({
     input: ["./test/fixtures/indent.pug"],
   });
 
   stream.on("data", function (data) {
-    var actual = data.source;
-    var expected = "div\n  div\n    div\n      p foo";
+    let actual = data.source;
+    let expected = "div\n  div\n    div\n      p foo";
     assert.equal(actual, expected, "Source code block should be correct");
 
     actual = data.output;
@@ -529,11 +529,11 @@ test("indented block", function (assert) {
 
 test("Locals", function (assert) {
   assert.plan(3);
-  var src = fs.readFileSync("./test/fixtures/locals.pug").toString();
+  let src = fs.readFileSync("./test/fixtures/locals.pug").toString();
 
   // test local
-  var actual = pugDocParser.getPugdocDocuments(src, "locals.pug")[0].output;
-  var expected = "<div>local\n</div>";
+  let actual = pugDocParser.getPugdocDocuments(src, "locals.pug")[0].output;
+  let expected = "<div>local\n</div>";
   assert.equal(actual, expected);
 
   // add global
@@ -558,11 +558,11 @@ test("Locals", function (assert) {
 
 test("Whitespace", function (assert) {
   assert.plan(1);
-  var src = fs.readFileSync("./test/fixtures/whitespace.pug").toString();
+  let src = fs.readFileSync("./test/fixtures/whitespace.pug").toString();
 
   // test local
-  var actual = pugDocParser.getPugdocDocuments(src, "41.pug")[0].output;
-  var expected = "<div>fooo faa\nfooo faa\nfooo faa</div>";
+  let actual = pugDocParser.getPugdocDocuments(src, "41.pug")[0].output;
+  let expected = "<div>fooo faa\nfooo faa\nfooo faa</div>";
   assert.equal(actual, expected);
 });
 
@@ -572,12 +572,12 @@ test("Whitespace", function (assert) {
  */
 
 test("Capture", function (assert) {
-  var src = fs.readFileSync("./test/fixtures/capture.pug").toString();
+  let src = fs.readFileSync("./test/fixtures/capture.pug").toString();
 
-  var doc = pugDocParser.getPugdocDocuments(src, "45.pug");
+  let doc = pugDocParser.getPugdocDocuments(src, "45.pug");
 
-  var actual = doc[0].output;
-  var expected = "<div>1</div><div>2</div><div>3</div>";
+  let actual = doc[0].output;
+  let expected = "<div>1</div><div>2</div><div>3</div>";
   assert.deepEqual(actual, expected);
 
   actual = doc[1].output;
@@ -605,15 +605,15 @@ test("Capture", function (assert) {
  */
 
 test("Examples", function (assert) {
-  var src = fs.readFileSync("./test/fixtures/examples.pug").toString();
+  let src = fs.readFileSync("./test/fixtures/examples.pug").toString();
 
-  var doc = pugDocParser.getPugdocDocuments(
+  let doc = pugDocParser.getPugdocDocuments(
     src,
     "./test/fixtures/examples.pug"
   );
 
-  var actual = doc[0].output;
-  var expected = '<div class="example"><p>this is my example</p></div>';
+  let actual = doc[0].output;
+  let expected = '<div class="example"><p>this is my example</p></div>';
   assert.deepEqual(actual, expected);
 
   actual = doc[1].output;
@@ -678,15 +678,15 @@ test("Examples", function (assert) {
  */
 
 test("Examples objects", function (assert) {
-  var src = fs.readFileSync("./test/fixtures/examples-objects.pug").toString();
+  let src = fs.readFileSync("./test/fixtures/examples-objects.pug").toString();
 
-  var doc = pugDocParser.getPugdocDocuments(
+  let doc = pugDocParser.getPugdocDocuments(
     src,
     "./test/fixtures/examples-objects.pug"
   );
 
-  var actual = doc[0].output;
-  var expected =
+  let actual = doc[0].output;
+  let expected =
     '<div class="example1a"><p>this is my example</p></div><div class="example1b"><p>this is my example</p></div><div class="example2"><p>this is my example</p></div><div class="example3"><p>this is my example</p></div><div class="example4"><p>this is my example</p></div>';
   assert.deepEqual(actual, expected);
 
@@ -736,15 +736,15 @@ test("Examples objects", function (assert) {
  */
 
 test("Error", function (assert) {
-  var src = fs.readFileSync("./test/fixtures/error.pug").toString();
-  var doc = pugDocParser.getPugdocDocuments(src, "./test/fixtures/error.pug");
+  let src = fs.readFileSync("./test/fixtures/error.pug").toString();
+  let doc = pugDocParser.getPugdocDocuments(src, "./test/fixtures/error.pug");
 
-  var actual = doc[0];
-  var expected = null;
+  let actual = doc[0];
+  let expected = null;
   assert.deepEqual(actual, expected);
 
-  var spawn = require("tape-spawn");
-  var st = spawn(assert, "./cli.js test/fixtures/error.pug");
+  let spawn = require("tape-spawn");
+  let st = spawn(assert, "./cli.js test/fixtures/error.pug");
   st.stderr.match(`TypeError: ${process.cwd()}/test/fixtures/error.pug:2
     1| mixin error-mixin()
   > 2|   +error

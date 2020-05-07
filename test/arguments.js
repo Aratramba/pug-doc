@@ -1,8 +1,8 @@
-var test = require("tape");
-var args = require("../lib/arguments");
+const test = require("tape");
+const args = require("../lib/arguments");
 
-test("jsdoc param", function(assert) {
-  var actual, expected;
+test("jsdoc param", function (assert) {
+  let actual, expected;
 
   // http://usejsdoc.org/tags-type.html
   // type symbol
@@ -14,7 +14,7 @@ test("jsdoc param", function(assert) {
     nullable: false,
     optional: false,
     type: "boolean",
-    original: "{boolean} arg - boolean"
+    original: "{boolean} arg - boolean",
   };
   assert.deepEqual(actual, expected, "type symbol");
 
@@ -26,7 +26,7 @@ test("jsdoc param", function(assert) {
     nullable: false,
     optional: false,
     type: "myNamespace.MyClass",
-    original: "{myNamespace.MyClass} arg - myNamespace.MyClass"
+    original: "{myNamespace.MyClass} arg - myNamespace.MyClass",
   };
   assert.deepEqual(actual, expected, "type symbol");
 
@@ -39,7 +39,7 @@ test("jsdoc param", function(assert) {
     nullable: false,
     optional: false,
     type: ["number", "boolean"],
-    original: "{(number|boolean)} arg - number or boolean"
+    original: "{(number|boolean)} arg - number or boolean",
   };
   assert.deepEqual(actual, expected, "type union");
 
@@ -52,7 +52,7 @@ test("jsdoc param", function(assert) {
     nullable: false,
     optional: false,
     type: "Array",
-    original: "{Array.<MyClass>} arg - An array of MyClass instances."
+    original: "{Array.<MyClass>} arg - An array of MyClass instances.",
   };
   assert.deepEqual(actual, expected, "type applications");
 
@@ -64,7 +64,7 @@ test("jsdoc param", function(assert) {
     nullable: false,
     optional: false,
     type: "Array",
-    original: "{MyClass[]} arg - An array of MyClass instances."
+    original: "{MyClass[]} arg - An array of MyClass instances.",
   };
   assert.deepEqual(actual, expected, "type applications");
 
@@ -79,7 +79,7 @@ test("jsdoc param", function(assert) {
     optional: false,
     type: "Object",
     original:
-      "{Object.<string, number>} arg - An object with string keys and number values"
+      "{Object.<string, number>} arg - An object with string keys and number values",
   };
   assert.deepEqual(actual, expected, "type applications");
 
@@ -95,7 +95,7 @@ test("jsdoc param", function(assert) {
     optional: false,
     type: "Object",
     original:
-      "{{a: number, b: string, c}} myObj - An object called 'myObj' with properties 'a' (a number), 'b' (a string) and 'c' (any type)."
+      "{{a: number, b: string, c}} myObj - An object called 'myObj' with properties 'a' (a number), 'b' (a string) and 'c' (any type).",
   };
   assert.deepEqual(actual, expected, "type record");
 
@@ -111,7 +111,7 @@ test("jsdoc param", function(assert) {
     optional: false,
     type: "Object",
     original:
-      "{Object} myObj - An object called 'myObj' with properties 'a' (a number), 'b' (a string) and 'c' (any type)."
+      "{Object} myObj - An object called 'myObj' with properties 'a' (a number), 'b' (a string) and 'c' (any type).",
   };
   assert.deepEqual(actual, expected, "type record");
 
@@ -127,7 +127,7 @@ test("jsdoc param", function(assert) {
     optional: false,
     type: "number",
     original:
-      "{number} myObj.a - An object called 'myObj' with properties 'a' (a number), 'b' (a string) and 'c' (any type)."
+      "{number} myObj.a - An object called 'myObj' with properties 'a' (a number), 'b' (a string) and 'c' (any type).",
   };
   assert.deepEqual(actual, expected, "type record");
 
@@ -143,7 +143,7 @@ test("jsdoc param", function(assert) {
     optional: false,
     type: "string",
     original:
-      "{string} myObj.b - An object called 'myObj' with properties 'a' (a number), 'b' (a string) and 'c' (any type)."
+      "{string} myObj.b - An object called 'myObj' with properties 'a' (a number), 'b' (a string) and 'c' (any type).",
   };
   assert.deepEqual(actual, expected, "type record");
 
@@ -156,7 +156,7 @@ test("jsdoc param", function(assert) {
     nullable: true,
     optional: false,
     type: "number",
-    original: "{?number} arg - nullable"
+    original: "{?number} arg - nullable",
   };
   assert.deepEqual(actual, expected, "Nullable type");
 
@@ -169,7 +169,7 @@ test("jsdoc param", function(assert) {
     nullable: false,
     optional: false,
     type: "number",
-    original: "{!number} arg - non nullable"
+    original: "{!number} arg - non nullable",
   };
   assert.deepEqual(actual, expected, "Non-nullable type");
 
@@ -186,7 +186,7 @@ test("jsdoc param", function(assert) {
     optional: false,
     type: "number",
     original:
-      "{...number} arg - This function accepts a variable number of numeric parameters."
+      "{...number} arg - This function accepts a variable number of numeric parameters.",
   };
   assert.deepEqual(actual, expected, "Variable number of that type");
 
@@ -199,7 +199,7 @@ test("jsdoc param", function(assert) {
     nullable: false,
     optional: true,
     type: "number",
-    original: "{number} [foo] - An optional parameter named foo."
+    original: "{number} [foo] - An optional parameter named foo.",
   };
   assert.deepEqual(actual, expected, "Optional parameter");
 
@@ -211,7 +211,7 @@ test("jsdoc param", function(assert) {
     nullable: false,
     optional: true,
     type: "number",
-    original: "{number=} foo - An optional parameter named foo."
+    original: "{number=} foo - An optional parameter named foo.",
   };
   assert.deepEqual(actual, expected, "Optional parameter");
 
@@ -226,15 +226,15 @@ test("jsdoc param", function(assert) {
     optional: true,
     type: "number",
     original:
-      "{number} [foo=1] - An optional parameter foo with default value 1."
+      "{number} [foo=1] - An optional parameter foo with default value 1.",
   };
   assert.deepEqual(actual, expected, "Optional parameter");
 
   assert.end();
 });
 
-test("yaml arguments escape", function(assert) {
-  var actual, expected;
+test("yaml arguments escape", function (assert) {
+  let actual, expected;
 
   actual = args.escapeArgumentsYAML(
     "foo:\n  arguments:\n    - {string} str1 - my string\n    - {string} str2 - my string\n",
@@ -266,8 +266,8 @@ test("yaml arguments escape", function(assert) {
   assert.end();
 });
 
-test("yaml attributes escape", function(assert) {
-  var actual, expected;
+test("yaml attributes escape", function (assert) {
+  let actual, expected;
 
   actual = args.escapeArgumentsYAML(
     "foo:\n  attributes:\n    - {string} str1 - my string\n    - {string} str2 - my string\n",
@@ -299,7 +299,7 @@ test("yaml attributes escape", function(assert) {
   assert.end();
 });
 
-test("get jsdoc name", function(assert) {
+test("get jsdoc name", function (assert) {
   assert.equal(args.getJSDocName("attr1-foo"), "attr1-foo");
   assert.equal(args.getJSDocName("attr1 - this is attr1"), "attr1");
   assert.equal(
