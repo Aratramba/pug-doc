@@ -60,7 +60,7 @@ acorn-globals@^3.0.0:
   dependencies:
     acorn "^4.0.4"
 
-acorn@^3.1.0, acorn@~3.3.0:
+acorn@^3.1.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
   integrity sha1-ReN/s56No/JbruP/U2niu18iAXo=
@@ -334,13 +334,6 @@ defined@^1.0.0:
   resolved "https://registry.yarnpkg.com/defined/-/defined-1.0.0.tgz#c98d9bcef75674188e110969151199e39b1fa693"
   integrity sha1-yY2bzvdWdBiOEQlpFRGZ45sfppM=
 
-detect-indent@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-4.0.0.tgz#f76d064352cdf43a1cb6ce619c4ee3a9475de208"
-  integrity sha1-920GQ1LN9Docts5hnE7jqUdd4gg=
-  dependencies:
-    repeating "^2.0.0"
-
 detect-indent@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-6.0.0.tgz#0abd0f549f69fc6659a254fe96786186b6f528fd"
@@ -578,14 +571,6 @@ is-date-object@^1.0.1, is-date-object@^1.0.2:
   resolved "https://registry.yarnpkg.com/is-date-object/-/is-date-object-1.0.2.tgz#bda736f2cd8fd06d32844e7743bfa7494c3bfd7e"
   integrity sha512-USlDT524woQ08aoZFzh3/Z6ch9Y/EWXEHQ/AaRN0SkKq4t2Jw2R2339tSXmwuVoY7LLlBCbOIlx2myP/L5zk0g==
 
-is-expression@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/is-expression/-/is-expression-2.1.0.tgz#91be9d47debcfef077977e9722be6dcfb4465ef0"
-  integrity sha1-kb6dR968/vB3l36XIr5tz7RGXvA=
-  dependencies:
-    acorn "~3.3.0"
-    object-assign "^4.0.1"
-
 is-expression@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/is-expression/-/is-expression-3.0.0.tgz#39acaa6be7fd1f3471dc42c7416e61c24317ac9f"
@@ -593,11 +578,6 @@ is-expression@^3.0.0:
   dependencies:
     acorn "~4.0.2"
     object-assign "^4.0.1"
-
-is-finite@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/is-finite/-/is-finite-1.1.0.tgz#904135c77fb42c0641d6aa1bcdbc4daa8da082f3"
-  integrity sha512-cdyMtqX/BOqqNBBiKlIVkytNHm49MtMlYyn1zxzvJKWmFMlGzm+ry5BBfYyeY9YmNKbRSo/o7OX9w9ale0wg3w==
 
 is-map@^2.0.1:
   version "2.0.1"
@@ -951,14 +931,14 @@ pug-attrs@^2.0.4:
     pug-runtime "^2.0.5"
 
 pug-code-block@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/pug-code-block/-/pug-code-block-3.5.0.tgz#a4b782505768bb74a925d5859c736b0d22be91f0"
-  integrity sha1-pLeCUFdou3SpJdWFnHNrDSK+kfA=
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/pug-code-block/-/pug-code-block-3.6.0.tgz#894548cb28f73d21f027ef5af44a409ba1c863e0"
+  integrity sha512-OQvzxqiNGTcyateOWJIMIN2xDV+VeLIybPvFTCfo6p/u1rSl2KTUg9IDXpKmYW3TYuLjMUr6UW4ehRxoHxKxvA==
   dependencies:
-    detect-indent "^4.0.0"
-    is-regex "^1.0.3"
-    pug-lexer "^1.0.0"
-    rebase-indent "^1.5.0"
+    detect-indent "^6.0.0"
+    is-regex "^1.0.5"
+    pug-lexer "^4.1.0"
+    rebase-indent "^1.6.0"
 
 pug-code-gen@^2.0.2:
   version "2.0.2"
@@ -974,7 +954,7 @@ pug-code-gen@^2.0.2:
     void-elements "^2.0.1"
     with "^5.0.0"
 
-pug-error@^1.3.0, pug-error@^1.3.3:
+pug-error@^1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/pug-error/-/pug-error-1.3.3.tgz#f342fb008752d58034c185de03602dd9ffe15fa6"
   integrity sha512-qE3YhESP2mRAWMFJgKdtT5D7ckThRScXRwkfo+Erqga7dyJdY3ZquspprMCj/9sJ2ijm5hXFWQE/A3l4poMWiQ==
@@ -991,15 +971,6 @@ pug-filters@^3.1.1:
     pug-walk "^1.1.8"
     resolve "^1.1.6"
     uglify-js "^2.6.1"
-
-pug-lexer@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/pug-lexer/-/pug-lexer-1.2.0.tgz#895b5711a2298b7b1d0d6cfd389e57e7c6f54c40"
-  integrity sha1-iVtXEaIpi3sdDWz9OJ5X58b1TEA=
-  dependencies:
-    character-parser "^2.1.1"
-    is-expression "^2.0.0"
-    pug-error "^1.3.0"
 
 pug-lexer@^4.1.0:
   version "4.1.0"
@@ -1108,12 +1079,12 @@ readable-stream@~1.1.11, readable-stream@~1.1.9:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-rebase-indent@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/rebase-indent/-/rebase-indent-1.5.0.tgz#a4d5cdf5faea0e6f135f083b983fb364a7842ddb"
-  integrity sha1-pNXN9frqDm8TXwg7mD+zZKeELds=
+rebase-indent@^1.5.0, rebase-indent@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/rebase-indent/-/rebase-indent-1.6.0.tgz#9078ec234adc88d9aa61bd98aaaa242d6ecb0ed7"
+  integrity sha512-EMIlAAzL1wtw6L/hUWG3lk+prAZgmGkNZ7gXLByzVMw/cicgSMVnEM0MZGo9ZT6jEojFR5Jh8ADF3HD9YPkboQ==
   dependencies:
-    detect-indent "^4.0.0"
+    detect-indent "^6.0.0"
 
 redent@^3.0.0:
   version "3.0.0"
@@ -1140,13 +1111,6 @@ repeat-string@^1.5.2:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
   integrity sha1-jcrkcOHIirwtYA//Sndihtp15jc=
-
-repeating@^2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/repeating/-/repeating-2.0.1.tgz#5214c53a926d3552707527fbab415dbc08d06dda"
-  integrity sha1-UhTFOpJtNVJwdSf7q0FdvAjQbdo=
-  dependencies:
-    is-finite "^1.0.0"
 
 resolve@^1.1.6, resolve@^1.10.0, resolve@^1.17.0:
   version "1.17.0"

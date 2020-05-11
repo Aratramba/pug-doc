@@ -36,7 +36,7 @@
     "mkdirp": "^1.0.4",
     "object-assign": "^4.1.1",
     "pug": "^2.0.4",
-    "pug-code-block": "^3.5.0",
+    "pug-code-block": "^3.6.0",
     "pug-runtime": "^2.0.5",
     "rebase-indent": "^1.5.0",
     "text-file-register": "^0.1.0",
