@@ -1,0 +1,72 @@
+//- @pugdoc
+  name: Wrap example one level
+  expected: <div><span></span></div>
+  wrap: |
+    div
+      block
+  example: |
+    span
+
+div
+
+//- @pugdoc
+  name: Wrap example one level, before/after
+  expected: <div>before</div><div><span></span></div><div>after</div>
+  wrap: |
+    div before
+    div
+      block
+    div after
+  example: |
+    span
+
+div
+
+//- @pugdoc
+  name: Wrap example two levels
+  expected: <div><p><span></span></p></div>
+  wrap: |
+    div
+      p
+        block
+  example: |
+    span
+
+div
+
+//- @pugdoc
+  name: Wrap examples one level
+  expected: <div><span>1</span><span>2</span></div>
+  wrap: |
+    div
+      block
+  examples:
+    -
+      name: Foo 1
+      example: |
+        span 1
+    -
+      name: Foo 2
+      example: |
+        span 2
+
+div
+
+//- @pugdoc
+  name: Wrap examples two levels
+  expected: <div><p><span>1</span><span>2</span></p></div>
+  wrap: |
+    div
+      p
+        block
+  examples:
+    -
+      name: Foo 1
+      example: |
+        span 1
+    -
+      name: Foo 2
+      example: |
+        span 2
+
+div
