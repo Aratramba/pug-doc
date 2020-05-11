@@ -1,5 +1,14 @@
 {
   "[javascript]": {
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
     "editor.formatOnSave": true
-  }
+  },
+  "[jade]": {
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
 }
