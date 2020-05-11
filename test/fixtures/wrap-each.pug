@@ -1,0 +1,92 @@
+//- @pugdoc
+  name: Wrap examples each object one level
+  expected: <div><span>1</span></div><div><span>2</span></div>
+  wrapEach: |
+    div
+      block
+  examples:
+    -
+      name: Foo 1
+      example: |
+        span 1
+    -
+      name: Foo 2
+      example: |
+        span 2
+
+div
+
+//- @pugdoc
+  name: Wrap examples each object two levels
+  expected: <div><p><span>1</span></p></div><div><p><span>2</span></p></div>
+  wrapEach: |
+    div
+      p
+        block
+  examples:
+    -
+      name: Foo 1
+      example: |
+        span 1
+    -
+      name: Foo 2
+      example: |
+        span 2
+
+div
+
+//- @pugdoc
+  name: Wrap examples each simple one level
+  expected: <div><span>1</span></div><div><span>2</span></div>
+  wrapEach: |
+    div
+      block
+  examples:
+    - | span 1
+    - | span 2
+    
+div
+
+//- @pugdoc
+  name: Wrap examples each simple two levels
+  expected: <div><p><span>1</span></p></div><div><p><span>2</span></p></div>
+  wrapEach: |
+    div
+      p
+        block
+  examples:
+    - | span 1
+    - | span 2
+    
+div
+
+//- @pugdoc
+  name: Wrap examples each before
+  expected: <div>before</div><div><p><span>1</span></p></div><div><p><span>2</span></p></div><div>after</div>
+  wrapEach: |
+    div before
+    div
+      p
+        block
+    div after
+  examples:
+    - | span 1
+    - | span 2
+    
+div
+
+//- @pugdoc
+  name: Wrap examples each mixin
+  expected: <hello>1</hello><hello>2</hello>
+  wrapEach: |
+    include ./hello
+    div
+      p
+        block
+    div after
+  examples:
+    - | +hello(1)
+    - | +hello(2)
+    
+mixin foo(str)
+  div #{str}
