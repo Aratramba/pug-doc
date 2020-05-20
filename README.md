@@ -70,8 +70,6 @@ You can add an example or multiple examples with the `example` or `examples` key
 
 For documenting mixins the use of examples is recommended, since mixins will not be executed if no examples are given. For other pug blocks, examples are optional and can be used to add extra context (e.g. a parent div with styling).
 
-If an object is found inside the examples list, two things will happen. The subexample is 1) rendered and appended to the rest of the examples and 2) added to a list of fragments. This way a complete, rendered HTML example will be available, while also keeping the named subexamples intact.
-
 _single example_
 ```pug
 //- @pugdoc
@@ -83,7 +81,7 @@ _single example_
 p this is my example
 ```
 
-_multiple example_
+_unnamed examples_
 ```pug
 //- @pugdoc
   name: example
@@ -98,7 +96,9 @@ _multiple example_
 p this is my example
 ```
 
-_subexamples example_
+If an object is found inside the examples list, two things will happen. The subexample is 1) rendered and appended to the rest of the examples and 2) added to a list of fragments. This way a complete, rendered HTML example will be available, while also keeping the named subexamples intact. 
+
+_named examples and combined example_
 ```pug
 //- @pugdoc
   name: example
@@ -117,18 +117,29 @@ _subexamples example_
 p this is my example
 ```
 
-Should you need multiline examples, use [YAML's folded style](http://www.yaml.org/spec/1.2/spec.html#id2796251), like:
+The behavior of combining examples into 1 can be turned of by setting `example: false`.
 
+_only named examples_
 ```pug
-  //- @pugdoc
-    examples:
-      - >
-        +myMixin({
-          foo: 'foo
-        }
+//- @pugdoc
+  name: example
+  example: false
+  examples: 
+    - 
+      name: Subexample 1
+      example: |
+        div.example1
+          block
+    - 
+      name: Subexample 2
+      example: |
+        div.example2
+          block
+
+p this is my example
 ```
 
-_beforeEach example_
+_beforeEach_
 ```pug
 //- @pugdoc
   name: example
@@ -146,7 +157,6 @@ _beforeEach example_
       beforeEach: 
       example: +my-mixin(3) // ‹- error: my-mixin is undefined
 ```
-
 
 
 ---
