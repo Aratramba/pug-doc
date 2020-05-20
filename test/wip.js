@@ -6,11 +6,8 @@ const pugDocParser = require("../lib/parser");
 //   input: ["./test/fixtures/examples-objects.pug"],
 // });
 
-const src = fs.readFileSync("./test/fixtures/error.pug").toString();
-const doc = pugDocParser.getPugdocDocuments(
-  src,
-  "./test/fixtures/before-after.pug"
-);
-// console.log("---");
+const src = fs.readFileSync("./test/fixtures/examples-group.pug").toString();
+const doc = pugDocParser.getPugdocDocuments(src, "./test/fixtures/group.pug");
 
-// console.log(doc[0]);
+console.log("---");
+console.log(doc);
