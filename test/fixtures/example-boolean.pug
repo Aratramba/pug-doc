@@ -1,0 +1,59 @@
+//- @pugdoc
+  name: Grouped examples implicit
+  expected: <div>1</div><div>2</div>
+  examples: 
+    - 
+      name: Example 1
+      example: |
+        div 1
+    - 
+      name: Example 2
+      example: |
+        div 2
+
+div
+
+//- @pugdoc
+  name: Grouped examples
+  example: true
+  expected: <div>1</div><div>2</div>
+  examples: 
+    - 
+      name: Example 1
+      example: |
+        div 1
+    - 
+      name: Example 2
+      example: |
+        div 2
+
+div
+
+//- @pugdoc
+  name: No grouped examples
+  example: false
+  expected: null
+  examples: 
+    - 
+      name: Example 1
+      example: |
+        div 1
+    - 
+      name: Example 2
+      example: |
+        div 2
+
+div
+
+//- @pugdoc
+  name: Example true
+  example: true
+  expected: <div></div>
+
+div
+
+//- @pugdoc
+  name: Example false
+  example: false
+
+div
