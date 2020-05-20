@@ -1,11 +1,13 @@
 # Pug-doc
-Pug-doc is a [Pug (Jade)](http://www.jade-lang.com) documentation generator. It takes Jade files as input, looks for comments flagged with `@pugdoc` and puts its contents in an output JSON file. It looks for the immediate next pug code block for output.
+Pug-doc is a [Pug](http://www.pugjs.org) documentation generator. It takes Pug files as input, looks for comments flagged with `@pugdoc` and puts its contents in an output JSON file. It looks for the immediate next pug code block for output.
 
-_This package does not provide a styled interface for the documentation itself._ Use [pug-doc-html](https://github.com/Aratramba/pug-doc-html) or [pug-doc-markdown](https://github.com/Aratramba/pug-doc-markdown) for human readable docs. Optionally use [pug-doc-faucet](https://github.com/Aratramba/pug-doc-faucet) for prettier terminal reporting.
+> This package does not provide a styled interface for the documentation itself. Use [Discodip](https://www.npmjs.com/package/discodip) for HTML output of all the examples, which can be used however you like. 
+
+> You could also use [pug-doc-html](https://github.com/Aratramba/pug-doc-html) or [pug-doc-markdown](https://github.com/Aratramba/pug-doc-markdown) for human readable docs. Optionally use [pug-doc-faucet](https://github.com/Aratramba/pug-doc-faucet) for prettier terminal reporting.
 
 
 ## Usage
-Use the keyword `@pugdoc` to flag [unbuffered block comments](http://jade-lang.com/reference/comments/) inside your jade files. Comments should be written in properly formatted [YAML](http://en.wikipedia.org/wiki/YAML) format.
+Use the keyword `@pugdoc` to flag [unbuffered block comments](https://pugjs.org/language/comments.html) inside your pug files. Comments should be written in properly formatted [YAML](http://en.wikipedia.org/wiki/YAML) format.
 
 ```pug
 //- @pugdoc
@@ -66,7 +68,7 @@ mixin myMixin(arg1, arg2)
 #### Examples
 You can add an example or multiple examples with the `example` or `examples` keyword, where the former is a YAML string and the latter a YAML list. The `block` flag will be replaced by the captured block.
 
-For documenting mixins the use of examples is recommended, since mixins will not be executed if no examples are given. For other jade blocks, examples are optional and can be used to add extra context (e.g. a parent div with styling).
+For documenting mixins the use of examples is recommended, since mixins will not be executed if no examples are given. For other pug blocks, examples are optional and can be used to add extra context (e.g. a parent div with styling).
 
 If an object is found inside the examples list, two things will happen. The subexample is 1) rendered and appended to the rest of the examples and 2) added to a list of fragments. This way a complete, rendered HTML example will be available, while also keeping the named subexamples intact.
 
@@ -188,7 +190,9 @@ div nope
 * `locals` for template locals.
 * `beforeEach` (string) add pug code before each example
 * `afterEach` (string) add pug code after each example
-* `example` (string) for example mixin call or example block
+* `example` 
+  - (string) for example mixin call or example block, or 
+  - (false) to prevent rendering of master example combining all examples
 * `examples` (list) for example mixin calls or example blocks
 * `examples.name`
 * `examples.description`
@@ -210,7 +214,7 @@ div nope
 const pugDoc = require('pug-doc');
 
 pugDoc({
-  input: '**/*.jade',
+  input: '**/*.pug',
   output: 'anything.json',
   complete: function(){},
   locals: {
@@ -226,7 +230,7 @@ pugDoc({
 Mixins are standalone blocks, so you need to include any dependencies inside the mixin.
 
 ```pug
-include ../mixin1.jade
+include ../mixin1.pug
 
 //- @pugdoc
   name: mixin2
@@ -236,11 +240,11 @@ mixin mixin2
   +mixin1
 ```
 
-Will throw something like `TypeError: jade_mixins.mixin1 is not a function on line x`. Instead you need to do the include inside the mixin, 
+Will throw something like `TypeError: pug_mixins.mixin1 is not a function on line x`. Instead you need to do the include inside the mixin, 
 
 ```pug
 mixin mixin2
-  include ../mixin1.jade
+  include ../mixin1.pug
   +mixin1
 +mixin2
 ```
@@ -251,7 +255,7 @@ or include it inside the example
 //- @pugdoc
   name: mixin2
   example: |
-    include ../mixin1.jade
+    include ../mixin1.pug
     +mixin2
 
 mixin mixin2
@@ -265,12 +269,12 @@ mixin mixin2
 Optionally use it through the command line.
 
 ```bash
-pug-doc input.jade
+pug-doc input.pug
 ```
 
 ```bash
-pug-doc input.jade --output output.json
-pug-doc "**/*.jade" --output output.json
+pug-doc input.pug --output output.json
+pug-doc "**/*.pug" --output output.json
 ```
 
 
@@ -284,7 +288,7 @@ Output will look something like this.
       "name": "foo",
       "description": "foo description"
     },
-    "file": "file.jade",
+    "file": "file.pug",
     "source": "// foo",
     "output": "<!-- foo-->"
   }

@@ -55,7 +55,7 @@ test("tag", function (assert) {
 
     actual = data.file;
     expected = "test/fixtures/tag.pug";
-    assert.equal(actual, expected, "Filename should match the jade file");
+    assert.equal(actual, expected, "Filename should match the pug file");
 
     actual = data.source;
     expected = "div.some-tag\n  | this is some tag #{foo}";
@@ -84,7 +84,7 @@ test("mixins", function (assert) {
     assert.equal(actual, expected, "Name should match name inside YAML data");
 
     actual = data.meta.description;
-    expected = "this is jade mixin documentation";
+    expected = "this is pug mixin documentation";
     assert.equal(
       actual,
       expected,
@@ -93,7 +93,7 @@ test("mixins", function (assert) {
 
     actual = data.file;
     expected = "test/fixtures/mixins.pug";
-    assert.equal(actual, expected, "Filename should match the jade file");
+    assert.equal(actual, expected, "Filename should match the pug file");
 
     // arguments
     actual = Array.isArray(data.meta.arguments);
@@ -240,7 +240,7 @@ test("Include", function (assert) {
 
     actual = data.file;
     expected = "test/fixtures/include.pug";
-    assert.equal(actual, expected, "Filename should match the jade file");
+    assert.equal(actual, expected, "Filename should match the pug file");
 
     actual = data.source;
     expected =
@@ -280,7 +280,7 @@ test("Extends", function (assert) {
 
     actual = data.file;
     expected = "test/fixtures/extends.pug";
-    assert.equal(actual, expected, "Filename should match the jade file");
+    assert.equal(actual, expected, "Filename should match the pug file");
 
     actual = data.source;
     expected = "extends tag.pug";
@@ -849,6 +849,44 @@ test("Before / After", function (assert) {
     expected,
     "After each, multiple named examples 3 - override afterEach"
   );
+
+  assert.end();
+});
+
+/**
+ * Group examples
+ */
+
+test("Group examples", (assert) => {
+  let src = fs.readFileSync("./test/fixtures/example-boolean.pug").toString();
+  let doc = pugDocParser.getPugdocDocuments(
+    src,
+    "./test/fixtures/example-boolean.pug"
+  );
+
+  const lastItem = doc.pop();
+
+  doc.forEach((pugdoc) => {
+    actual = pugdoc.output;
+    expected = pugdoc.meta.expected;
+    assert.deepEqual(actual, expected, pugdoc.meta.name);
+  });
+
+  actual = doc[0].fragments.length;
+  expected = 2;
+  assert.deepEqual(actual, expected, doc[0].meta.name);
+
+  actual = doc[1].fragments.length;
+  expected = 2;
+  assert.deepEqual(actual, expected, doc[1].meta.name);
+
+  actual = doc[2].fragments.length;
+  expected = 2;
+  assert.deepEqual(actual, expected, doc[1].meta.name);
+
+  actual = lastItem;
+  expected = null;
+  assert.deepEqual(actual, expected, "No output for example false");
 
   assert.end();
 });

@@ -81,7 +81,7 @@ function pugDoc(options) {
       });
     }
 
-    // get all jade files
+    // get all pug files
     const files = register.getAll();
     let file;
 

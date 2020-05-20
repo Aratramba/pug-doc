@@ -7,7 +7,7 @@ const JSONStream = require("JSONStream");
 
 const cli = meow(`
     "Usage",
-    "  $ pug-doc input.jade --output output.json",
+    "  $ pug-doc input.pug --output output.json",
     "",
     "Options",
     "  --output    Set output json file"
