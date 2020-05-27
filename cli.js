@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-"use strict";
 
 const meow = require("meow");
 const pugDoc = require("./index");
@@ -11,16 +10,26 @@ const cli = meow(`
     "",
     "Options",
     "  --output    Set output json file"
+    "  --silent    No terminal output"
   `);
+
+console.time("Finished Pug-doc");
 
 const pd = new pugDoc({
   input: cli.input[0],
   output: cli.flags.output,
+  useCache: Boolean(cli.flags.useCache),
 });
 
-process.stdin.pipe(pd).pipe(JSONStream.stringify()).pipe(process.stdout);
+const stream = process.stdin.pipe(pd).pipe(JSONStream.stringify());
+
+if (!cli.flags.silent) {
+  stream.pipe(process.stdout);
+}
 
 pd.on("complete", function () {
+  console.log("");
+  console.timeEnd("Finished Pug-doc");
   process.exit();
 });
 
