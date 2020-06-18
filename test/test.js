@@ -2,6 +2,7 @@ const test = require("tape");
 const fs = require("fs");
 const pugDoc = require("../index");
 const pugDocParser = require("../lib/parser");
+const stripAnsi = require("strip-ansi");
 
 /**
  * Complete
@@ -362,7 +363,7 @@ test("Parser: parse comment", function (assert) {
   assert.deepEqual(
     actual,
     expected,
-    "comment parser should return empty object if no input was given"
+    "comment parser should return empty object if no doc params are given 1"
   );
 
   actual = pugDocParser.parsePugdocComment("//- @pugdoc\n");
@@ -370,7 +371,7 @@ test("Parser: parse comment", function (assert) {
   assert.deepEqual(
     actual,
     expected,
-    "comment parser should return empty object if no input was given"
+    "comment parser should return empty object if no doc params are given 2"
   );
 
   assert.end();
@@ -744,30 +745,44 @@ test("Examples objects", function (assert) {
 
 test("Error", function (assert) {
   let src = fs.readFileSync("./test/fixtures/error.pug").toString();
-  let doc = pugDocParser.getPugdocDocuments(src, "./test/fixtures/error.pug");
 
-  let actual = doc[0];
-  let expected = null;
-  assert.deepEqual(actual, expected);
+  let messages = [];
+  pugDocParser.getPugdocDocuments(
+    src,
+    "./test/fixtures/error.pug",
+    {},
+    {},
+    {
+      log: (msg) => {
+        messages.push(stripAnsi(msg));
+      },
+    }
+  );
 
-  let spawn = require("tape-spawn");
-  let st = spawn(assert, "./cli.js test/fixtures/error.pug");
-  st.stderr.match(`
+  let actual = messages[0];
+  let expected = "error-mixin";
+  assert.deepEqual(actual, expected, "name should be visible on error");
 
-Pug-doc error: {
+  actual = messages[1];
+  expected = `error: {
   "name": "error-mixin",
   "examples": [
     "+error-mixin()"
   ]
-}
+}`;
+  assert.deepEqual(actual, expected, "pugdoc should be visible on error");
 
-TypeError: ${process.cwd()}/test/fixtures/error.pug:2
+  actual = messages[2];
+  expected = `
+TypeError: ./test/fixtures/error.pug:2
     1| mixin error-mixin()
   > 2|   +error
     3| +error-mixin()
 
-pug_mixins.error is not a function`);
-  st.end();
+pug_mixins.error is not a function
+`;
+  assert.deepEqual(actual, expected, "pug error should be visible");
+  assert.end();
 });
 
 /**
