@@ -1,6 +1,3 @@
-"use strict";
-/* globals require, module */
-
 const fs = require("fs");
 const path = require("path");
 const mkdirp = require("mkdirp");
@@ -32,6 +29,7 @@ function pugDoc(options) {
       output: null,
       locals: {},
       complete: function () {},
+      useCache: true,
     },
     options
   );
@@ -53,6 +51,64 @@ function pugDoc(options) {
       cb();
     }
   );
+
+  // make lookup cache
+  let cache = {};
+  if (options.useCache) {
+    let cachedOutputJSON = null;
+    if (options.output) {
+      try {
+        cachedOutputJSON = require(`${__dirname}/${options.output}`);
+      } catch (err) {}
+    }
+
+    if (cachedOutputJSON) {
+      // make dict for documents
+      cache = cachedOutputJSON.reduce((acc, cur, i) => {
+        if (!cur.meta.name) {
+          process.stderr.write(
+            `\nPug-doc error: No document name given in ${cur.file}\n`
+          );
+        }
+
+        if (cur.meta.name && acc[cur.meta.name]) {
+          process.stderr.write(
+            `\n\nPug-doc error: Duplicate document name: ‹${cur.meta.name}› in ${cur.file}`
+          );
+          process.stderr.write(`\n${JSON.stringify(cur.meta, null, 2)}`);
+        }
+
+        // make dict for fragments
+
+        if (cur.fragments) {
+          console.log(typeof cur.fragments);
+          cur.fragmentsDict = cur.fragments.reduce((acc2, cur2, i) => {
+            if (!cur2.meta.name) {
+              process.stderr.write(
+                `\nPug-doc error: No example name given at ‹${cur.meta.name}› in ${cur.file}\n`
+              );
+            }
+
+            if (cur2.meta.name && acc2[cur2.meta.name]) {
+              process.stderr.write(
+                `\n\nPug-doc error: Duplicate example name: ‹${cur2.meta.name}› at ${cur.meta.name} in ${cur.file}`
+              );
+            }
+
+            acc2[cur2.meta.name] = { ...cur2 };
+            return acc2;
+          }, {});
+
+          cur.fragments = { ...cur.fragmentsDict };
+          delete cur.fragmentsDict;
+        }
+
+        acc[cur.meta.name] = cur;
+
+        return acc;
+      }, {});
+    }
+  }
 
   let output;
 
@@ -90,7 +146,8 @@ function pugDoc(options) {
       let pugDocDocuments = parser.getPugdocDocuments(
         files[file],
         file,
-        options.locals
+        options.locals,
+        cache
       );
       pugDocDocuments
         .filter(function (docItem) {
