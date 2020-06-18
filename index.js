@@ -1,6 +1,3 @@
-"use strict";
-/* globals require, module */
-
 const fs = require("fs");
 const path = require("path");
 const mkdirp = require("mkdirp");
@@ -25,6 +22,8 @@ function pugDoc(options) {
     throw new Error("Pug doc requires settings.input to be set.");
   }
 
+  console.time("Pugdoc complete");
+
   // options
   options = assign(
     {
@@ -32,6 +31,8 @@ function pugDoc(options) {
       output: null,
       locals: {},
       complete: function () {},
+      useCache: true,
+      log: log,
     },
     options
   );
@@ -53,6 +54,41 @@ function pugDoc(options) {
       cb();
     }
   );
+
+  // make lookup cache
+  let cache = {};
+  if (options.useCache) {
+    let cachedOutputJSON = [];
+    if (options.output) {
+      try {
+        cachedOutputJSON = require(`${__dirname}/${options.output}`);
+      } catch (err) {
+        options.log(`warning: No cache found, starting fresh`);
+        // console.log(err);
+      }
+    }
+
+    if (cachedOutputJSON) {
+      cache = cachedOutputJSON.reduce((acc, cur, i) => {
+        if (!cur.meta.name) {
+          options.log(`warning: No document name given in ${cur.file}`);
+        }
+
+        if (cur.meta.name && acc[cur.meta.name]) {
+          options.log(
+            `warning: Duplicate document name: ‹${cur.meta.name}› in ${cur.file}`
+          );
+          options.log(`${JSON.stringify(cur.meta, null, 2)}`);
+        }
+
+        if (cur.meta.name) {
+          acc[cur.meta.name] = cur;
+        }
+
+        return acc;
+      }, {});
+    }
+  }
 
   let output;
 
@@ -76,6 +112,8 @@ function pugDoc(options) {
 
       output.on("finish", function () {
         if (options.complete && typeof options.complete === "function") {
+          console.log("\n");
+          console.timeEnd("Pugdoc complete");
           options.complete();
         }
       });
@@ -90,7 +128,9 @@ function pugDoc(options) {
       let pugDocDocuments = parser.getPugdocDocuments(
         files[file],
         file,
-        options.locals
+        options.locals,
+        cache,
+        options
       );
       pugDocDocuments
         .filter(function (docItem) {
@@ -130,3 +170,22 @@ function pugDoc(options) {
 }
 
 module.exports = pugDoc;
+
+/**
+ * Logging
+ */
+
+const _log = [];
+
+function log(msg, group, prefix = "\u001B[1mPug-doc:\u001B[22m ") {
+  if (!process.stdout || !process.stdout.clearLine) return;
+  _log.push({ msg: msg, group: group || _log.length });
+
+  if (_log.length > 1 && group === _log[_log.length - 2].group) {
+    process.stdout.clearLine();
+    process.stdout.cursorTo(0);
+  } else {
+    process.stdout.write("\n");
+  }
+  process.stdout.write(`${prefix}${msg}`);
+}
