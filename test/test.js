@@ -386,8 +386,15 @@ test("Parser: parse doc", function (assert) {
       meta: { name: "foo" },
       output: "<p>foo</p>",
       source: "p foo",
+      comment: "//- @pugdoc\n  name: foo",
     },
-    { file: "test.pug", meta: {}, output: "<p>faa</p>", source: "p faa" },
+    {
+      file: "test.pug",
+      meta: {},
+      output: "<p>faa</p>",
+      source: "p faa",
+      comment: "//- @pugdoc",
+    },
   ];
   assert.deepEqual(
     actual,
