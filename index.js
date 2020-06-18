@@ -79,7 +79,9 @@ function pugDoc(options) {
         }
 
         // make dict for fragments
+
         if (cur.fragments) {
+          console.log(typeof cur.fragments);
           cur.fragmentsDict = cur.fragments.reduce((acc2, cur2, i) => {
             if (!cur2.meta.name) {
               process.stderr.write(
@@ -93,11 +95,11 @@ function pugDoc(options) {
               );
             }
 
-            acc2[cur2.meta.name] = cur2;
+            acc2[cur2.meta.name] = { ...cur2 };
             return acc2;
           }, {});
 
-          cur.fragments = cur.fragmentsDict;
+          cur.fragments = { ...cur.fragmentsDict };
           delete cur.fragmentsDict;
         }
 
