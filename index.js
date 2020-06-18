@@ -32,10 +32,11 @@ function pugDoc(options) {
       locals: {},
       complete: function () {},
       useCache: true,
-      log: log,
     },
     options
   );
+
+  options.log = log;
 
   let counter = 0;
 
@@ -63,7 +64,7 @@ function pugDoc(options) {
       try {
         cachedOutputJSON = require(`${__dirname}/${options.output}`);
       } catch (err) {
-        options.log(`warning: No cache found, starting fresh`);
+        options.log(`No cache found, starting fresh`);
         // console.log(err);
       }
     }
@@ -185,7 +186,7 @@ function log(msg, group, prefix = "\u001B[1mPug-doc:\u001B[22m ") {
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
   } else {
-    process.stdout.write("\n");
+    process.stdout.write("\n\n");
   }
   process.stdout.write(`${prefix}${msg}`);
 }
