@@ -4,7 +4,7 @@
   "description": "Pug (Jade) documentation generator.",
   "main": "index.js",
   "scripts": {
-    "test": "tape 'test/?(test|arguments).js' | faucet"
+    "test": "tape 'test/?(test|arguments|logs).js' | faucet"
   },
   "author": "Arjen Scherff-de Water",
   "repository": {
@@ -44,7 +44,6 @@
   },
   "devDependencies": {
     "faucet": "^0.0.1",
-    "strip-ansi": "^6.0.0",
     "tape": "^5.0.0"
   }
 }

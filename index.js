@@ -32,6 +32,7 @@ function pugDoc(options) {
       locals: {},
       complete: function () {},
       useCache: true,
+      log: log,
     },
     options
   );
