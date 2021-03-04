@@ -35,7 +35,7 @@
     "meow": "^9.0.0",
     "mkdirp": "^1.0.4",
     "object-assign": "^4.1.1",
-    "pug": "^3.0.0",
+    "pug": "^3.0.2",
     "pug-code-block": "^3.6.1",
     "pug-runtime": "^3.0.0",
     "rebase-indent": "^1.6.1",
